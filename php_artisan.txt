@@ -1,0 +1,77 @@
+ALTER TABLE `users` CHANGE `role` `role` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
+ALTER TABLE `permissions` ADD `group_name` VARCHAR(255) NULL AFTER `name`; 
+
+php artisan migrate:fresh
+php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=PermissionSeeder
+php artisan db:seed --class=OptionSeeder
+php artisan db:seed --class=PermissionSeeder
+
+
+
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+
+
+php artisan make:migration create_insurances_table
+
+php artisan migrate
+php artisan make:model Insurance
+php artisan make:controller OptionController
+php artisan make:controller InsuranceController --resource
+
+
+SELECT GROUP_CONCAT(name) as name FROM `permissions` where group_name='Eligibility' 
+SELECT GROUP_CONCAT(CONCAT("'", name, "'") SEPARATOR ', ') AS name FROM `permissions` WHERE group_name = 'Eligibility' 
+
+CREATE TABLE `temp_appt` (
+  `id` bigint UNSIGNED NOT NULL,
+  `appt_date` varchar(191),
+  `appt_time` varchar(191),
+  `full_name` varchar(191),
+  `date_of_birth` varchar(191),
+  `hoh_full_name` varchar(191),
+  `prim_subscriber` varchar(191),
+  `prim_carrier_name` varchar(191),
+  `prim_subscriber_id` varchar(191),
+  `sec_carrier_name` varchar(191),
+  `sec_subscriber_id` varchar(191),
+  `clinic` varchar(191),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+<input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob', $user->dob ? \Carbon\Carbon::parse($user->dob)->format('d/m/Y') : '') }}" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy">
+
+<div class="col-sm-6">
+    <div class="mb-3">
+        <label class="form-label">Date Of Birth</label>
+        <input id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" value="{{ old('dob') }}" data-inputmask="'alias': 'datetime'" data-inputmask-placeholder="*" data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
+        @error('dob')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+
+// 'dob' => 'date_format:m/d/Y',
+// 'dob' => Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d'),
+                // if ($request->filled('dob')) {
+//     try {
+//         $data['dob'] = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
+//     } catch (\Exception $e) {
+//         return back()->withErrors(['dob' => 'Invalid date format.']);
+//     }
+// }
+
+
+<div class="mb-3" data-select2-id="7">
+    <label class="form-label">Single select box using select 2</label>
+    <select class="js-example-basic-single form-select select2-hidden-accessible" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true">
+        <option value="TX" data-select2-id="3">Texas</option>
+        <option value="NY" data-select2-id="17">New York</option>
+        <option value="FL" data-select2-id="18">Florida</option>
+        <option value="KN" data-select2-id="19">Kansas</option>
+        <option value="HW" data-select2-id="20">Hawaii</option>
+    </select><span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-d8d7-container"><span class="select2-selection__rendered" id="select2-d8d7-container" role="textbox" aria-readonly="true" title="New York">New York</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+</div>
