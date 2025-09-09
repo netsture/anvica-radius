@@ -13,10 +13,15 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\DatabaseController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');
+    Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
+
     Route::resource('users', UserController::class);
     
     Route::resource('options', OptionController::class)->except(['destroy']);
