@@ -1,0 +1,16 @@
+1. Users
+
+2. User Report 
+	1. Log : Datewise filter by default current date user
+	2. 
+
+Username,
+Otp
+Mac address(Caller ID)
+IP address
+Start Date/time
+End Date/Time
+Online time
+Group	
+Download	
+Upload	

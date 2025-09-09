@@ -14,16 +14,22 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\RadiusController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
 Route::middleware('auth')->group(function () {
 
+    
+    Route::controller(RadiusController::class)->group(function() {
+        Route::get('/radius/index', 'userIndex')->name('radius.index');
+    });
+
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');
     Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
 
     Route::resource('users', UserController::class);
-    
+
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');
     Route::get('/categories/search', [OptionController::class, 'search'])->name('categories.search');

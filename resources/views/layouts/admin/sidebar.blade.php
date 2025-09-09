@@ -12,7 +12,31 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            <li class="nav-item nav-category">ADMIN SETUP</li>
+            <li class="nav-item nav-category">RADIUS MANAGER</li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#radiusManager" role="button" aria-expanded="false"
+                    aria-controls="radiusManager">
+                    <i class="link-icon" data-feather="briefcase"></i>
+                    <span class="link-title">Radius Manager</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                @php
+    $currentRoute = Route::currentRouteName(); // Get current route name
+@endphp
+
+<div class="collapse" id="radiusManager">
+    <ul class="nav sub-menu">
+        <li class="nav-item">
+            <a href="{{ route('radius.index') }}" class="nav-link">Radius User</a>
+        </li>
+    </ul>
+</div>
+            </li>
+
+            
+
+            {{-- @role('superadmin') --}}
+            <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
                     aria-controls="uiComponents">
@@ -20,13 +44,11 @@
                     <span class="link-title">Admin</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
-
                 @php
                     $menuItems = [
                         'users' => 'Users',
                     ];                    
                 @endphp
-
                 <div class="collapse" id="uiComponents">
                     <ul class="nav sub-menu">
                         @foreach ($menuItems as $route => $label)
@@ -39,11 +61,6 @@
                     </ul>
                 </div>
             </li>
-
-            
-
-            {{-- @role('superadmin') --}}
-            <li class="nav-item nav-category">Master Setting</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button" aria-expanded="false"
                     aria-controls="rolesPermission">
