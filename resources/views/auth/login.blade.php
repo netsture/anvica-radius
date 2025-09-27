@@ -64,13 +64,25 @@
                                <div class="row">
                                    <div class="col-md-4 pe-md-0">
                                        <div class="authlogin-side-wrapper">
-
                                        </div>
                                    </div>
                                    <div class="col-md-8 ps-md-0">
                                        <div class="auth-form-wrapper px-4 py-5">
-                                           <a href="#" class="noble-ui-logo logo-light d-block mb-2">Anvica <span>Hotspot</span> <span>Login</span></a>
-                                           <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
+                                           <a href="#" class="noble-ui-logo logo-light d-block mb-2">Anvica
+                                               <span>Hotspot</span> <span>Login</span></a>
+                                           <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.
+                                           </h5>
+
+                                           @if ($errors->any())
+                                               <div class="alert alert-danger">
+                                                   <ul>
+                                                       @foreach ($errors->all() as $error)
+                                                           <li>{{ $error }}</li>
+                                                       @endforeach
+                                                   </ul>
+                                               </div>
+                                           @endif
+
                                            <form class="forms-sample" method="POST" action="{{ route('login') }}">
                                                @csrf
                                                <div class="mb-3">
@@ -85,7 +97,8 @@
                                                        placeholder="Password">
                                                </div>
                                                <div class="form-check mb-3">
-                                                   <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
+                                                   <input type="checkbox" class="form-check-input" id="remember_me"
+                                                       name="remember">
                                                    <label class="form-check-label" for="remember_me">
                                                        Remember me
                                                    </label>
