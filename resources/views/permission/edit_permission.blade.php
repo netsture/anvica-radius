@@ -12,6 +12,7 @@
             </a>
         </div>
     </div>
+    
 
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
@@ -34,18 +35,15 @@
                         <div class="mb-3">
                             <label for="input1" class="form-label">Permission Name </label>
                             <input type="text" name="name" class="form-control" value="{{ $permission->name }}" value="{{ old('name', $permission->name) }}" required>
-
                         </div>
                         <div class="mb-3">
                             <label for="input1" class="form-label">Permission Group </label>
                             <select name="group_name" class="form-select mb-3"
                                 aria-label="Default select example">
                                 <option selected="">Select Group </option>
+                                <option value="Admin" {{ old('group_name', $permission->group_name) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="Manager" {{ old('group_name', $permission->group_name) == 'Manager' ? 'selected' : '' }}>Manager</option>
                                 <option value="User" {{ old('group_name', $permission->group_name) == 'User' ? 'selected' : '' }}>User</option>
-                                <option value="Patient" {{ old('group_name', $permission->group_name) == 'Patient' ? 'selected' : '' }}>Patient</option>
-                                <option value="Office" {{ old('group_name', $permission->group_name) == 'Office' ? 'selected' : '' }}>Office</option>
-                                <option value="Proiveder" {{ old('group_name', $permission->group_name) == 'Proiveder' ? 'selected' : '' }}>Proiveder</option>
-                                <option value="Eligibility" {{ old('group_name', $permission->group_name) == 'Eligibility' ? 'selected' : '' }}>Eligibility</option>
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -55,7 +53,6 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>

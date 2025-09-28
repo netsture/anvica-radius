@@ -21,19 +21,22 @@
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 @php
-    $currentRoute = Route::currentRouteName(); // Get current route name
-@endphp
+                    $currentRoute = Route::currentRouteName(); // Get current route name
+                @endphp
 
-<div class="collapse" id="radiusManager">
-    <ul class="nav sub-menu">
-        <li class="nav-item">
-            <a href="{{ route('radius.index') }}" class="nav-link">Radius User</a>
-        </li>
-    </ul>
-</div>
+                <div class="collapse" id="radiusManager">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('radius.index') }}" class="nav-link">Radius User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('plans.index') }}" class="nav-link">Plans</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
-            
+
 
             {{-- @role('superadmin') --}}
             <li class="nav-item nav-category">Anvica Setting</li>
@@ -47,23 +50,23 @@
                 @php
                     $menuItems = [
                         'users' => 'Users',
-                    ];                    
+                    ];
                 @endphp
                 <div class="collapse" id="uiComponents">
                     <ul class="nav sub-menu">
                         @foreach ($menuItems as $route => $label)
                             {{-- @canany(["{$route}.index"]) --}}
-                                <li class="nav-item">
-                                    <a href="{{ route("{$route}.index") }}" class="nav-link">{{ $label }}</a>
-                                </li>
+                            <li class="nav-item">
+                                <a href="{{ route("{$route}.index") }}" class="nav-link">{{ $label }}</a>
+                            </li>
                             {{-- @endcanany --}}
                         @endforeach
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button" aria-expanded="false"
-                    aria-controls="rolesPermission">
+                <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button"
+                    aria-expanded="false" aria-controls="rolesPermission">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Role & Permission</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
@@ -92,12 +95,15 @@
                 <div class="collapse" id="setting">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
+                            <a href="{{ route('identities.index') }}" class="nav-link">Identity</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('options.index') }}" class="nav-link">Option Master</a>
                         </li>
                     </ul>
                 </div>
             </li>
             {{-- @endrole --}}
-        </ul>   
+        </ul>
     </div>
 </nav>

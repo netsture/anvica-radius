@@ -14,12 +14,13 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\EligibilityController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\IdentityController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RadiusController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
 Route::middleware('auth')->group(function () {
-
     
     Route::controller(RadiusController::class)->group(function() {
         Route::get('/radius/index', 'userIndex')->name('radius.index');
@@ -29,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
 
     Route::resource('users', UserController::class);
+    Route::resource('identities', IdentityController::class);
+    Route::resource('plans', PlanController::class);
+
 
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');
