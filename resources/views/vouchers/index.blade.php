@@ -22,9 +22,10 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Service plan</th>
-                                        <th>DL rate (kbps)</th>
-                                        <th>UL rate (kbps)</th>
+                                        <th>Voucher Number</th>
+                                        <th>Password</th>
+                                        <th>Value</th>
+                                        <th>Expiration</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
