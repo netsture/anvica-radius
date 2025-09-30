@@ -37,10 +37,10 @@
                                             <td>{{ $voucher->value }}</td>
                                             <td>{{ $voucher->expiration }}</td>
                                             <td class="text-end">
-                                                <a href="{{ route('vouchers.edit', $data->id) }}"
+                                                <a href="{{ route('vouchers.edit', $voucher->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
 
-                                                <form action="{{ route('vouchers.destroy', $data->id) }}"
+                                                <form action="{{ route('vouchers.destroy', $voucher->id) }}"
                                                     method="POST" style="display:inline-block"
                                                     onsubmit="return confirm('Delete this identity?');">
                                                     @csrf
