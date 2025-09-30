@@ -3,9 +3,9 @@
 @section('content')
     <div class="page-content">
         <div class="main-content d-flex justify-content-between flex-wrap">
-            <h2 class="page-title">Plans</h2>
+            <h2 class="page-title">Vouchers</h2>
             <div>
-                <a href="{{ route('plans.create') }}" class="btn btn-primary">
+                <a href="{{ route('vouchers.create') }}" class="btn btn-primary">
                     <i class="btn-icon-prepend" data-feather="plus"></i> Add New
                 </a>
             </div>
@@ -29,23 +29,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($datas as $data)
+                                    @forelse($vouchers as $voucher)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $data->srvname }}</td>
-                                            <td>{{ $data->downrate }}</td>
-                                            <td>{{ $data->uprate }}</td>
+                                            <td>{{ $voucher->cardnum }}</td>
+                                            <td>{{ $voucher->password }}</td>
+                                            <td>{{ $voucher->value }}</td>
+                                            <td>{{ $voucher->expiration }}</td>
                                             <td class="text-end">
-                                                {{-- <a href="{{ route('plan.edit', $data->id) }}"
+                                                <a href="{{ route('vouchers.edit', $data->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
 
-                                                <form action="{{ route('plan.destroy', $data->id) }}"
+                                                <form action="{{ route('vouchers.destroy', $data->id) }}"
                                                     method="POST" style="display:inline-block"
                                                     onsubmit="return confirm('Delete this identity?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-danger">Delete</button>
-                                                </form> --}}
+                                                </form>
                                             </td>
                                         </tr>
                                     @empty
@@ -56,7 +57,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>

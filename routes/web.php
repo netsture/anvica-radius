@@ -17,6 +17,7 @@ use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RadiusController;
+use App\Http\Controllers\VoucherController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('identities', IdentityController::class);
     Route::resource('plans', PlanController::class);
+    Route::resource('vouchers', VoucherController::class);
 
 
     Route::resource('options', OptionController::class)->except(['destroy']);
