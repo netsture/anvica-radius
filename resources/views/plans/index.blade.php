@@ -25,6 +25,8 @@
                                         <th>Service plan</th>
                                         <th>DL rate (kbps)</th>
                                         <th>UL rate (kbps)</th>
+                                        <th>Download limit</th>
+                                        <th>Upload limit</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>

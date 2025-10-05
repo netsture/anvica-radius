@@ -5,7 +5,7 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
             <div>
-                <h4 class="mb-3 mb-md-0">Create Voucher</h4>
+                <h4 class="mb-3 mb-md-0">Generate Voucher</h4>
             </div>
         </div>
 
@@ -13,29 +13,92 @@
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('vouchers.store') }}" method="POST">
+                        <form action="{{ route('vouchers.generate') }}" method="POST">
                             @csrf
+                            <!-- Quantity -->
                             <div class="mb-3">
-                                <label>Card Number</label>
-                                <input type="text" name="cardnum" class="form-control" required>
+                                <label class="form-label">Quantity</label>
+                                <input type="number" name="quantity" class="form-control" value="{{ old('quantity') }}"
+                                    min="1">
+                                @error('quantity')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
+
+                            <!-- Valid days -->
                             <div class="mb-3">
-                                <label>Password</label>
-                                <input type="text" name="password" class="form-control" required>
+                                <label class="form-label">Valid Days</label>
+                                <input type="number" name="valid_days" class="form-control"
+                                    value="{{ old('valid_days') }}" min="1">
+                                @error('valid_days')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
+
+                            <!-- Prefix -->
                             <div class="mb-3">
-                                <label>Value</label>
-                                <input type="number" step="0.01" name="value" class="form-control" required>
+                                <label class="form-label">Prefix</label>
+                                <input type="text" name="prefix" class="form-control" value="{{ old('prefix', '') }}">
+                                @error('prefix')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
+
+                            <!-- PIN Length -->
                             <div class="mb-3">
-                                <label>Expiration</label>
-                                <input type="date" name="expiration" class="form-control" required>
+                                <label class="form-label">PIN Length</label>
+                                <select name="pin_length" class="form-select">
+                                    @for ($i = 4; $i <= 16; $i++)
+                                        <option value="{{ $i }}" {{ old('pin_length') == $i ? 'selected' : '' }}>
+                                            {{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
+
+                            <!-- Password Length -->
                             <div class="mb-3">
-                                <label>Series</label>
-                                <input type="text" name="series" class="form-control" required>
+                                <label class="form-label">Password Length</label>
+                                <select name="password_length" class="form-select">
+                                    @for ($i = 4; $i <= 8; $i++)
+                                        <option value="{{ $i }}"
+                                            {{ old('password_length') == $i ? 'selected' : '' }}>{{ $i }}
+                                        </option>
+                                    @endfor
+                                </select>
                             </div>
-                            <button class="btn btn-success">Save</button>
+
+                            <!-- Service Plan -->
+                            <div class="mb-3">
+                                <label class="form-label">Service Plan</label>
+                                <select name="srvid" class="form-select">
+                                    @foreach ($plans as $plan)
+                                        <option value="{{ $plan->srvid }}"
+                                            {{ old('srvid') == $plan->srvid ? 'selected' : '' }}>{{ $plan->srvname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Download Limit -->
+                            <div class="mb-3">
+                                <label class="form-label">Download Limit</label>
+                                <input type="number" name="downlimit" class="form-control"
+                                    value="{{ old('downlimit', 0) }}">
+                            </div>
+
+                            <!-- Upload Limit -->
+                            <div class="mb-3">
+                                <label class="form-label">Upload Limit</label>
+                                <input type="number" name="uplimit" class="form-control" value="{{ old('uplimit', 0) }}">
+                            </div>
+
+                            <!-- Total Limit -->
+                            <div class="mb-3">
+                                <label class="form-label">Total Limit</label>
+                                <input type="number" name="comblimit" class="form-control"
+                                    value="{{ old('comblimit', 0) }}">
+                            </div>
+                            <button class="btn btn-success">Generate Vouchers</button>
                             <a href="{{ route('vouchers.index') }}" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>

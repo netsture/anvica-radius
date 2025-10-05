@@ -6,7 +6,7 @@
             <h2 class="page-title">Vouchers</h2>
             <div>
                 <a href="{{ route('vouchers.create') }}" class="btn btn-primary">
-                    <i class="btn-icon-prepend" data-feather="plus"></i> Add New
+                    Generate Vouchers
                 </a>
             </div>
         </div>
@@ -22,10 +22,14 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Voucher Number</th>
-                                        <th>Password</th>
-                                        <th>Value</th>
-                                        <th>Expiration</th>
+                                        <th>Series</th>
+                                        <th>Generated on</th>
+                                        <th>Valid till</th>
+                                        <th>Quantity</th>
+                                        <th>Service plan</th>
+                                        <th>Download limit (MB) plan</th>
+                                        <th>Upload limit (MB) plan</th>
+                                        <th>Total traffic (MB) plan</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -33,21 +37,16 @@
                                     @forelse($vouchers as $voucher)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $voucher->cardnum }}</td>
-                                            <td>{{ $voucher->password }}</td>
-                                            <td>{{ $voucher->value }}</td>
+                                            <td>{{ $voucher->series }}</td>
+                                            <td>{{ $voucher->date }}</td>
                                             <td>{{ $voucher->expiration }}</td>
+                                            <td>{{ $voucher->total }}</td>
+                                            <td>{{ $voucher->plan->srvname ?? 'N/A' }}</td>
+                                            <td>{{ $voucher->downlimit }}</td>
+                                            <td>{{ $voucher->uplimit }}</td>
+                                            <td>{{ $voucher->comblimit }}</td>
                                             <td class="text-end">
-                                                <a href="{{ route('vouchers.edit', $voucher->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
-
-                                                <form action="{{ route('vouchers.destroy', $voucher->id) }}"
-                                                    method="POST" style="display:inline-block"
-                                                    onsubmit="return confirm('Delete this identity?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                                </form>
+                                                
                                             </td>
                                         </tr>
                                     @empty

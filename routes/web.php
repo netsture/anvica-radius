@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('identities', IdentityController::class);
     Route::resource('plans', PlanController::class);
     Route::resource('vouchers', VoucherController::class);
-
+    Route::post('/vouchers/generate', [VoucherController::class, 'generate'])->name('vouchers.generate');
 
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');

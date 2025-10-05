@@ -24,6 +24,41 @@
                     @endif --}}
                     <form action="{{ route('users.store') }}" method="POST" class="forms-sample">
                         @csrf
+
+                        <!-- Role Dropdown -->
+                        <div class="mb-3">
+                            <label class="form-label">Role: <span class="text-danger">*</span></label>
+                            <select id="role-select" name="role" class="form-select @error('role') is-invalid @enderror">
+                                <option value="">-- Select Role --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                                        {{ ucfirst($role->name) }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('role')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Identity Dropdown -->
+                        <div class="mb-3" id="identity-wrapper" style="display: none;">
+                            <label class="form-label">Identity: <span class="text-danger">*</span></label>
+                            <select name="identity_id" class="form-select @error('identity_id') is-invalid @enderror">
+                                <option value="">-- Select Identity --</option>
+                                @foreach($identities as $id => $name)
+                                    <option value="{{ $id }}" {{ old('identity_id') == $id ? 'selected' : '' }}>
+                                        {{ $name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('identity_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>                    
+
                         <div class="mb-3">
                             <label class="form-label">Userame <span class="text-danger">*</span></label>
                             <input type="text" name="username" class="form-control  @error('username') is-invalid @enderror" value="{{ old('username') }}">
@@ -95,20 +130,7 @@
                             </div>
                         </div>
 
-                        <!-- Role Dropdown -->
-                        <div class="mb-3">
-                            <label class="form-label">Role: <span class="text-danger">*</span></label>
-                            <select name="role" class="form-select @error('role') is-invalid @enderror">
-                                <option value="">-- Select Role --</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-
-                            @error('role')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -164,4 +186,26 @@
     </div>
 
 </div>
+
+<script>
+    function toggleIdentityField() {
+        let role = document.getElementById("role-select").value;
+        let identityWrapper = document.getElementById("identity-wrapper");
+
+        // Show only if role is provider or user
+        if (role === "provider" || role === "user") {
+            identityWrapper.style.display = "block";
+        } else {
+            identityWrapper.style.display = "none";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        toggleIdentityField();
+        document.getElementById("role-select").addEventListener("change", toggleIdentityField);
+    });
+</script>
+
 @endsection
+
+

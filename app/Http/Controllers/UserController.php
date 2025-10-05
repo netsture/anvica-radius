@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Identity;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -14,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
         return view('users.index', compact('users'));
     }
 
@@ -23,8 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $identities = DB::table('identities')->pluck('name', 'id'); 
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles', 'identities'));
     }
 
     /**
@@ -34,15 +38,25 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required|string|max:255|unique:users',
+            'identity_id' => 'required',
+            'role' => 'required',
             'email' => 'required|email|unique:users',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'mobile' => 'required',
-            'role' => 'required',
             'password' => 'required|min:6|confirmed',
+
+            'identity_id' => [
+                Rule::requiredIf(function () use ($request) {
+                    return in_array($request->role, ['provider', 'user']);
+                }),
+                'nullable',
+                'exists:identities,id',
+            ],
         ]);
         
         $user = new User();
+        $user->identity_id = $request->identity_id;
         $user->username = $request->username;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -51,7 +65,7 @@ class UserController extends Controller
         $user->home = $request->home;
         $user->password = bcrypt($request->password);
         $user->password_hint = $request->password;
-        $user->role = 'admin';
+        $user->role = $request->role;
         $user->save();
         
         if($request->role){
@@ -74,8 +88,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        $roles = Role::all();
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user','roles'));
     }
 
     /**

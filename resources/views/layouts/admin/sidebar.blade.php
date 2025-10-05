@@ -12,6 +12,7 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
+            {{-- <p>Your role: {{ Auth::user()->getRoleNames()->first() }}</p> --}}
             <li class="nav-item nav-category">RADIUS MANAGER</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#radiusManager" role="button" aria-expanded="false"
@@ -41,8 +42,14 @@
 
 
 
-            {{-- @role('superadmin') --}}
+
             <li class="nav-item nav-category">Anvica Setting</li>
+            <li class="nav-item">
+                <a href="{{ route('identities.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="hash"></i>
+                    <span class="link-title">Identity</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
                     aria-controls="uiComponents">
@@ -67,6 +74,8 @@
                     </ul>
                 </div>
             </li>
+
+            {{-- @role('admin') --}}
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button"
                     aria-expanded="false" aria-controls="rolesPermission">
@@ -97,9 +106,6 @@
                 </a>
                 <div class="collapse" id="setting">
                     <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('identities.index') }}" class="nav-link">Identity</a>
-                        </li>
                         <li class="nav-item">
                             <a href="{{ route('options.index') }}" class="nav-link">Option Master</a>
                         </li>

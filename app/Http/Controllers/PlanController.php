@@ -21,7 +21,8 @@ class PlanController extends Controller
      */
     public function create()
     {
-        return view('plans.create');
+        $identities = \DB::table('identities')->pluck('name', 'id');
+        return view('plans.create', compact('identities'));
     }
 
     /**
@@ -30,15 +31,19 @@ class PlanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'srvname' => 'required|string|max:255'
+            'identity_id' => 'required|exists:identities,id',
+            'srvname'     => 'required|string|max:255',
+            'descr'       => 'nullable|string',
+            'downrate'    => 'required|numeric|min:0',
+            'uprate'      => 'required|numeric|min:0',
         ]);
         $data = Plan::orderBy('srvid','desc')->first();
         Plan::create([
             'srvid' => $data ? $data->srvid + 1 : 1,
             'srvname' => $request->srvname,
-            'descr' => '',
-            'downrate' => 0,
-            'uprate' => 0,
+            'descr' => $request->descr,
+            'downrate' => $request->downrate,
+            'uprate' => $request->uprate,
             'limitdl' => 0,
             'limitul' => 0,
             'limitcomb' => 0,
@@ -81,7 +86,7 @@ class PlanController extends Controller
             'ulburstthreshold' => 0,
             'dlbursttime' => 0,
             'ulbursttime' => 0,
-            'enableservice' => 0,
+            'enableservice' => 1,
             'dlquota' => 0,
             'ulquota' => 0,
             'combquota' => 0,

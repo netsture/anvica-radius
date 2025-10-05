@@ -37,4 +37,9 @@ class Voucher extends Model
         'timebaseexp',
         'timebaseonline',
     ];
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class, 'srvid', 'srvid');
+    }
 }

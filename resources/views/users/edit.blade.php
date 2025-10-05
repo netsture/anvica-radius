@@ -16,6 +16,35 @@
                     <form action="{{ route('users.update', $user->id) }}" method="POST" class="forms-sample">
                         @csrf
                         @method('PUT')
+
+                        <!-- Role Dropdown -->
+                        <div class="mb-3">
+                            <label class="form-label">Role: <span class="text-danger">*</span></label>
+                            <select name="role" class="form-select @error('role') is-invalid @enderror">
+                                <option value="">-- Select Role --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}" {{ old('role', $user->role) == $role->name ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+
+                            @error('role')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+<div class="mb-3">
+                            <label class="form-label">Role: <span class="text-danger">*</span></label>
+                            <select name="role" class="form-select @error('role') is-invalid @enderror">
+                                <option value="">-- Select Role --</option>
+                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="billing_coordinator" {{ old('role', $user->role) == 'billing_coordinator' ? 'selected' : '' }}>Billing Coordinator</option>
+                                <option value="insurance_coordinator" {{ old('role', $user->role) == 'insurance_coordinator' ? 'selected' : '' }}>Insurance Coordinator</option>
+                                <option value="office_manager" {{ old('role', $user->role) == 'office_manager' ? 'selected' : '' }}>Office Manager</option>
+                            </select>
+                            @error('role')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Username <span class="text-danger">*</span></label>
                             <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username', $user->username) }}">
@@ -88,19 +117,7 @@
 
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Role: <span class="text-danger">*</span></label>
-                            <select name="role" class="form-select @error('role') is-invalid @enderror">
-                                <option value="">-- Select Role --</option>
-                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="billing_coordinator" {{ old('role', $user->role) == 'billing_coordinator' ? 'selected' : '' }}>Billing Coordinator</option>
-                                <option value="insurance_coordinator" {{ old('role', $user->role) == 'insurance_coordinator' ? 'selected' : '' }}>Insurance Coordinator</option>
-                                <option value="office_manager" {{ old('role', $user->role) == 'office_manager' ? 'selected' : '' }}>Office Manager</option>
-                            </select>
-                            @error('role')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        
 
                         <div class="mb-3">
                             <label class="form-label">Status: <span class="text-danger">*</span></label>

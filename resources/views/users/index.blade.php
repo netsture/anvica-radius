@@ -41,7 +41,11 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ viewDate($user->dob) }}</td>
                                     <td>{{ $user->mobile }}</td>
-                                    <td>{{ $user->role }}</td>
+                                    <td>
+                                        @foreach($user->getRoleNames() as $role)
+                                            <span class="badge bg-primary">{{ ucfirst($role) }}</span>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         @if ($user->status)
                                             <span class="badge bg-success">Active</span>

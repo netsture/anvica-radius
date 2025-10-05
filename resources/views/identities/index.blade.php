@@ -22,11 +22,11 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Status</th>
                                         <th>Created By</th>
                                         <th>Created Date</th>
                                         <th>Updated By</th>
                                         <th>Updated Date</th>
+                                        <th>Status</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -35,11 +35,17 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $identity->name }}</td>
-                                            <td>{{ $identity->status ? 'Active' : 'Inactive' }}</td>
                                             <td>{{ optional($identity->creator)->name ?? $identity->created_by }}</td>
                                             <td>{{ $identity->created_at }}</td>
                                             <td>{{ optional($identity->creator)->name ?? $identity->created_by }}</td>
                                             <td>{{ $identity->updated_at }}</td>
+                                            <td>
+                                                @if ($identity->status)
+                                                    <span class="badge bg-success">Active</span>
+                                                @else
+                                                    <span class="badge bg-secondary">Inactive</span>
+                                                @endif  
+                                            </td>
                                             <td class="text-end">
                                                 <a href="{{ route('identities.edit', $identity->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>

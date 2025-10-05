@@ -45,6 +45,7 @@
                                 <option value="" selected="">Select Group </option>
                                 <option value="Admin">Admin</option>
                                 <option value="Manager">Manager</option>
+                                <option value="Provider">Provider</option>
                                 <option value="User">User</option>
                             </select>
                         </div>

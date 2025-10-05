@@ -81,5 +81,11 @@ class Plan extends Model
         'advcmcfg',
         'addamount',
         'ignstatip',
+        'identity_id',
     ];
+
+    public function identity()
+    {
+        return $this->belongsTo(Identity::class, 'identity_id');
+    }
 }
