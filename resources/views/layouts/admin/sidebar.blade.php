@@ -13,12 +13,12 @@
     <div class="sidebar-body">
         <ul class="nav">
             {{-- <p>Your role: {{ Auth::user()->getRoleNames()->first() }}</p> --}}
-            <li class="nav-item nav-category">RADIUS MANAGER</li>
+            <li class="nav-item nav-category">HOTSPOT MANAGER</li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#radiusManager" role="button" aria-expanded="false"
                     aria-controls="radiusManager">
                     <i class="link-icon" data-feather="briefcase"></i>
-                    <span class="link-title">Radius Manager</span>
+                    <span class="link-title">Hotspot Manager</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 @php
@@ -28,7 +28,7 @@
                 <div class="collapse" id="radiusManager">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('radius.index') }}" class="nav-link">Radius User</a>
+                            <a href="{{ route('radius.index') }}" class="nav-link">Users</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('plans.index') }}" class="nav-link">Plans</a>
