@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/vouchers/cards/{series}', [VoucherController::class, 'showCards'])->name('vouchers.cards');
     Route::get('/vouchers/pdf/{series}', [VoucherController::class, 'downloadPdf'])->name('vouchers.downloadPdf');
+    Route::get('/vouchers/viewpdf/{series}', [VoucherController::class, 'showPdf'])->name('vouchers.viewPdf');
 
 
     Route::resource('options', OptionController::class)->except(['destroy']);

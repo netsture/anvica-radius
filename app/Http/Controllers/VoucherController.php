@@ -162,6 +162,13 @@ class VoucherController extends Controller
         return view('vouchers.cards', compact('vouchers'));
     }
 
+    public function showPdf(string $series)
+    {
+        $vouchers = Voucher::where('series', $series)->get();
+        // dd($vouchers);
+        return view('vouchers.cards-pdf', compact('series', 'vouchers'));
+    }
+
     public function downloadPdf($series)
     {
         $vouchers = Voucher::where('series', $series)->get();
