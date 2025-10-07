@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('plans', PlanController::class);
     Route::resource('vouchers', VoucherController::class);
     Route::post('/vouchers/generate', [VoucherController::class, 'generate'])->name('vouchers.generate');
+    // Route::get('/vouchers/show/{series}', [VoucherController::class, 'show'])->name('vouchers.show');
+    
+    Route::get('/vouchers/cards/{series}', [VoucherController::class, 'showCards'])->name('vouchers.cards');
+    Route::get('/vouchers/pdf/{series}', [VoucherController::class, 'downloadPdf'])->name('vouchers.downloadPdf');
+
 
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');

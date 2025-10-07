@@ -46,7 +46,8 @@
                                             <td>{{ $voucher->uplimit }}</td>
                                             <td>{{ $voucher->comblimit }}</td>
                                             <td class="text-end">
-                                                
+                                                <a href="{{ route('vouchers.cards', $voucher->series) }}" class="btn btn-inverse-warning btn-xs">View</a>
+                                                <a href="{{ route('vouchers.downloadPdf', $voucher->series) }}" target="_blank" class="btn btn-inverse-danger btn-xs">PDF</a>
                                             </td>
                                         </tr>
                                     @empty

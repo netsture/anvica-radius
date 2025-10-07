@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VoucherController extends Controller
 {
@@ -149,11 +150,24 @@ class VoucherController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $series)
     {
-        //
+
     }
 
+    public function showCards(string $series)
+    {
+        $vouchers = Voucher::where('series', $series)->get();
+        // dd($vouchers);   
+        return view('vouchers.cards', compact('vouchers'));
+    }
+
+    public function downloadPdf($series)
+    {
+        $vouchers = Voucher::where('series', $series)->get();
+        $pdf = Pdf::loadView('vouchers.cards-pdf', compact('series', 'vouchers'));
+        return $pdf->download("vouchers-{$series}.pdf");
+    }
     /**
      * Show the form for editing the specified resource.
      */
