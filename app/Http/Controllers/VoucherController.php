@@ -175,7 +175,7 @@ class VoucherController extends Controller
     {
         $vouchers = Voucher::where('series', $series)->get();
         // dd($vouchers);   
-        return view('vouchers.cards', compact('vouchers'));
+        return view('vouchers.cards', compact('series', 'vouchers'));
     }
 
     public function showPdf(string $series)

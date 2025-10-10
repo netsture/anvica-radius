@@ -5,9 +5,8 @@
         <div class="main-content d-flex justify-content-between flex-wrap">
             <h2 class="page-title">Vouchers</h2>
             <div>
-                <a href="{{ route('vouchers.index') }}" class="btn btn-secondary">
-                    << Back
-                </a>
+                <a href="{{ route('vouchers.downloadPdf', $series) }}" target="_blank" class="btn btn-danger btn-xs">PDF</a>
+                <a href="{{ route('vouchers.index') }}" class="btn btn-secondary btn-xs">Back</a>
             </div>
         </div>
 
