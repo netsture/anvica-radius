@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Identity;
 use App\Models\Plan;
+use App\Models\RmCards;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +33,8 @@ class VoucherController extends Controller
     public function create()
     {
         $plans = Plan::select('srvid','srvname')->get();
-        return view('vouchers.create', compact('plans'));
+        $identities = Identity::select('id', 'name')->orderBy('name')->get();
+        return view('vouchers.create', compact('plans', 'identities'));
     }
 
     public function generate(Request $request)
@@ -72,8 +75,20 @@ class VoucherController extends Controller
                 pow(10, $request->password_length) - 1
             );*/
 
-            $id = (Voucher::max('id') ?? 0) + $i + 1;
+            $id = (RmCards::max('id') ?? 0) + $i + 1;
+
             $vouchers[] = [
+                'id' => $id,
+                'identity' => $request->identity,
+                'srvid' => $request->srvid,
+                'series' => $series,
+                'voucher_code' => $cardnum,
+                'valid_days' => $request->valid_days,
+                'created_at' => $date->format('Y-m-d h:i:s'),
+                'updated_at' => $date->format('Y-m-d h:i:s'),
+            ];
+
+            $rm_cards[] = [
                 'id' => $id,
                 'cardnum' => $cardnum,
                 // 'password' => $password,
@@ -99,6 +114,7 @@ class VoucherController extends Controller
         }
         // dd($vouchers);
         Voucher::insert($vouchers);
+        // RmCards::insert($rm_cards);
 
         return redirect()->route('vouchers.index')->with('success', $request->quantity . ' vouchers generated successfully.');
     }

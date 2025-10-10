@@ -23,13 +23,11 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Series</th>
-                                        <th>Generated on</th>
-                                        <th>Valid till</th>
-                                        <th>Quantity</th>
                                         <th>Service plan</th>
-                                        <th>Download limit (MB) plan</th>
-                                        <th>Upload limit (MB) plan</th>
-                                        <th>Total traffic (MB) plan</th>
+                                        <th>Quantity</th>
+                                        <th>Validity</th>
+                                        <th>Generated on</th>
+                                        <th>Status</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -38,13 +36,11 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $voucher->series }}</td>
-                                            <td>{{ $voucher->date }}</td>
-                                            <td>{{ $voucher->expiration }}</td>
-                                            <td>{{ $voucher->total }}</td>
                                             <td>{{ $voucher->plan->srvname ?? 'N/A' }}</td>
-                                            <td>{{ $voucher->downlimit }}</td>
-                                            <td>{{ $voucher->uplimit }}</td>
-                                            <td>{{ $voucher->comblimit }}</td>
+                                            <td>{{ $voucher->total }}</td>
+                                            <td>{{ $voucher->valid_days." Days" }}</td>
+                                            <td>{{ $voucher->created_at }}</td>
+                                            <td>{{ ucfirst($voucher->status) }}</td>
                                             <td class="text-end">
                                                 <a href="{{ route('vouchers.cards', $voucher->series) }}" class="btn btn-inverse-warning btn-xs">View</a>
                                                 <a href="{{ route('vouchers.downloadPdf', $voucher->series) }}" target="_blank" class="btn btn-inverse-danger btn-xs">PDF</a>

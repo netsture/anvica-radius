@@ -34,9 +34,9 @@
     <div class="card">
         <div class="header">Prepaid Card</div>
         <div class="content">
-            <p><strong>500 MB download traffic</strong></p>
-            <p>Voucher Code: <strong>{{ $voucher->cardnum }}</strong></p>
-            <p>Validity: {{ $voucher->expiration }}</p>
+            <p><strong>{{ $voucher->plan->srvname ?? 'Default Plan' }}</strong></p>
+            <p>Voucher Code: <strong>{{ $voucher->voucher_code }}</strong></p>
+            <p>Validity: {{ $voucher->valid_days. " Days" }}</p>
             <small>Series: {{ $voucher->series }}</small>
         </div>
         <div class="footer">Powered by Anvica Hotspot</div>

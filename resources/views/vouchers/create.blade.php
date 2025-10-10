@@ -16,6 +16,18 @@
                         <form action="{{ route('vouchers.generate') }}" method="POST">
                             @csrf
 
+                            <!-- Identity Plan -->
+                            <div class="mb-3">
+                                <label class="form-label">Identity</label>
+                                <select name="identity" class="form-select">
+                                    @foreach ($identities as $identity)
+                                        <option value="{{ $identity->id }}"
+                                            {{ old('identity') == $identity->id ? 'selected' : '' }}>{{ $identity->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Service Plan -->
                             <div class="mb-3">
                                 <label class="form-label">Service Plan</label>

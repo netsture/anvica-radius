@@ -25,10 +25,10 @@
                                     </div>
                                     <div style="background:#f8f8f8; padding:10px;">
                                         <div style="font-size:18px; font-weight:bold; color:#007bff;">
-                                            500 MB download traffic
+                                            {{ $voucher->plan->srvname ?? 'Default Plan' }}
                                         </div>
-                                        <p style="margin:0;">Vourche Code: <strong>{{ $voucher->cardnum }}</strong></p>
-                                        <p style="margin:0;">Validity: {{ $voucher->expiration }}</p>
+                                        <p class="mt-2"><strong>Voucher Code: {{ $voucher->voucher_code }}</strong></p>
+                                        <p class="mt-2"><strong>Validity: {{ $voucher->valid_days. " Days" }}</strong></p>
                                         <small>Series: {{ $voucher->series }}</small>
                                     </div>
                                     <div style="background:#eee; text-align:center; padding:5px; font-size:12px;">

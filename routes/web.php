@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('identities', IdentityController::class);
     Route::resource('plans', PlanController::class);
     Route::resource('vouchers', VoucherController::class);
+    
     Route::post('/vouchers/generate', [VoucherController::class, 'generate'])->name('vouchers.generate');
     // Route::get('/vouchers/show/{series}', [VoucherController::class, 'show'])->name('vouchers.show');
     

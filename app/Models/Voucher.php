@@ -7,35 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Voucher extends Model
 {
-    protected $table = 'rm_cards';       // table name
-    protected $primaryKey = 'id';        // primary key
-    public $incrementing = false;        // id is not auto increment
-    protected $keyType = 'string';       // if bigint, use 'int'
-
-    public $timestamps = false;          // no created_at/updated_at
+    protected $table = 'vouchers';
 
     protected $fillable = [
-        'id',
-        'cardnum',
-        'password',
-        'value',
-        'expiration',
-        'series',
-        'date',
-        'owner',
-        'used',
-        'cardtype',
-        'revoked',
-        'downlimit',
-        'uplimit',
-        'comblimit',
-        'uptimelimit',
         'srvid',
-        'transid',
-        'active',
-        'expiretime',
-        'timebaseexp',
-        'timebaseonline',
+        'voucher_code',
+        'series',
+        'validity',
+        'expiry_date',
+        'used_date',
+        'status',
+    ];
+
+    protected $casts = [
+        'expiry_date' => 'date',
+        'used_date' => 'date',
     ];
 
     public function plan()
