@@ -37,15 +37,15 @@ class VoucherController extends Controller
     public function generate(Request $request)
     {
         $request->validate([
+            'srvid' => 'required|exists:rm_services,srvid',
             'quantity' => 'required|integer|min:1',
             'valid_days' => 'required|integer|min:1',
             'prefix' => 'nullable|string|max:10',
             'pin_length' => 'required|integer|min:4|max:16',
-            'password_length' => 'required|integer|min:4|max:8',
-            'srvid' => 'required|exists:rm_services,srvid',
-            'downlimit' => 'nullable|integer|min:0',
-            'uplimit' => 'nullable|integer|min:0',
-            'comblimit' => 'nullable|integer|min:0',
+            // 'password_length' => 'required|integer|min:4|max:8',
+            // 'downlimit' => 'nullable|integer|min:0',
+            // 'uplimit' => 'nullable|integer|min:0',
+            // 'comblimit' => 'nullable|integer|min:0',
         ]);
 
         $vouchers = [];
@@ -67,16 +67,16 @@ class VoucherController extends Controller
             );
 
             // Numeric password
-            $password = mt_rand(
+            /*$password = mt_rand(
                 pow(10, $request->password_length - 1),
                 pow(10, $request->password_length) - 1
-            );
+            );*/
 
             $id = (Voucher::max('id') ?? 0) + $i + 1;
             $vouchers[] = [
                 'id' => $id,
                 'cardnum' => $cardnum,
-                'password' => $password,
+                // 'password' => $password,
                 'value' => 0,                
                 'expiration' => $expiration->format('Y-m-d'),
                 'series' => $series,
@@ -85,9 +85,9 @@ class VoucherController extends Controller
                 'used' => '0000-00-00 00:00:00',
                 'cardtype' => 0,
                 'revoked' => 0,
-                'downlimit' => $request->downlimit ?? 0,
-                'uplimit' => $request->uplimit ?? 0,
-                'comblimit' => $request->comblimit ?? 0,
+                'downlimit' => 0,
+                'uplimit' => 0,
+                'comblimit' => 0,
                 'uptimelimit' => 0,
                 'srvid' => $request->srvid,
                 'transid' => '',

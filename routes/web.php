@@ -24,7 +24,7 @@ Route::get('/', function () {  return view('site.index'); })->name('home');
 Route::middleware('auth')->group(function () {
     
     Route::controller(RadiusController::class)->group(function() {
-        Route::get('/radius/index', 'userIndex')->name('radius.index');
+        Route::get('/radius/index', 'userList')->name('radius.index');
     });
 
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');

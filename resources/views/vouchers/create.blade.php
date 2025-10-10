@@ -15,6 +15,19 @@
                     <div class="card-body">
                         <form action="{{ route('vouchers.generate') }}" method="POST">
                             @csrf
+
+                            <!-- Service Plan -->
+                            <div class="mb-3">
+                                <label class="form-label">Service Plan</label>
+                                <select name="srvid" class="form-select">
+                                    @foreach ($plans as $plan)
+                                        <option value="{{ $plan->srvid }}"
+                                            {{ old('srvid') == $plan->srvid ? 'selected' : '' }}>{{ $plan->srvname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Quantity -->
                             <div class="mb-3">
                                 <label class="form-label">Quantity</label>
@@ -44,9 +57,9 @@
                                 @enderror
                             </div>
 
-                            <!-- PIN Length -->
+                            <!-- Voucher Code Length -->
                             <div class="mb-3">
-                                <label class="form-label">PIN Length</label>
+                                <label class="form-label">Voucher Code Length</label>
                                 <select name="pin_length" class="form-select">
                                     @for ($i = 4; $i <= 16; $i++)
                                         <option value="{{ $i }}" {{ old('pin_length') == $i ? 'selected' : '' }}>
@@ -55,8 +68,7 @@
                                 </select>
                             </div>
 
-                            <!-- Password Length -->
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label">Password Length</label>
                                 <select name="password_length" class="form-select">
                                     @for ($i = 4; $i <= 8; $i++)
@@ -65,39 +77,24 @@
                                         </option>
                                     @endfor
                                 </select>
-                            </div>
+                            </div> 
 
-                            <!-- Service Plan -->
-                            <div class="mb-3">
-                                <label class="form-label">Service Plan</label>
-                                <select name="srvid" class="form-select">
-                                    @foreach ($plans as $plan)
-                                        <option value="{{ $plan->srvid }}"
-                                            {{ old('srvid') == $plan->srvid ? 'selected' : '' }}>{{ $plan->srvname }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Download Limit -->
                             <div class="mb-3">
                                 <label class="form-label">Download Limit</label>
                                 <input type="number" name="downlimit" class="form-control"
                                     value="{{ old('downlimit', 0) }}">
                             </div>
 
-                            <!-- Upload Limit -->
                             <div class="mb-3">
                                 <label class="form-label">Upload Limit</label>
                                 <input type="number" name="uplimit" class="form-control" value="{{ old('uplimit', 0) }}">
                             </div>
 
-                            <!-- Total Limit -->
                             <div class="mb-3">
                                 <label class="form-label">Total Limit</label>
                                 <input type="number" name="comblimit" class="form-control"
                                     value="{{ old('comblimit', 0) }}">
-                            </div>
+                            </div>--}}
                             <button class="btn btn-success">Generate Vouchers</button>
                             <a href="{{ route('vouchers.index') }}" class="btn btn-secondary">Cancel</a>
                         </form>

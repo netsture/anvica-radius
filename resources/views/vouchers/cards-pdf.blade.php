@@ -30,15 +30,13 @@
     </style>
 </head>
 <body>
-    <h2>Voucher Series: {{ $series }}</h2>
     @foreach($vouchers as $voucher)
     <div class="card">
         <div class="header">Prepaid Card</div>
         <div class="content">
             <p><strong>500 MB download traffic</strong></p>
-            <p>User name: <strong>{{ $voucher->cardnum }}</strong></p>
-            <p>Password: <strong>{{ $voucher->password }}</strong></p>
-            <p>Valid till: {{ $voucher->expiration }}</p>
+            <p>Voucher Code: <strong>{{ $voucher->cardnum }}</strong></p>
+            <p>Validity: {{ $voucher->expiration }}</p>
             <small>Series: {{ $voucher->series }}</small>
         </div>
         <div class="footer">Powered by Anvica Hotspot</div>
