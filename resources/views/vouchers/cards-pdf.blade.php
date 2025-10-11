@@ -38,8 +38,10 @@
             <p>Voucher Code: <strong>{{ $voucher->voucher_code }}</strong></p>
             <p>Validity: {{ $voucher->valid_days. " Days" }}</p>
             <small>Series: {{ $voucher->series }}</small>
+            <br/>
+            <small>Status: {{ ucfirst($voucher->status) }}</small>
         </div>
-        <div class="footer">Powered by Anvica Hotspot</div>
+        <div class="footer">Powered by www.anvica.in</div>
     </div>
     @endforeach
 </body>

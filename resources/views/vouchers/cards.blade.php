@@ -29,9 +29,11 @@
                                         <p class="mt-2"><strong>Voucher Code: {{ $voucher->voucher_code }}</strong></p>
                                         <p class="mt-2"><strong>Validity: {{ $voucher->valid_days. " Days" }}</strong></p>
                                         <small>Series: {{ $voucher->series }}</small>
+                                        <br/>
+                                        <small>Status: {{ ucfirst($voucher->status) }}</small>
                                     </div>
                                     <div style="background:#eee; text-align:center; padding:5px; font-size:12px;">
-                                        Powered by Anvica Hotspot
+                                        Powered by www.anvica.in
                                     </div>
                                 </div>
                             </div>

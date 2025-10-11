@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('series')->nullable();
             $table->string('voucher_code')->unique();
             $table->integer('valid_days')->default(0); // days
-            $table->date('expiry_date')->nullable();
             $table->date('used_date')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->enum('status', ['active', 'used', 'expired', 'inactive'])->default('active');
             $table->timestamps();
         });
