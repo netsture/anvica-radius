@@ -40,9 +40,7 @@
                 </div>
             </li>
 
-
-
-
+            @role('admin')
             <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">
                 <a href="{{ route('identities.index') }}" class="nav-link">
@@ -75,7 +73,7 @@
                 </div>
             </li>
 
-            {{-- @role('admin') --}}
+            
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#rolesPermission" role="button"
                     aria-expanded="false" aria-controls="rolesPermission">
@@ -112,7 +110,7 @@
                     </ul>
                 </div>
             </li>
-            {{-- @endrole --}}
+            @endrole
         </ul>
     </div>
 </nav>
