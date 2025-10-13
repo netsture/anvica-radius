@@ -28,7 +28,7 @@
                 <div class="collapse" id="radiusManager">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('radius.index') }}" class="nav-link">Users</a>
+                            <a href="{{ route('radius.users.index') }}" class="nav-link">Users</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('plans.index') }}" class="nav-link">Plans</a>

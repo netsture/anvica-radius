@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class RmUser extends Model
 {
@@ -22,6 +23,7 @@ class RmUser extends Model
 
     // Fillable fields (use guarded alternatively if preferred)
     protected $fillable = [
+        'identity_id',
         'username',
         'password',
         'macpswmode',
@@ -82,4 +84,22 @@ class RmUser extends Model
         'lastlogoff',
         'autorenew'
     ];
+
+    public static function rules($id = null, $identity_id = null)
+    {
+        return [
+            'identity_id' => ['required'],
+            'srvid' => ['required'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('rm_users')
+                    ->where(fn($q) => $q->where('identity_id', $identity_id))
+                    ->ignore($id), // optional for update
+            ],
+            'password'  => ['required', 'min:4'],
+            'mobile'    => ['required'],
+        ];
+    }
 }

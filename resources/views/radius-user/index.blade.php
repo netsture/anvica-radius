@@ -4,9 +4,9 @@
 
 <div class="page-content">
     <div class="main-content d-flex justify-content-between flex-wrap">
-        <h3 class="page-title">Radius Users</h3>
+        <h3 class="page-title">Hotspot Users</h3>
         <div>
-            <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Add New</a>
+            <a href="{{ route('radius.users.create') }}" class="btn btn-primary">Create Hotspot User</a>
         </div>
     </div>   
 

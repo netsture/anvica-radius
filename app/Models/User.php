@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'identity_id',
         'username',
         'first_name',
         'last_name',
@@ -58,6 +59,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function identity()
+    {
+        return $this->belongsTo(Identity::class, 'identity_id');
+    }
 
     public function offices()
     {

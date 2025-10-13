@@ -5,7 +5,7 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
             <div>
-                <h4 class="mb-3 mb-md-0">Generate Voucher</h4>
+                <h4 class="mb-3 mb-md-0">Generate Voucher {{ auth()->user()->identity_id }}</h4>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                                 <input type="number" name="comblimit" class="form-control"
                                     value="{{ old('comblimit', 0) }}">
                             </div>--}}
-                            <button class="btn btn-success">Generate Vouchers</button>
+                            <button class="btn btn-primary me-2">Submit</button>
                             <a href="{{ route('vouchers.index') }}" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>

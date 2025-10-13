@@ -16,15 +16,17 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\PlanController;
-use App\Http\Controllers\RadiusController;
+use App\Http\Controllers\RadiusUserController;
 use App\Http\Controllers\VoucherController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
 Route::middleware('auth')->group(function () {
     
-    Route::controller(RadiusController::class)->group(function() {
-        Route::get('/radius/index', 'userList')->name('radius.index');
+    Route::controller(RadiusUserController::class)->group(function() {
+        Route::get('/radius/user/index', 'index')->name('radius.users.index');
+        Route::get('/radius/user/create', 'create')->name('radius.users.create');
+        Route::post('/radius/user/store', 'store')->name('radius.users.store');
     });
 
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');

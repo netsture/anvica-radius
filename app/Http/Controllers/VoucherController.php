@@ -33,7 +33,12 @@ class VoucherController extends Controller
     public function create()
     {
         $plans = Plan::select('srvid','srvname')->get();
-        $identities = Identity::select('id', 'name')->orderBy('name')->get();
+        // $identities = Identity::select('id', 'name')->orderBy('name')->get();
+        if (empty(auth()->user()->identity_id)) {
+            $identities = Identity::select('id', 'name')->orderBy('name')->get();
+        } else {
+            $identities = Identity::select('id', 'name')->where('id', auth()->user()->identity_id)->get();
+        }
         return view('vouchers.create', compact('plans', 'identities'));
     }
 
