@@ -102,4 +102,9 @@ class RmUser extends Model
             'mobile'    => ['required'],
         ];
     }
+
+    public function identity()
+    {
+        return $this->belongsTo(Identity::class, 'identity_id');
+    }
 }

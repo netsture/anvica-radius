@@ -22,6 +22,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Identity</th>
                                         <th>Service plan</th>
                                         <th>DL rate (kbps)</th>
                                         <th>UL rate (kbps)</th>
@@ -34,6 +35,7 @@
                                     @forelse($datas as $data)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->identity->name ?? 'Admin' }}</td>
                                             <td>{{ $data->srvname }}</td>
                                             <td>{{ $data->downrate }}</td>
                                             <td>{{ $data->uprate }}</td>

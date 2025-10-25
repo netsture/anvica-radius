@@ -19,7 +19,7 @@
                             <!-- Identity Plan -->
                             <div class="mb-3">
                                 <label class="form-label">Identity</label>
-                                <select name="identity" class="form-select">
+                                <select name="identity_id" class="form-select">
                                     @foreach ($identities as $identity)
                                         <option value="{{ $identity->id }}"
                                             {{ old('identity') == $identity->id ? 'selected' : '' }}>{{ $identity->name }}

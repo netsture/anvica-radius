@@ -12,7 +12,11 @@ class PlanController extends Controller
      */
     public function index()
     {
-        $datas = Plan::orderBy('srvid','desc')->get();
+        if (empty(auth()->user()->identity_id)) {
+            $datas = Plan::orderBy('srvid','desc')->get();
+        } else {
+            $datas = Plan::where('identity_id', auth()->user()->identity_id)->orderBy('srvid','desc')->get();
+        }
         return view('plans.index', compact('datas'));
     }
 

@@ -9,6 +9,7 @@ class Plan extends Model
 {
     use HasFactory;
 
+    // protected $connection = 'radius';
     protected $table = 'rm_services';
 
     public $timestamps = false; // 👈 disable timestamps

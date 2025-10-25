@@ -28,4 +28,9 @@ class Voucher extends Model
     {
         return $this->belongsTo(Plan::class, 'srvid', 'srvid');
     }
+
+    public function identity()
+    {
+        return $this->belongsTo(Identity::class, 'identity_id');
+    }
 }

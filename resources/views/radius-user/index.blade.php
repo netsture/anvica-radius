@@ -20,6 +20,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Identity</th>
                                     <th>Username</th>
                                     <th>Name</th>
                                     <th>Email</th>
@@ -32,6 +33,7 @@
                                 @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->identity->name ?? '' }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>

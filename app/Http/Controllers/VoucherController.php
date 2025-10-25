@@ -84,7 +84,7 @@ class VoucherController extends Controller
 
             $vouchers[] = [
                 'id' => $id,
-                'identity' => $request->identity,
+                'identity_id' => $request->identity_id,
                 'srvid' => $request->srvid,
                 'series' => $series,
                 'voucher_code' => $cardnum,
