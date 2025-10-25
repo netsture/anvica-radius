@@ -7,6 +7,9 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Models\RmUser;
 use Illuminate\Support\Facades\Hash;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RmUsersExport;
 
 class RadiusUserController extends Controller
 {
@@ -45,5 +48,18 @@ class RadiusUserController extends Controller
         RmUser::create($data);
 
         return redirect()->route('radius.users.index')->with('success', 'User created successfully.');
+    }
+
+    public function exportExcel()
+    {
+        // Get all users (or filtered)
+        // $users = RmUser::with('identity')->get();
+        if (empty(auth()->user()->identity_id)) {
+            $users = RmUser::all();
+        } else {
+            $users = RmUser::where('identity_id', auth()->user()->identity_id)->get();
+        }
+
+        return Excel::download(new RmUsersExport($users), 'rm_users.xlsx');
     }
 }

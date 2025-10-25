@@ -5,8 +5,12 @@
 <div class="page-content">
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h3 class="page-title">Hotspot Users</h3>
-        <div>
+        <div>            
             <a href="{{ route('radius.users.create') }}" class="btn btn-primary">Create Hotspot User</a>
+
+            <a href="{{ route('radius.users.exportExcel') }}" class="btn btn-primary">
+                <i class="btn-icon-prepend" data-feather="download"></i> Export to Excel
+            </a>
         </div>
     </div>   
 
@@ -26,7 +30,6 @@
                                     <th>Email</th>
                                     <th>Date of Birth</th>
                                     <th>Mobile</th>
-                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,7 +42,6 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ viewDate($user->dob) }}</td>
                                     <td>{{ $user->mobile }}</td>
-                                    <td>{{ $user->role }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
