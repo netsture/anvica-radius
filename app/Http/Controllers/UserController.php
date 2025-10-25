@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -129,6 +131,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function exportExcel()
+    {
+        // Pass the same $users that your table uses
+        $users = User::with('identity')->get(); // you can apply filters here too
+        return Excel::download(new UsersExport($users), 'users.xlsx');
     }
 }
 

@@ -6,6 +6,10 @@
     <div class="main-content d-flex justify-content-between flex-wrap">
         <h2 class="page-title">Users</h2>
         <div>
+            <a href="{{ route('users.exportExcel') }}" class="btn btn-primary">
+                <i class="btn-icon-prepend" data-feather="download"></i> Export to Excel
+            </a>
+
             <a href="{{ route('users.create') }}" class="btn btn-primary">
                 <i class="btn-icon-prepend" data-feather="plus"></i> Add New
             </a>

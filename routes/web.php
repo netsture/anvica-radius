@@ -23,6 +23,7 @@ Route::get('/', function () {  return view('site.index'); })->name('home');
 
 Route::middleware('auth')->group(function () {
     
+    Route::get('/users/export-excel', [UserController::class, 'exportExcel'])->name('users.exportExcel');
     Route::controller(RadiusUserController::class)->group(function() {
         Route::get('/radius/user/index', 'index')->name('radius.users.index');
         Route::get('/radius/user/create', 'create')->name('radius.users.create');
