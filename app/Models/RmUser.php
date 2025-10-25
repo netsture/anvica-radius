@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
+use DB;
 
 class RmUser extends Model
 {
@@ -106,5 +107,15 @@ class RmUser extends Model
     public function identity()
     {
         return $this->belongsTo(Identity::class, 'identity_id');
+    }
+
+    public function getOtpAttribute()
+    {
+        // Query the radius.radcheck table
+        $otp = DB::table('radcheck')
+            ->where('username', $this->username)
+            ->where('attribute', 'Cleartext-Password')
+            ->value('value');
+        return $otp;
     }
 }

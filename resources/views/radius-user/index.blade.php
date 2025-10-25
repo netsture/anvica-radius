@@ -26,10 +26,10 @@
                                     <th>#</th>
                                     <th>Identity</th>
                                     <th>Username</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Date of Birth</th>
-                                    <th>Mobile</th>
+                                    <th>OTP</th>
+                                    <th>MAC Address</th>
+                                    <th>Last Logoff</th>
+                                    <th>Created Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,10 +38,10 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->identity->name ?? '' }}</td>
                                     <td>{{ $user->username }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ viewDate($user->dob) }}</td>
-                                    <td>{{ $user->mobile }}</td>
+                                    <td>{{ $user->otp ?? "N/A" }}</td>
+                                    <td>{{ $user->mac ?? "" }}</td>
+                                    <td>{{ viewDateTime($user->lastlogoff) }}</td>
+                                    <td>{{ viewDate($user->createdon) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
