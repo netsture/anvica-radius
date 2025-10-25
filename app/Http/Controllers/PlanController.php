@@ -25,7 +25,12 @@ class PlanController extends Controller
      */
     public function create()
     {
-        $identities = \DB::table('identities')->pluck('name', 'id');
+        // $identities = \DB::table('identities')->pluck('name', 'id');
+        if (empty(auth()->user()->identity_id)) {
+            $identities = \DB::table('identities')->pluck('name', 'id');
+        } else {
+            $identities = \DB::table('identities')->where('id', auth()->user()->identity_id)->pluck('name', 'id');
+        }
         return view('plans.create', compact('identities'));
     }
 
