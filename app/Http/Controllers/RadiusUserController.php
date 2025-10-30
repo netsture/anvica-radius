@@ -13,17 +13,30 @@ use App\Exports\RmUsersExport;
 
 class RadiusUserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (empty(auth()->user()->identity_id)) {
-            $users = RmUser::all();
-        } else {
-            $users = RmUser::where('identity_id', auth()->user()->identity_id)->get();
+        $query = RmUser::query();
+
+        // Filter by identity (Admin vs Specific Identity)
+        if (!empty(auth()->user()->identity_id)) {
+            $query->where('identity_id', auth()->user()->identity_id);
         }
 
-        // return view('radius/user.index', compact('users'));
-        return view('radius-user/index', compact('users'));
+        // Filter by From and To Date
+        if ($request->filled('from_date')) {
+            $query->whereDate('createdon', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('createdon', '<=', $request->to_date);
+        }
+
+        // Fetch results (you can also paginate if needed)
+        $users = $query->orderBy('createdon', 'desc')->get();
+
+        return view('radius-user.index', compact('users'));
     }
+
 
     public function create()
     {
@@ -50,15 +63,24 @@ class RadiusUserController extends Controller
         return redirect()->route('radius.users.index')->with('success', 'User created successfully.');
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        // Get all users (or filtered)
-        // $users = RmUser::with('identity')->get();
-        if (empty(auth()->user()->identity_id)) {
-            $users = RmUser::all();
-        } else {
-            $users = RmUser::where('identity_id', auth()->user()->identity_id)->get();
+        $query = RmUser::query();
+        // Identity filter
+        if (!empty(auth()->user()->identity_id)) {
+            $query->where('identity_id', auth()->user()->identity_id);
         }
+
+        // Date filters
+        if ($request->filled('from_date')) {
+            $query->whereDate('createdon', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('createdon', '<=', $request->to_date);
+        }
+
+        $users = $query->orderBy('createdon', 'desc')->get();
 
         return Excel::download(new RmUsersExport($users), 'rm_users.xlsx');
     }
