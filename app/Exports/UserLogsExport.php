@@ -20,7 +20,6 @@ class UserLogsExport implements FromCollection, WithHeadings
         return DB::table('radacct')
             ->select('username', 'callingstationid', 'framedipaddress' ,'acctstarttime' ,'acctstoptime' ,'acctsessiontime')
             ->where('username', $this->username)
-            ->orderByDesc('acctstarttime')
             ->get();
     }
 
