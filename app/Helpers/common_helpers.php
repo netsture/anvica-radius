@@ -15,7 +15,7 @@ if (!function_exists('viewDate')) {
     {
         //DATE_SEPARATOR  Define in config\constants.php
         if($value){
-            return date('m'.config('constants.DATE_SEPARATOR').'d'.config('constants.DATE_SEPARATOR').'Y', strtotime($value));
+            return date('d'.config('constants.DATE_SEPARATOR').'m'.config('constants.DATE_SEPARATOR').'Y', strtotime($value));
         }
     }
 }
@@ -24,7 +24,7 @@ if (!function_exists('viewDateTime')) {
     function viewDateTime($value = null)
     {
         if($value){
-            return date('m'.config('constants.DATE_SEPARATOR').'d'.config('constants.DATE_SEPARATOR').'Y H:i:s', strtotime($value));
+            return date('d'.config('constants.DATE_SEPARATOR').'m'.config('constants.DATE_SEPARATOR').'Y H:i:s', strtotime($value));
         }
     }
 }

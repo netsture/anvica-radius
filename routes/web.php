@@ -25,11 +25,14 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/users/export-excel', [UserController::class, 'exportExcel'])->name('users.exportExcel');
     Route::get('/radius/user/export-excel', [RadiusUserController::class, 'exportExcel'])->name('radius.users.exportExcel');
+    Route::get('/radius/users/logs/export', [RadiusUserController::class, 'exportUserLogs'])->name('radius.users.logs.export');
+
 
     Route::controller(RadiusUserController::class)->group(function() {
         Route::get('/radius/user/index', 'index')->name('radius.users.index');
         Route::get('/radius/user/create', 'create')->name('radius.users.create');
         Route::post('/radius/user/store', 'store')->name('radius.users.store');
+        Route::get('/radius/users/logs', 'logs')->name('radius.users.logs');
     });
 
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');

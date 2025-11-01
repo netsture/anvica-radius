@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RmUsersExport;
+use App\Exports\UserLogsExport;
 
 class RadiusUserController extends Controller
 {
@@ -83,5 +84,23 @@ class RadiusUserController extends Controller
         $users = $query->orderBy('createdon', 'desc')->get();
 
         return Excel::download(new RmUsersExport($users), 'rm_users.xlsx');
+    }
+
+    public function logs(Request $request)
+    {
+        $username = $request->get('username');
+        $logs = \DB::select("SELECT * FROM radacct WHERE username = ?", [$username]);
+        return view('radius-user.user-logs', compact('username','logs'));
+    }
+
+    public function exportUserLogs(Request $request)
+    {
+        $username = $request->get('username');
+
+        if (!$username) {
+            return redirect()->back()->with('error', 'Username is required');
+        }
+
+        return Excel::download(new UserLogsExport($username), 'user_logs_' . $username . '.xlsx');
     }
 }
