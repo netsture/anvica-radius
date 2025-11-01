@@ -83,7 +83,7 @@ class VoucherController extends Controller
             $id = (RmCards::max('id') ?? 0) + $i + 1;
 
             $vouchers[] = [
-                'id' => $id,
+                // 'id' => $id,
                 'identity_id' => $request->identity_id,
                 'srvid' => $request->srvid,
                 'series' => $series,
