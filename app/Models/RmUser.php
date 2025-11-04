@@ -104,11 +104,6 @@ class RmUser extends Model
         ];
     }
 
-    public function identity()
-    {
-        return $this->belongsTo(Identity::class, 'identity_id');
-    }
-
     public function getOtpAttribute()
     {
         // Query the radius.radcheck table
@@ -118,4 +113,11 @@ class RmUser extends Model
             ->value('value');
         return $otp;
     }
+    
+    public function identity()
+    {
+        return $this->belongsTo(Identity::class, 'identity_id');
+    }
+
+    
 }
