@@ -1,5 +1,5 @@
 Database anvica_radius
-
+Update sonu
 ALTER TABLE identities
 ADD COLUMN country VARCHAR(100) NULL AFTER name,
 ADD COLUMN state VARCHAR(100) NULL AFTER country,
