@@ -17,10 +17,16 @@ class UserLogsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
+        // return DB::table('radacct')
+        //     ->select('username', 'callingstationid', 'framedipaddress' ,'acctstarttime' ,'acctstoptime' ,'acctsessiontime')
+        //     ->where('username', $this->username)
+        //     ->get();
         return DB::table('radacct')
-            ->select('username', 'callingstationid', 'framedipaddress' ,'acctstarttime' ,'acctstoptime' ,'acctsessiontime')
-            ->where('username', $this->username)
-            ->get();
+            ->select('username', 'callingstationid', 'framedipaddress', 'acctstarttime', 'acctstoptime', 'acctsessiontime')
+            ->when(!empty($this->username), function ($query) {
+                $query->where('username', $this->username);
+            })
+            ->get();    
     }
 
     public function headings(): array

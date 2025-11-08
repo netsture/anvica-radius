@@ -28,13 +28,33 @@
                 <div class="collapse" id="radiusManager">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('radius.users.index') }}" class="nav-link">Users</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('plans.index') }}" class="nav-link">Plans</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('vouchers.index') }}" class="nav-link">Vourchers</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#userManager" role="button" aria-expanded="false"
+                    aria-controls="userManager">
+                    <i class="link-icon" data-feather="briefcase"></i>
+                    <span class="link-title">Users</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                @php
+                    $currentRoute = Route::currentRouteName(); // Get current route name
+                @endphp
+
+                <div class="collapse" id="userManager">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('radius.users.index') }}" class="nav-link">Create Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('radius.users.all.logs') }}" class="nav-link">User Logs</a>
                         </li>
                     </ul>
                 </div>
@@ -48,6 +68,13 @@
                     <span class="link-title">Identity</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('advertisements.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="hash"></i>
+                    <span class="link-title">Advertisement</span>
+                </a>
+            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false"
                     aria-controls="uiComponents">

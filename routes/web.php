@@ -18,6 +18,7 @@ use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RadiusUserController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\AdvertisementController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/export-excel', [UserController::class, 'exportExcel'])->name('users.exportExcel');
     Route::get('/radius/user/export-excel', [RadiusUserController::class, 'exportExcel'])->name('radius.users.exportExcel');
     Route::get('/radius/users/logs/export', [RadiusUserController::class, 'exportUserLogs'])->name('radius.users.logs.export');
+    Route::get('/radius/users/all/logs/export', [RadiusUserController::class, 'exportUserAllLogs'])->name('radius.users.all.logs.export');
 
 
     Route::controller(RadiusUserController::class)->group(function() {
@@ -33,11 +35,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/radius/user/create', 'create')->name('radius.users.create');
         Route::post('/radius/user/store', 'store')->name('radius.users.store');
         Route::get('/radius/users/logs', 'logs')->name('radius.users.logs');
+        Route::get('/radius/users/all/logs', 'allLogs')->name('radius.users.all.logs');
     });
 
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');
     Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
 
+    Route::resource('advertisements', AdvertisementController::class);
     Route::resource('users', UserController::class);
     Route::resource('identities', IdentityController::class);
     Route::resource('plans', PlanController::class);
