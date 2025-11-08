@@ -19,6 +19,8 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RadiusUserController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\RoomController;
+
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
@@ -46,7 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('identities', IdentityController::class);
     Route::resource('plans', PlanController::class);
     Route::resource('vouchers', VoucherController::class);
+    Route::resource('rooms', RoomController::class);
     
+    Route::post('/rooms/generate', [RoomController::class, 'generate'])->name('rooms.generate');
+
     Route::post('/vouchers/generate', [VoucherController::class, 'generate'])->name('vouchers.generate');
     // Route::get('/vouchers/show/{series}', [VoucherController::class, 'show'])->name('vouchers.show');
     

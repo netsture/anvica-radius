@@ -33,6 +33,9 @@
                         <li class="nav-item">
                             <a href="{{ route('vouchers.index') }}" class="nav-link">Vourchers</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('rooms.index') }}" class="nav-link">Room No.</a>
+                        </li>
                     </ul>
                 </div>
             </li>
