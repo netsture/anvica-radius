@@ -18,7 +18,7 @@
 
                         <div class="table-responsive">
 
-                            <table class="table" id="dataTableExample">
+                            <table class="table" id="dataTableExample"  data-display-length="100">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -37,19 +37,20 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->identity->name ?? 'Admin' }}</td>
                                             <td>{{ $data->srvname }}</td>
-                                            <td>{{ $data->downrate }}</td>
-                                            <td>{{ $data->uprate }}</td>
+                                            <td>{{ $data->downrate > 0 ?  $data->downrate : 'N/A'}}</td>
+                                            <td>{{ $data->uprate > 0 ?  $data->uprate : 'N/A'}}</td>
+                                            <td></td>
+                                            <td></td>
                                             <td class="text-end">
-                                                {{-- <a href="{{ route('plan.edit', $data->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <a href="{{ route('plans.edit', $data->srvid) }}" class="btn btn-inverse-warning btn-xs">Edit</a>
 
-                                                <form action="{{ route('plan.destroy', $data->id) }}"
+                                                <form action="{{ route('plans.destroy', $data->srvid) }}"
                                                     method="POST" style="display:inline-block"
                                                     onsubmit="return confirm('Delete this identity?');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                                </form> --}}
+                                                    <button class="btn btn-inverse-danger btn-xs">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @empty

@@ -35,7 +35,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Room No</label>
                                 <input type="text" name="room_no" class="form-control"
-                                    value="{{ old('room_no', $room->room_no) }}" required>
+                                    value="{{ old('room_no', $room->room_no) }}" required maxlength="4">
                                 @error('room_no') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 

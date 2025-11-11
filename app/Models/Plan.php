@@ -12,6 +12,8 @@ class Plan extends Model
     // protected $connection = 'radius';
     protected $table = 'rm_services';
 
+    protected $primaryKey = 'srvid';
+
     public $timestamps = false; // 👈 disable timestamps
 
     protected $fillable = [

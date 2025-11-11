@@ -17,16 +17,29 @@ class UserLogsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        // return DB::table('radacct')
-        //     ->select('username', 'callingstationid', 'framedipaddress' ,'acctstarttime' ,'acctstoptime' ,'acctsessiontime')
-        //     ->where('username', $this->username)
-        //     ->get();
+        $identityId = auth()->user()->identity_id ?? null;
+        // dd($identityId);
+        return DB::table('radacct as r')
+            ->leftJoin('radius.rm_users as u', 'r.username', '=', 'u.username')
+            ->select(
+                'r.username',
+                'r.callingstationid',
+                'r.framedipaddress',
+                'r.acctstarttime',
+                'r.acctstoptime',
+                'r.acctsessiontime',
+                'u.identity_id'
+            )
+            ->when($identityId, fn($q) => $q->where('u.identity_id', $identityId))
+            ->when(!empty($this->username ?? null), fn($q) => $q->where('r.username', $this->username))
+            ->get();
+
         return DB::table('radacct')
             ->select('username', 'callingstationid', 'framedipaddress', 'acctstarttime', 'acctstoptime', 'acctsessiontime')
             ->when(!empty($this->username), function ($query) {
                 $query->where('username', $this->username);
             })
-            ->get();    
+            ->get();
     }
 
     public function headings(): array

@@ -42,20 +42,105 @@ class AdvertisementController extends Controller
         ]);
     }
 
-    public function store(StoreUpdateAdvertisementRequest $request)
+    public function store(Request $request)
     {
-        $data = $this->validatedData($request);
-
+        /* $data = $this->validatedData($request);
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('ads', 'public'); // ads/<file>
         }
-
         $data['created_by'] = auth()->id();
-
         $ad = Advertisement::create($data);
+        return redirect()->route('advertisements.edit', $ad)->with('success','Advertisement created.'); */
 
-        return redirect()->route('advertisements.edit', $ad)
-            ->with('success','Advertisement created.');
+        // Allowed enums as per your form
+        $statusOptions  = ['draft', 'active', 'paused', 'expired'];
+        $slotOptions    = ['all', 'morning', 'afternoon', 'evening', 'night'];
+        $weekdayOptions = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        // Validate input
+        $validated = $request->validate([
+            'title'           => ['required', 'string', 'max:255'],
+            'image'           => ['required', 'image', 'mimes:jpg,jpeg,png,webp,avif', 'max:3072'], // 3MB
+            'click_url'       => ['nullable', 'url', 'max:2048'],
+
+            'start_at'        => ['nullable', 'date'],
+            'end_at'          => ['nullable', 'date', 'after:start_at'],
+
+            'time_slot'       => ['required', 'in:' . implode(',', $slotOptions)],
+
+            'weekdays'        => ['nullable', 'array'],
+            'weekdays.*'      => ['in:' . implode(',', $weekdayOptions)],
+
+            'priority'        => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'max_impressions' => ['nullable', 'integer', 'min:1'],
+            'max_clicks'      => ['nullable', 'integer', 'min:1'],
+
+            'country'         => ['nullable', 'string', 'max:100'],
+            'state'           => ['nullable', 'string', 'max:100'],
+            'city'            => ['nullable', 'string', 'max:100'],
+            'zone'            => ['nullable', 'string', 'max:100'],
+            'area'            => ['nullable', 'string', 'max:100'],
+            'society'         => ['nullable', 'string', 'max:150'],
+
+            'status'          => ['required', 'in:' . implode(',', $statusOptions)],
+        ], [
+            'title.required'  => 'The title field is required.',
+            'image.required'  => 'Please upload an image.',
+            'end_at.after'    => 'End time must be after start time.',
+        ]);
+
+        // Handle image upload
+        // $imagePath = $request->file('image')->store('ads', 'public'); // storage/app/public/ads/...
+        if ($request->hasFile('image')) {
+            $image      = $request->file('image');
+            $imageName  = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            if (!file_exists(public_path('ads'))) {
+                mkdir(public_path('ads'), 0755, true);
+            }
+            // Move to /public/ads directory
+            $image->move(public_path('ads'), $imageName);
+
+            // Store relative path in DB
+            $imagePath = 'ads/' . $imageName;
+        }
+        
+        // Normalize weekdays to lowercase unique array; allow empty = all days (store null)
+        $weekdays = $request->input('weekdays', []);
+        $weekdays = array_values(array_unique(array_map(fn($v) => strtolower($v), $weekdays)));
+        if (empty($weekdays)) {
+            $weekdays = null;
+        }
+
+        // Create the advertisement
+        $ad = Advertisement::create([
+            'title'           => $validated['title'],
+            'image_path'      => $imagePath,
+            'click_url'       => $validated['click_url'] ?? null,
+
+            'start_at'        => $validated['start_at'] ?? null,
+            'end_at'          => $validated['end_at'] ?? null,
+
+            'time_slot'       => $validated['time_slot'],
+            'weekdays'        => $weekdays, // cast to json in model
+
+            'priority'        => $validated['priority'] ?? 5,
+            'max_impressions' => $validated['max_impressions'] ?? null,
+            'max_clicks'      => $validated['max_clicks'] ?? null,
+
+            'country'         => $validated['country'] ?? null,
+            'state'           => $validated['state'] ?? null,
+            'city'            => $validated['city'] ?? null,
+            'zone'            => $validated['zone'] ?? null,
+            'area'            => $validated['area'] ?? null,
+            'society'         => $validated['society'] ?? null,
+
+            'status'          => $validated['status'],
+        ]);
+
+        return redirect()
+            ->route('advertisements.index')
+            ->with('success', 'Advertisement created successfully.');
     }
 
     public function show(Advertisement $advertisement)

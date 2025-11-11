@@ -56,6 +56,7 @@
                                         <th>MAC Address</th>
                                         <th>Last Logoff</th>
                                         <th>Created Date</th>
+                                        <th>Status</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
@@ -69,6 +70,13 @@
                                             <td>{{ $user->mac ?? '' }}</td>
                                             <td>{{ viewDateTime($user->lastlogoff) }}</td>
                                             <td>{{ viewDate($user->createdon) }}</td>
+                                            <td>
+                                                @if($user->enableuser === '1')
+                                                    <span class="badge bg-success">Active</span>
+                                                @else
+                                                    <span class="badge bg-danger">Inactive</span>
+                                                @endif
+                                            </td>
                                             <td class="text-end">
                                                 <button class="btn btn-xs btn-inverse-info viewLogsBtn" data-username="{{ $user->username }}">
                                                     View Logs

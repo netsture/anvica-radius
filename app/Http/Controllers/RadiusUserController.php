@@ -86,12 +86,6 @@ class RadiusUserController extends Controller
         return Excel::download(new RmUsersExport($users), 'rm_users.xlsx');
     }
 
-    public function allLogs(Request $request)
-    {
-        $logs = \DB::select("SELECT * FROM radacct order by acctstarttime desc");
-        return view('radius-user.user-all-logs', compact('logs'));
-    }
-
     public function logs(Request $request)
     {
         $username = $request->get('username');
@@ -108,6 +102,21 @@ class RadiusUserController extends Controller
         }
 
         return Excel::download(new UserLogsExport($username), 'user_logs_' . $username . '.xlsx');
+    }
+
+    public function allLogs(Request $request)
+    {
+        $identityId = auth()->user()->identity_id ?? null;
+        $sql = "SELECT r.* FROM radacct AS r LEFT JOIN rm_users AS u ON r.username = u.username";
+        $params = [];
+        if (!empty($identityId)) {
+            $sql .= " WHERE u.identity_id = ?";
+            $params[] = $identityId;
+        }
+        $sql .= " ORDER BY r.acctstarttime DESC";
+        $logs = \DB::select($sql, $params);
+
+        return view('radius-user.user-all-logs', compact('logs'));
     }
 
     public function exportUserAllLogs(Request $request)

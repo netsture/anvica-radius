@@ -6,7 +6,8 @@ use App\Models\Identity;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Validation\Rule;
+
 
 class RoomController extends Controller
 {
@@ -36,12 +37,17 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'identity_id' => 'nullable|exists:identities,id',
-            'room_no'     => 'required|string|unique:rooms,room_no',
-            'floor_no'    => 'required|string',
-            'room_type'   => 'required|string',
-            'status'      => 'required|string|in:available,occupied',
+            'identity_id' => 'required|exists:identities,id',
+            'room_no' => [
+                'required',
+                'string',
+                Rule::unique('rooms', 'room_no')
+                    ->where(fn ($query) => $query->where('identity_id', $request->identity_id)),
+            ],
+            'floor_no'  => 'required|string',
+            'room_type' => 'required|string',
         ]);
+        
 
         // Auto-generate series if you want (optional)
         $date = Carbon::now();

@@ -5,7 +5,7 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
             <div>
-                <h4 class="mb-3 mb-md-0">Generate Voucher {{ auth()->user()->identity_id }}</h4>
+                <h4 class="mb-3 mb-md-0">Generate Voucher</h4>
             </div>
         </div>
 
@@ -20,9 +20,10 @@
                             <div class="mb-3">
                                 <label class="form-label">Identity</label>
                                 <select name="identity_id" class="form-select">
+                                    <option value="">-- Select --</option>
                                     @foreach ($identities as $identity)
                                         <option value="{{ $identity->id }}"
-                                            {{ old('identity') == $identity->id ? 'selected' : '' }}>{{ $identity->name }}
+                                            {{ old('identity_id', auth()->user()->identity_id ?? '') == $identity->id ? 'selected' : '' }}>{{ $identity->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -44,7 +45,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Quantity</label>
                                 <input type="number" name="quantity" class="form-control" value="{{ old('quantity') }}"
-                                    min="1">
+                                    min="1" @error('quantity') is-invalid @enderror>
                                 @error('quantity')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -54,7 +55,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Valid Days</label>
                                 <input type="number" name="valid_days" class="form-control"
-                                    value="{{ old('valid_days') }}" min="1">
+                                    value="{{ old('valid_days') }}" min="1" @error('valid_days') is-invalid @enderror>
                                 @error('valid_days')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

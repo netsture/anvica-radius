@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Identity;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 
@@ -27,9 +28,9 @@ class PlanController extends Controller
     {
         // $identities = \DB::table('identities')->pluck('name', 'id');
         if (empty(auth()->user()->identity_id)) {
-            $identities = \DB::table('identities')->pluck('name', 'id');
+            $identities = Identity::select('id', 'name')->orderBy('name')->get();
         } else {
-            $identities = \DB::table('identities')->where('id', auth()->user()->identity_id)->pluck('name', 'id');
+            $identities = Identity::select('id', 'name')->where('id', auth()->user()->identity_id)->get();
         }
         return view('plans.create', compact('identities'));
     }
@@ -43,16 +44,19 @@ class PlanController extends Controller
             'identity_id' => 'required|exists:identities,id',
             'srvname'     => 'required|string|max:255',
             'descr'       => 'nullable|string',
-            'downrate'    => 'required|numeric|min:0',
-            'uprate'      => 'required|numeric|min:0',
+            // 'downrate'    => 'required|numeric|min:0',
+            // 'uprate'      => 'required|numeric|min:0',
+        ], [
+            'srvname.required' => 'The plan name field is required.', // Custom error message
         ]);
         $data = Plan::orderBy('srvid','desc')->first();
         Plan::create([
+            'identity_id' => $request->identity_id,
             'srvid' => $data ? $data->srvid + 1 : 1,
             'srvname' => $request->srvname,
-            'descr' => $request->descr,
-            'downrate' => $request->downrate,
-            'uprate' => $request->uprate,
+            'descr' => $request->descr ?? 'N/A',
+            'downrate' => $request->downrate ?? 0,
+            'uprate' => $request->uprate ?? 0,
             'limitdl' => 0,
             'limitul' => 0,
             'limitcomb' => 0,
@@ -133,7 +137,14 @@ class PlanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $plan = \App\Models\Plan::where('srvid', $id)->firstOrFail();
+        if (empty(auth()->user()->identity_id)) {
+            $identities = Identity::select('id', 'name')->orderBy('name')->get();
+        } else {
+            $identities = Identity::select('id', 'name')->where('id', auth()->user()->identity_id)->get();
+        }
+
+        return view('plans.edit', compact('plan','identities'));
     }
 
     /**
@@ -141,7 +152,33 @@ class PlanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'identity_id' => 'required|exists:identities,id',
+            'srvname'     => 'required|string|max:255',
+            'descr'       => 'nullable|string',
+            // 'downrate'    => 'required|numeric|min:0',
+            // 'uprate'      => 'required|numeric|min:0',
+        ], [
+            'srvname.required' => 'The plan name field is required.',
+        ]);
+
+        // Find the plan by srvid
+        $plan = Plan::where('srvid', $id)->firstOrFail();
+
+        // Update fields
+        $plan->update([
+            'identity_id' => $request->identity_id,
+            'srvname'     => $request->srvname,
+            'descr'       => $request->descr ?? 'N/A',
+            'downrate'    => $request->downrate ?? 0,
+            'uprate'      => $request->uprate ?? 0,
+            // keep default values untouched
+            'enableservice' => $plan->enableservice ?? 1,
+        ]);
+
+        return redirect()
+            ->route('plans.index')
+            ->with('success', 'Plan updated successfully.');
     }
 
     /**

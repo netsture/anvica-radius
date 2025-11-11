@@ -1,12 +1,30 @@
 <!-- resources/views/advertisements/edit.blade.php -->
 @extends('layouts.app')
-@section('title','Edit Advertisement')
+@section('title', 'Edit Advertisement')
 @section('content')
-<h3 class="mb-3">Edit Advertisement</h3>
-<form action="{{ route('advertisements.update',$ad) }}" method="post" enctype="multipart/form-data">
-  @csrf @method('PUT')
-  @include('advertisements._form', ['ad'=>$ad])
-  <button class="btn btn-primary">Update</button>
-  <a href="{{ route('advertisements.index') }}" class="btn btn-secondary">Back</a>
-</form>
+    
+    <div class="page-content">
+        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+            <div>
+                <h4 class="mb-3 mb-md-0">Edit Advertisement</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form action="{{ route('advertisements.update', $ad) }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            @include('advertisements._form', ['ad' => $ad])
+
+                            <button class="btn btn-primary me-2">Save</button>
+                            <a href="{{ route('advertisements.index') }}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

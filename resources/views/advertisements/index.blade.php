@@ -65,7 +65,7 @@
                                           <td>{{ $ad->id }}</td>
                                           <td style="width:120px">
                                               @if ($ad->image_path)
-                                                  <img src="{{ asset('storage/' . $ad->image_path) }}" style="max-width:110px; max-height:60px">
+                                                  <img class="wd-80 rounded-circle" src="{{ !empty($ad->image_path) ? asset('../' . $ad->image_path) : asset('images/admin/male-avatar.jpg') }}" alt="Ads">
                                               @endif
                                           </td>
                                           <td>{{ $ad->title }}</td>
