@@ -68,6 +68,18 @@
                                                   <img class="wd-80 rounded-circle" src="{{ !empty($ad->image_path) ? asset('../' . $ad->image_path) : asset('images/admin/male-avatar.jpg') }}" alt="Ads">
                                               @endif
                                           </td>
+                                          <td style="width:120px">
+                                                @if ($ad->image_path)
+                                                    <img src="{{ asset('../'.$ad->image_path) }}"
+                                                        alt="Ad Image"
+                                                        class="wd-80 rounded-circle"
+                                                        style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#imageModal"
+                                                        data-image="{{ asset('../'.$ad->image_path) }}">                                                
+                                                @endif
+                                            </td>
+
                                           <td>{{ $ad->title }}</td>
                                           <td><span
                                                   class="badge text-bg-{{ $ad->status === 'active' ? 'success' : ($ad->status === 'paused' ? 'warning' : 'secondary') }}">{{ $ad->status }}</span>
@@ -111,4 +123,28 @@
 
         {{ $ads->links() }}
     </div>
+    <!-- Image Preview Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body text-center p-0">
+        <img id="modalImage" src="" class="img-fluid rounded shadow-lg" alt="Full Image">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const imageModal = document.getElementById('imageModal');
+    imageModal.addEventListener('show.bs.modal', function (event) {
+        const trigger = event.relatedTarget;
+        const imageUrl = trigger.getAttribute('data-image');
+        const modalImg = imageModal.querySelector('#modalImage');
+        modalImg.src = imageUrl;
+    });
+});
+</script>
+
 @endsection
+
