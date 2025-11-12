@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-content">
         <div class="main-content d-flex justify-content-between flex-wrap">
-            <h3 class="page-title">Hotspot Users</h3>
+            <h2 class="page-title">Hotspot Users</h2>
             <div>
                 <a href="{{ route('radius.users.create') }}" class="btn btn-primary">Create Hotspot User</a>
 
@@ -40,6 +40,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
