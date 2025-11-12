@@ -49,9 +49,42 @@
                             // small offline mapping (extend as needed)
                             const localGeo = {
                                 "India": {
-                                "Gujarat": ["Ahmedabad","Surat","Vadodara","Rajkot"],
-                                "Maharashtra": ["Mumbai","Pune","Nagpur","Nashik"],
-                                "Delhi": ["New Delhi"]
+                                    "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Tirupati"],
+                                    "Arunachal Pradesh": ["Itanagar", "Tawang", "Ziro", "Pasighat"],
+                                    "Assam": ["Guwahati", "Dibrugarh", "Silchar", "Tezpur"],
+                                    "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+                                    "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Korba"],
+                                    "Goa": ["Panaji", "Margao", "Vasco da Gama", "Mapusa"],
+                                    "Gujarat": [
+                                    "Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur",
+                                    "Dahod","Dang","Devbhoomi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch",
+                                    "Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot",
+                                    "Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad","Vav-Tharad"
+                                ],
+                                    "Haryana": ["Gurugram", "Faridabad", "Panipat", "Ambala"],
+                                    "Himachal Pradesh": ["Shimla", "Manali", "Dharamshala", "Mandi"],
+                                    "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro"],
+                                    "Karnataka": ["Bengaluru", "Mysuru", "Mangalore", "Hubballi"],
+                                    "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur"],
+                                    "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur"],
+                                    "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik"],
+                                    "Manipur": ["Imphal", "Churachandpur", "Thoubal", "Ukhrul"],
+                                    "Meghalaya": ["Shillong", "Tura", "Jowai", "Nongpoh"],
+                                    "Mizoram": ["Aizawl", "Lunglei", "Saiha", "Champhai"],
+                                    "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Tuensang"],
+                                    "Odisha": ["Bhubaneswar", "Cuttack", "Rourkela", "Puri"],
+                                    "Punjab": ["Amritsar", "Ludhiana", "Jalandhar", "Patiala"],
+                                    "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota"],
+                                    "Sikkim": ["Gangtok", "Namchi", "Gyalshing", "Mangan"],
+                                    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"],
+                                    "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Khammam"],
+                                    "Tripura": ["Agartala", "Udaipur", "Dharmanagar", "Kailashahar"],
+                                    "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi", "Agra"],
+                                    "Uttarakhand": ["Dehradun", "Haridwar", "Rishikesh", "Nainital"],
+                                    "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Siliguri"],
+                                    "Delhi": ["New Delhi", "Dwarka", "Rohini", "Saket"] // Union Territory
+
+
                                 },
                                 "USA": {
                                 "California": ["Los Angeles","San Francisco","San Diego"],
