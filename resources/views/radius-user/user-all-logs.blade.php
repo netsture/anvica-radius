@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-content">
         <div class="main-content d-flex justify-content-between flex-wrap">
-            <h3 class="page-title">User Logs</h3>
+            <h2 class="page-title">User Logs</h2>
             <div>
                 <a href="{{ route('radius.users.all.logs.export', request()->only(['from_date', 'to_date'])) }}"
                     class="btn btn-primary">

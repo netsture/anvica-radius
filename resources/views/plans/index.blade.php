@@ -6,7 +6,7 @@
             <h2 class="page-title">Plans</h2>
             <div>
                 <a href="{{ route('plans.create') }}" class="btn btn-primary">
-                    <i class="btn-icon-prepend" data-feather="plus"></i> Add New
+                    Create Plan
                 </a>
             </div>
         </div>
