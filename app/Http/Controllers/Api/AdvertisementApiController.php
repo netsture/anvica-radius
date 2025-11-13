@@ -22,7 +22,7 @@ class AdvertisementApiController extends Controller
      * - status       => draft|active|paused|expired
      * - per_page     => pagination size (default 20)
      */
-    public function index(Request $request)
+    public function getAdvertise(Request $request)
     {
         $q = Advertisement::query();
 
