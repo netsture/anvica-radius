@@ -20,3 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('advertisements', [AdvertisementApiController::class, 'index']);
+
+
+
+// fallback for everything else under /api
+Route::fallback(function () {
+    return response()->json([
+        'status' => false,
+        'message' => 'Unauthorized'
+    ], 401);
+});
