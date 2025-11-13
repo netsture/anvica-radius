@@ -6,7 +6,7 @@
             <h2 class="page-title">Identities</h2>
             <div>
                 <a href="{{ route('identities.create') }}" class="btn btn-primary">
-                    <i class="btn-icon-prepend" data-feather="plus"></i> Add New
+                    Create Identities
                 </a>
             </div>
         </div>
@@ -81,14 +81,14 @@
                                             </td>
                                             <td class="text-end">
                                                 <a href="{{ route('identities.edit', $identity->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                    class="btn btn-inverse-warning btn-xs">Edit</a>
 
                                                 <form action="{{ route('identities.destroy', $identity->id) }}"
                                                     method="POST" style="display:inline-block"
                                                     onsubmit="return confirm('Delete this identity?');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                                    <button class="btn btn-inverse-danger btn-xs">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

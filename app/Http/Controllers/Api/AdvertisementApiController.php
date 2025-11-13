@@ -36,7 +36,7 @@ class AdvertisementApiController extends Controller
             $q->where('status', $status);
         }
 
-        // time_slot filter: we include ads that explicitly match OR ads set to 'all'
+        // time_slot filter: include ads that explicitly match OR ads set to 'all'
         if ($timeSlot = $request->query('time_slot')) {
             $q->where(function ($sub) use ($timeSlot) {
                 $sub->where('time_slot', $timeSlot)
@@ -54,55 +54,43 @@ class AdvertisementApiController extends Controller
         }
 
         // date-range overlap filtering:
-        // If start_date and/or end_date provided, we return ads whose [start_at, end_at] interval overlaps with given interval.
-        // Treat null start_at as -infinity and null end_at as +infinity.
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
         if ($startDate || $endDate) {
-            // if only one provided, treat the other as same day
             if (! $startDate) $startDate = $endDate;
             if (! $endDate) $endDate = $startDate;
 
-            // make sure times are end-of-day / start-of-day for safe overlap (user gives YYYY-MM-DD)
             try {
                 $start = \Carbon\Carbon::parse($startDate)->startOfDay();
                 $end = \Carbon\Carbon::parse($endDate)->endOfDay();
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Invalid date format. Use YYYY-MM-DD.'], 422);
+                return response()->json(['status' => false, 'message' => 'Invalid date format. Use YYYY-MM-DD.'], 422);
             }
 
-            // Interval overlap:
-            // WHERE (start_at IS NULL OR start_at <= $end) AND (end_at IS NULL OR end_at >= $start)
             $q->where(function ($sub) use ($start, $end) {
                 $sub->where(function ($s) use ($end) {
                         $s->whereNull('start_at')
-                          ->orWhere('start_at', '<=', $end);
+                        ->orWhere('start_at', '<=', $end);
                     })
                     ->where(function ($s) use ($start) {
                         $s->whereNull('end_at')
-                          ->orWhere('end_at', '>=', $start);
+                        ->orWhere('end_at', '>=', $start);
                     });
             });
         }
 
-        // ordering + pagination
-        $perPage = (int) $request->query('per_page', 20);
-        $ads = $q->latest()->paginate($perPage)->withQueryString();
+        // get all matched ads (no pagination)
+        $adsCollection = $q->latest()->get();
 
         // map results to include a stable public image URL
-        $ads->getCollection()->transform(function (Advertisement $ad) {
-            // resolve image url:
+        $data = $adsCollection->map(function (Advertisement $ad) {
             $imageUrl = null;
             if (!empty($ad->image_path)) {
-                // if file exists on public disk (storage/app/public/...), use disk url
-                if (Storage::disk('public')->exists($ad->image_path)) {
-                    $imageUrl = Storage::disk('public')->url($ad->image_path);
+                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($ad->image_path)) {
+                    $imageUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($ad->image_path);
                 } else {
-                    // fallback: if it's already a public path like "ads/..." stored under public/
-                    // asset() can resolve it
-                    // ensure path is not absolute URL
-                    if (Str::startsWith($ad->image_path, ['http://','https://'])) {
+                    if (\Illuminate\Support\Str::startsWith($ad->image_path, ['http://','https://'])) {
                         $imageUrl = $ad->image_path;
                     } else {
                         $imageUrl = asset($ad->image_path);
@@ -117,7 +105,7 @@ class AdvertisementApiController extends Controller
                 'start_at'       => optional($ad->start_at)->toDateTimeString(),
                 'end_at'         => optional($ad->end_at)->toDateTimeString(),
                 'time_slot'      => $ad->time_slot,
-                'weekdays'       => $ad->weekdays, // array or null
+                'weekdays'       => $ad->weekdays,
                 'priority'       => $ad->priority,
                 'max_impressions'=> $ad->max_impressions,
                 'max_clicks'     => $ad->max_clicks,
@@ -130,8 +118,13 @@ class AdvertisementApiController extends Controller
                 'status'         => $ad->status,
                 'image_url'      => $imageUrl,
             ];
-        });
+        })->all(); // ->all() to get plain array
 
-        return response()->json($ads);
+        return response()->json([
+            'status' => true,
+            'count'  => count($data),
+            'data'   => $data,
+        ]);
     }
+
 }

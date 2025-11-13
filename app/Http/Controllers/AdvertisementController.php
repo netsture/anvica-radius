@@ -9,9 +9,8 @@ use App\Http\Requests\StoreUpdateAdvertisementRequest;
 
 class AdvertisementController extends Controller
 {
-    private array $status = ['draft','active','paused','expired'];
-    private array $slots  = ['all','morning','afternoon','evening','night'];
-    private array $weekdays = ['mon','tue','wed','thu','fri','sat','sun'];
+    private array $slots  = ['All','Morning','Afternoon','Evening','Night'];
+    private array $weekdays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
     public function index(Request $request)
     {
@@ -28,14 +27,12 @@ class AdvertisementController extends Controller
 
         return view('advertisements.index', [
             'ads' => $ads,
-            'statusOptions' => $this->status,
         ]);
     }
 
     public function create()
     {
         return view('advertisements.create', [
-            'statusOptions' => $this->status,
             'slotOptions'   => $this->slots,
             'weekdayOptions'=> $this->weekdays,
             'ad' => new Advertisement(),
@@ -44,6 +41,7 @@ class AdvertisementController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         /* $data = $this->validatedData($request);
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('ads', 'public'); // ads/<file>
@@ -62,27 +60,21 @@ class AdvertisementController extends Controller
             'title'           => ['required', 'string', 'max:255'],
             'image'           => ['required', 'image', 'mimes:jpg,jpeg,png,webp,avif', 'max:3072'], // 3MB
             'click_url'       => ['nullable', 'url', 'max:2048'],
-
             'start_at'        => ['nullable', 'date'],
             'end_at'          => ['nullable', 'date', 'after:start_at'],
-
             'time_slot'       => ['required', 'in:' . implode(',', $slotOptions)],
-
             'weekdays'        => ['nullable', 'array'],
             'weekdays.*'      => ['in:' . implode(',', $weekdayOptions)],
-
             'priority'        => ['nullable', 'integer', 'min:1', 'max:1000'],
             'max_impressions' => ['nullable', 'integer', 'min:1'],
             'max_clicks'      => ['nullable', 'integer', 'min:1'],
-
             'country'         => ['nullable', 'string', 'max:100'],
             'state'           => ['nullable', 'string', 'max:100'],
             'city'            => ['nullable', 'string', 'max:100'],
             'zone'            => ['nullable', 'string', 'max:100'],
             'area'            => ['nullable', 'string', 'max:100'],
             'society'         => ['nullable', 'string', 'max:150'],
-
-            'status'          => ['required', 'in:' . implode(',', $statusOptions)],
+            'status'         => ['nullable'],
         ], [
             'title.required'  => 'The title field is required.',
             'image.required'  => 'Please upload an image.',
@@ -111,30 +103,25 @@ class AdvertisementController extends Controller
         if (empty($weekdays)) {
             $weekdays = null;
         }
-
+        // dd($validated);
         // Create the advertisement
         $ad = Advertisement::create([
             'title'           => $validated['title'],
             'image_path'      => $imagePath,
             'click_url'       => $validated['click_url'] ?? null,
-
             'start_at'        => $validated['start_at'] ?? null,
             'end_at'          => $validated['end_at'] ?? null,
-
             'time_slot'       => $validated['time_slot'],
             'weekdays'        => $weekdays, // cast to json in model
-
             'priority'        => $validated['priority'] ?? 5,
             'max_impressions' => $validated['max_impressions'] ?? null,
             'max_clicks'      => $validated['max_clicks'] ?? null,
-
             'country'         => $validated['country'] ?? null,
             'state'           => $validated['state'] ?? null,
             'city'            => $validated['city'] ?? null,
             'zone'            => $validated['zone'] ?? null,
             'area'            => $validated['area'] ?? null,
             'society'         => $validated['society'] ?? null,
-
             'status'          => $validated['status'],
         ]);
 

@@ -1,433 +1,303 @@
-{{-- @extends('layouts.app')
-
-@section('content')
-    <div class="page-content">
-
-        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-            <div>
-                <h4 class="mb-3 mb-md-0">Add Identity</h4>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ route('identities.store') }}" method="post" class="forms-sample">
-                            @csrf
-                            <div class="mb-3">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name') }}"
-                                    required>
-                                @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Status</label>
-                                <select name="status" class="form-select">
-                                    <option value="1" {{ old('status', '1') == 1 ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
-                                </select>
-                            </div>
-
-                            <button class="btn btn-primary">Save</button>
-                            <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection --}}
-{{-- @extends('layouts.app')
-
-@section('content')
-    <div class="page-content">
-
-        <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-            <div>
-                <h4 class="mb-3 mb-md-0">Add Identity</h4>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ route('identities.store') }}" method="post" class="forms-sample">
-                            @csrf
-
-                            <!-- Name -->
-                            <div class="mb-3">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Country -->
-                            <div class="mb-3">
-                                <label>Country</label>
-                                <input type="text" name="country" class="form-control" value="{{ old('country') }}">
-                                @error('country')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- State -->
-                            <div class="mb-3">
-                                <label>State</label>
-                                <input type="text" name="state" class="form-control" value="{{ old('state') }}">
-                                @error('state')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- City -->
-                            <div class="mb-3">
-                                <label>City</label>
-                                <input type="text" name="city" class="form-control" value="{{ old('city') }}">
-                                @error('city')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Zone -->
-                            <div class="mb-3">
-                                <label>Zone</label>
-                                <input type="text" name="zone" class="form-control" value="{{ old('zone') }}">
-                                @error('zone')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Area -->
-                            <div class="mb-3">
-                                <label>Area</label>
-                                <input type="text" name="area" class="form-control" value="{{ old('area') }}">
-                                @error('area')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Society Dropdown -->
-                            <div class="mb-3">
-                                <label>Society</label>
-                                <select name="society" class="form-select">
-                                    <option value="premium" {{ old('society') == 'premium' ? 'selected' : '' }}>Premium</option>
-                                    <option value="super premium" {{ old('society') == 'super premium' ? 'selected' : '' }}>Super Premium</option>
-                                </select>
-                                @error('society')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- OTP Checkboxes -->
-                            <div class="mb-3">
-                                <label>OTP Options</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="otp_sms" value="1" {{ old('otp_sms') ? 'checked' : '' }}>
-                                    <label class="form-check-label">SMS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="otp_whatsapp" value="1" {{ old('otp_whatsapp') ? 'checked' : '' }}>
-                                    <label class="form-check-label">WhatsApp</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="otp_email" value="1" {{ old('otp_email') ? 'checked' : '' }}>
-                                    <label class="form-check-label">Email</label>
-                                </div>
-                            </div>
-
-                            <!-- Status -->
-                            <div class="mb-3">
-                                <label>Status</label>
-                                <select name="status" class="form-select">
-                                    <option value="1" {{ old('status', '1') == 1 ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
-                                </select>
-                            </div>
-
-                            <!-- Buttons -->
-                            <button class="btn btn-primary">Save</button>
-                            <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection --}}
 @extends('layouts.app')
 
 @section('content')
-<div class="page-content">
-  <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-    <div><h4 class="mb-3 mb-md-0">Add Identity</h4></div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-8 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <form id="identityForm" action="{{ route('identities.store') }}" method="post" class="forms-sample">
-            @csrf
-
-            <div class="mb-3">
-              <label>Name</label>
-              <input type="text" name="name" class="form-control" required>
+    <div class="page-content">
+        <div class="main-content d-flex justify-content-between flex-wrap">
+            <h3 class="page-title">Create Identity</h3>
+            <div>
+                <a href="{{ route('identities.index') }}" class="btn btn-secondary btn-sm">Back</a>
             </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label>Country</label>
-                <select id="country" name="country" class="form-select" required>
-                  <option value="">-- Select Country --</option>
-                </select>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label>State</label>
-                <select id="state" name="state" class="form-select" required>
-                  <option value="">-- Select State --</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label>City</label>
-                <select id="city" name="city" class="form-select" required>
-                  <option value="">-- Select City --</option>
-                </select>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label>Zone</label>
-                <div class="d-flex">
-                  <select id="zone" name="zone" class="form-select" required>
-                    <option value="">-- Select Zone --</option>
-                  </select>
-                  <input id="newZoneInput" type="text" class="form-control me-2" placeholder="Add zone">
-                  <button id="addZoneBtn" type="button" class="btn btn-outline-primary">Add</button>
-                </div>
-                <small class="text-muted">You can select existing zone or add new</small>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label>Area</label>
-              <div class="d-flex">
-                <select id="area" name="area" class="form-select" required>
-                  <option value="">-- Select Area --</option>
-                </select>
-                <input id="newAreaInput" type="text" class="form-control me-2" placeholder="Add area">
-                <button id="addAreaBtn" type="button" class="btn btn-outline-primary">Add</button>
-              </div>
-              <small class="text-muted">Add area based on selected zone (or choose existing)</small>
-            </div>
-
-            <div class="mb-3">
-              <label>Society</label>
-              <select name="society" class="form-select">
-                <option value="super premium">Super Premium</option>
-                <option value="premium">Premium</option>
-                <option value="standard">Standard</option>
-                <option value="standard">Middle Class</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label>OTP Options</label><br>
-              <div class="form-check form-check-inline">
-                <input id="otp_sms" class="form-check-input" type="checkbox" name="otp_sms" value="1">
-                <label class="form-check-label" for="otp_sms">SMS</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input id="otp_whatsapp" class="form-check-input" type="checkbox" name="otp_whatsapp" value="1" checked>
-                <label class="form-check-label" for="otp_whatsapp">WhatsApp</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input id="otp_email" class="form-check-input" type="checkbox" name="otp_email" value="1">
-                <label class="form-check-label" for="otp_email">Email</label>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label>Status</label>
-              <select name="status" class="form-select">
-                <option value="1" selected>Active</option>
-                <option value="0">Inactive</option>
-              </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
-          </form>
         </div>
-      </div>
+
+        <div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="identityForm" action="{{ route('identities.store') }}" method="post" class="forms-sample">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Country</label>
+                                    <select id="country" name="country" class="form-select" required>
+                                        <option value="">-- Select Country --</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>State</label>
+                                    <select id="state" name="state" class="form-select" required>
+                                        <option value="">-- Select State --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>City</label>
+                                    <select id="city" name="city" class="form-select" required>
+                                        <option value="">-- Select City --</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Zone</label>
+                                    <div class="d-flex">
+                                        <select id="zone" name="zone" class="form-select" required>
+                                            <option value="">-- Select Zone --</option>
+                                        </select>
+                                        <input id="newZoneInput" type="text" class="form-control me-2"
+                                            placeholder="Add zone">
+                                        <button id="addZoneBtn" type="button" class="btn btn-outline-primary">Add</button>
+                                    </div>
+                                    <small class="text-muted">You can select existing zone or add new</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Area</label>
+                                <div class="d-flex">
+                                    <select id="area" name="area" class="form-select" required>
+                                        <option value="">-- Select Area --</option>
+                                    </select>
+                                    <input id="newAreaInput" type="text" class="form-control me-2"
+                                        placeholder="Add area">
+                                    <button id="addAreaBtn" type="button" class="btn btn-outline-primary">Add</button>
+                                </div>
+                                <small class="text-muted">Add area based on selected zone (or choose existing)</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Society</label>
+                                <select name="society" class="form-select">
+                                    <option value="super premium">Super Premium</option>
+                                    <option value="premium">Premium</option>
+                                    <option value="standard">Standard</option>
+                                    <option value="standard">Middle Class</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>OTP Options</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input id="otp_sms" class="form-check-input" type="checkbox" name="otp_sms"
+                                        value="1">
+                                    <label class="form-check-label" for="otp_sms">SMS</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input id="otp_whatsapp" class="form-check-input" type="checkbox" name="otp_whatsapp"
+                                        value="1" checked>
+                                    <label class="form-check-label" for="otp_whatsapp">WhatsApp</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input id="otp_email" class="form-check-input" type="checkbox" name="otp_email"
+                                        value="1">
+                                    <label class="form-check-label" for="otp_email">Email</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Status</label>
+                                <select name="status" class="form-select">
+                                    <option value="1" selected>Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // country list you asked for
-  const countries = [
-    "Brazil","Kenya","Spain","Japan","Nigeria","France","India","Australia","South Korea",
-    "Argentina","Germany","Canada","Chile","Egypt","Morocco","Thailand","Italy","Mexico",
-    "Russia","Netherlands","South Africa","Sweden","Saudi Arabia","Peru","Vietnam","Greece",
-    "Poland","Pakistan","Belgium","Colombia","Israel","Ecuador","Malaysia","Cuba","Zimbabwe",
-    "Sudan","Uruguay","Turkey","Sri Lanka"
-  ];
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // country list you asked for
+            const countries = [
+                "Brazil", "Kenya", "Spain", "Japan", "Nigeria", "France", "India", "Australia", "South Korea",
+                "Argentina", "Germany", "Canada", "Chile", "Egypt", "Morocco", "Thailand", "Italy", "Mexico",
+                "Russia", "Netherlands", "South Africa", "Sweden", "Saudi Arabia", "Peru", "Vietnam", "Greece",
+                "Poland", "Pakistan", "Belgium", "Colombia", "Israel", "Ecuador", "Malaysia", "Cuba",
+                "Zimbabwe",
+                "Sudan", "Uruguay", "Turkey", "Sri Lanka"
+            ];
 
- 
-  // DOM refs
-  const countrySel = document.getElementById('country');
-  const stateSel = document.getElementById('state');
-  const citySel = document.getElementById('city');
-  const zoneSel = document.getElementById('zone');
-  const areaSel = document.getElementById('area');
-  const addZoneBtn = document.getElementById('addZoneBtn');
-  const newZoneInput = document.getElementById('newZoneInput');
-  const addAreaBtn = document.getElementById('addAreaBtn');
-  const newAreaInput = document.getElementById('newAreaInput');
 
-  // populate countries dropdown
-  function populateCountries() {
-    countrySel.innerHTML = '<option value="">-- Select Country --</option>';
-    countries.forEach(c => {
-      const o = document.createElement('option'); o.value = c; o.text = c;
-      if (c === 'India') o.selected = true;
-      countrySel.appendChild(o);
-    });
-  }
+            // DOM refs
+            const countrySel = document.getElementById('country');
+            const stateSel = document.getElementById('state');
+            const citySel = document.getElementById('city');
+            const zoneSel = document.getElementById('zone');
+            const areaSel = document.getElementById('area');
+            const addZoneBtn = document.getElementById('addZoneBtn');
+            const newZoneInput = document.getElementById('newZoneInput');
+            const addAreaBtn = document.getElementById('addAreaBtn');
+            const newAreaInput = document.getElementById('newAreaInput');
 
-  function reset(sel, label) {
-    sel.innerHTML = `<option value="">-- Select ${label} --</option>`;
-  }
-  function fill(sel, arr) {
-    reset(sel, sel.name.charAt(0).toUpperCase() + sel.name.slice(1));
-    arr.forEach(v => sel.appendChild(new Option(v, v)));
-  }
+            // populate countries dropdown
+            function populateCountries() {
+                countrySel.innerHTML = '<option value="">-- Select Country --</option>';
+                countries.forEach(c => {
+                    const o = document.createElement('option');
+                    o.value = c;
+                    o.text = c;
+                    if (c === 'India') o.selected = true;
+                    countrySel.appendChild(o);
+                });
+            }
 
-  // fetch states (countriesnow.space) - same as before
-  async function fetchStates(countryName) {
-    reset(stateSel,'State'); reset(citySel,'City'); reset(zoneSel,'Zone'); reset(areaSel,'Area');
-    if (!countryName) return;
-    try {
-      const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({country: countryName})
-      });
-      const json = await res.json();
-      if (!json.data || !json.data.states) return;
-      const states = json.data.states.map(s => (typeof s === 'string') ? s : s.name);
-      fill(stateSel, states);
-    } catch (e) {
-      console.error('fetchStates error', e);
-    }
-  }
+            function reset(sel, label) {
+                sel.innerHTML = `<option value="">-- Select ${label} --</option>`;
+            }
 
-  // fetch cities
-  async function fetchCities(countryName, stateName) {
-    reset(citySel,'City'); reset(zoneSel,'Zone'); reset(areaSel,'Area');
-    if (!countryName || !stateName) return;
-    try {
-      const res = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({country: countryName, state: stateName})
-      });
-      const json = await res.json();
-      if (!json.data) return;
-      fill(citySel, json.data);
-    } catch (e) {
-      console.error('fetchCities error', e);
-    }
-  }
+            function fill(sel, arr) {
+                reset(sel, sel.name.charAt(0).toUpperCase() + sel.name.slice(1));
+                arr.forEach(v => sel.appendChild(new Option(v, v)));
+            }
 
-  // Populate zones automatically from zoneAreaData if available
-  function populateZonesFromData(country, state, city) {
-    reset(zoneSel,'Zone'); reset(areaSel,'Area');
-    try {
-      const zonesObj = zoneAreaData?.[country]?.[state]?.[city];
-      if (!zonesObj) return false; // no mapping available
-      const zones = Object.keys(zonesObj);
-      fill(zoneSel, zones);
-      return true;
-    } catch (e) {
-      console.error('populateZonesFromData', e);
-      return false;
-    }
-  }
+            // fetch states (countriesnow.space) - same as before
+            async function fetchStates(countryName) {
+                reset(stateSel, 'State');
+                reset(citySel, 'City');
+                reset(zoneSel, 'Zone');
+                reset(areaSel, 'Area');
+                if (!countryName) return;
+                try {
+                    const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            country: countryName
+                        })
+                    });
+                    const json = await res.json();
+                    if (!json.data || !json.data.states) return;
+                    const states = json.data.states.map(s => (typeof s === 'string') ? s : s.name);
+                    fill(stateSel, states);
+                } catch (e) {
+                    console.error('fetchStates error', e);
+                }
+            }
 
-  // Populate areas for selected zone from zoneAreaData
-  function populateAreasFromData(country, state, city, zone) {
-    reset(areaSel,'Area');
-    try {
-      const areas = zoneAreaData?.[country]?.[state]?.[city]?.[zone] || [];
-      if (areas.length) fill(areaSel, areas);
-      return areas.length > 0;
-    } catch (e) {
-      console.error('populateAreasFromData', e);
-      return false;
-    }
-  }
+            // fetch cities
+            async function fetchCities(countryName, stateName) {
+                reset(citySel, 'City');
+                reset(zoneSel, 'Zone');
+                reset(areaSel, 'Area');
+                if (!countryName || !stateName) return;
+                try {
+                    const res = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            country: countryName,
+                            state: stateName
+                        })
+                    });
+                    const json = await res.json();
+                    if (!json.data) return;
+                    fill(citySel, json.data);
+                } catch (e) {
+                    console.error('fetchCities error', e);
+                }
+            }
 
-  // Event listeners
-  countrySel.addEventListener('change', () => {
-    fetchStates(countrySel.value);
-  });
+            // Populate zones automatically from zoneAreaData if available
+            function populateZonesFromData(country, state, city) {
+                reset(zoneSel, 'Zone');
+                reset(areaSel, 'Area');
+                try {
+                    const zonesObj = zoneAreaData?.[country]?.[state]?.[city];
+                    if (!zonesObj) return false; // no mapping available
+                    const zones = Object.keys(zonesObj);
+                    fill(zoneSel, zones);
+                    return true;
+                } catch (e) {
+                    console.error('populateZonesFromData', e);
+                    return false;
+                }
+            }
 
-  stateSel.addEventListener('change', () => {
-    fetchCities(countrySel.value, stateSel.value);
-  });
+            // Populate areas for selected zone from zoneAreaData
+            function populateAreasFromData(country, state, city, zone) {
+                reset(areaSel, 'Area');
+                try {
+                    const areas = zoneAreaData?.[country]?.[state]?.[city]?.[zone] || [];
+                    if (areas.length) fill(areaSel, areas);
+                    return areas.length > 0;
+                } catch (e) {
+                    console.error('populateAreasFromData', e);
+                    return false;
+                }
+            }
 
-  citySel.addEventListener('change', () => {
-    // first try to populate zones from our zoneAreaData
-    const ok = populateZonesFromData(countrySel.value, stateSel.value, citySel.value);
-    if (!ok) {
-      // if no mapping, keep zone dropdown empty but allow user to add
-      reset(zoneSel,'Zone');
-      reset(areaSel,'Area');
-      // optionally, you could call a sampleZonesForCity fallback here if you want
-    } else {
-      // if zones populated, automatically select first zone and populate areas
-      zoneSel.selectedIndex = 1; // choose first real option (index 0 is placeholder)
-      const chosen = zoneSel.value;
-      if (chosen) populateAreasFromData(countrySel.value, stateSel.value, citySel.value, chosen);
-    }
-  });
+            // Event listeners
+            countrySel.addEventListener('change', () => {
+                fetchStates(countrySel.value);
+            });
 
-  zoneSel.addEventListener('change', () => {
-    const ok = populateAreasFromData(countrySel.value, stateSel.value, citySel.value, zoneSel.value);
-    if (!ok) {
-      reset(areaSel,'Area'); // allow user to add areas manually
-    }
-  });
+            stateSel.addEventListener('change', () => {
+                fetchCities(countrySel.value, stateSel.value);
+            });
 
-  // Add zone button: user can still add custom zone
-  if (addZoneBtn) addZoneBtn.addEventListener('click', () => {
-    const v = newZoneInput.value.trim(); if (!v) return;
-    if (![...zoneSel.options].some(o => o.value === v)) zoneSel.appendChild(new Option(v,v));
-    zoneSel.value = v;
-    newZoneInput.value = '';
-    reset(areaSel,'Area');
-  });
+            citySel.addEventListener('change', () => {
+                // first try to populate zones from our zoneAreaData
+                const ok = populateZonesFromData(countrySel.value, stateSel.value, citySel.value);
+                if (!ok) {
+                    // if no mapping, keep zone dropdown empty but allow user to add
+                    reset(zoneSel, 'Zone');
+                    reset(areaSel, 'Area');
+                    // optionally, you could call a sampleZonesForCity fallback here if you want
+                } else {
+                    // if zones populated, automatically select first zone and populate areas
+                    zoneSel.selectedIndex = 1; // choose first real option (index 0 is placeholder)
+                    const chosen = zoneSel.value;
+                    if (chosen) populateAreasFromData(countrySel.value, stateSel.value, citySel.value,
+                        chosen);
+                }
+            });
 
-  // Add area button
-  if (addAreaBtn) addAreaBtn.addEventListener('click', () => {
-    const v = newAreaInput.value.trim(); if (!v) return;
-    if (![...areaSel.options].some(o => o.value === v)) areaSel.appendChild(new Option(v,v));
-    areaSel.value = v;
-    newAreaInput.value = '';
-  });
+            zoneSel.addEventListener('change', () => {
+                const ok = populateAreasFromData(countrySel.value, stateSel.value, citySel.value, zoneSel
+                    .value);
+                if (!ok) {
+                    reset(areaSel, 'Area'); // allow user to add areas manually
+                }
+            });
 
-  // initial load
-  populateCountries();
-  if (countrySel.value) fetchStates(countrySel.value);
-});
-</script>
+            // Add zone button: user can still add custom zone
+            if (addZoneBtn) addZoneBtn.addEventListener('click', () => {
+                const v = newZoneInput.value.trim();
+                if (!v) return;
+                if (![...zoneSel.options].some(o => o.value === v)) zoneSel.appendChild(new Option(v, v));
+                zoneSel.value = v;
+                newZoneInput.value = '';
+                reset(areaSel, 'Area');
+            });
 
+            // Add area button
+            if (addAreaBtn) addAreaBtn.addEventListener('click', () => {
+                const v = newAreaInput.value.trim();
+                if (!v) return;
+                if (![...areaSel.options].some(o => o.value === v)) areaSel.appendChild(new Option(v, v));
+                areaSel.value = v;
+                newAreaInput.value = '';
+            });
+
+            // initial load
+            populateCountries();
+            if (countrySel.value) fetchStates(countrySel.value);
+        });
+    </script>
 @endsection

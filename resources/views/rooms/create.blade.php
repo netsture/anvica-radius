@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="page-content">
-    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin mb-3">
-        <h4 class="mb-0">Create Room</h4>
+    <div class="main-content d-flex justify-content-between flex-wrap">
+        <h3 class="page-title">Create Room</h3>
         <div>
             <a href="{{ route('rooms.index') }}" class="btn btn-secondary btn-sm">Back</a>
         </div>
@@ -60,8 +60,8 @@
                         <div class="mb-3">
                             <label class="form-label">Status <span class="text-danger">*</span></label>
                             <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                <option value="1" {{ old('status', '1') == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                                <option value="Active" {{ old('status', 'Active') == 1 ? 'selected' : '' }}>Active</option>
+                                <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
                             </select>
                             @error('status')
                                 <span class="text-danger">{{ $message }}</span>

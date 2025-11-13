@@ -7,7 +7,7 @@
         <div class="main-content d-flex justify-content-between flex-wrap">
             <h3 class="page-title">Advertisements</h3>
             <div>
-                <a href="{{ route('advertisements.create') }}" class="btn btn-primary">Create</a>
+                <a href="{{ route('advertisements.create') }}" class="btn btn-primary btn-sm">Create Ads.</a>
             </div>
         </div>
 
@@ -24,9 +24,8 @@
                               <div class="col-md-3">
                                   <select name="status" class="form-select">
                                       <option value="">All status</option>
-                                      @foreach ($statusOptions as $st)
-                                          <option value="{{ $st }}" @selected(request('status') === $st)>{{ ucfirst($st) }}</option>
-                                      @endforeach
+                                      <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Active</option>
+                                      <option value="Inactive" {{ request('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
                                   </select>
                               </div>
                               <div class="col-md-2">
@@ -51,23 +50,27 @@
                                       <th>#</th>
                                       <th>Preview</th>
                                       <th>Title</th>
+                                      <th>Click URL</th>
+                                      <th>Duration</th>
+                                      <th>Time Slot</th>
+                                      <th>Weekdays</th>
+                                      <th>Priority</th>
+                                      {{-- <th>Max impressions</th>
+                                      <th>Max Click</th> --}}
+                                      <th>Country</th>
+                                      <th>State</th>
+                                      <th>City</th>
+                                      <th>Zone</th>
+                                      <th>Area</th>
+                                      <th>Society</th>
                                       <th>Status</th>
-                                      <th>Slot</th>
-                                      <th>Start</th>
-                                      <th>End</th>
-                                      <th>Geo</th>
-                                      <th></th>
+                                      <th class="text-end">Action</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   @forelse($ads as $ad)
                                       <tr>
                                           <td>{{ $ad->id }}</td>
-                                          <td style="width:120px">
-                                              @if ($ad->image_path)
-                                                  <img class="wd-80 rounded-circle" src="{{ !empty($ad->image_path) ? asset('../' . $ad->image_path) : asset('images/admin/male-avatar.jpg') }}" alt="Ads">
-                                              @endif
-                                          </td>
                                           <td style="width:120px">
                                                 @if ($ad->image_path)
                                                     <img src="{{ asset('../'.$ad->image_path) }}"
@@ -80,30 +83,37 @@
                                                 @endif
                                             </td>
 
-                                          <td>{{ $ad->title }}</td>
-                                          <td><span
-                                                  class="badge text-bg-{{ $ad->status === 'active' ? 'success' : ($ad->status === 'paused' ? 'warning' : 'secondary') }}">{{ $ad->status }}</span>
+                                          <td>{{ $ad->title }}</td>                                          
+                                          <td>{{ $ad->click_url }}</td>                                          
+                                          <td>
+                                            {{ optional($ad->start_at)->format('Y-m-d H:i') }}<br/>
+                                            {{ optional($ad->end_at)->format('Y-m-d H:i') }}
                                           </td>
                                           <td>{{ $ad->time_slot }}</td>
-                                          <td>{{ optional($ad->start_at)->format('Y-m-d H:i') }}</td>
-                                          <td>{{ optional($ad->end_at)->format('Y-m-d H:i') }}</td>
                                           <td>
-                                              {{ $ad->country ?? '*' }} /
-                                              {{ $ad->state ?? '*' }} /
-                                              {{ $ad->city ?? '*' }} /
-                                              {{ $ad->zone ?? '*' }} /
-                                              {{ $ad->area ?? '*' }} /
-                                              {{ $ad->society ?? '*' }}
+                                            @foreach ($ad->weekdays ?? [] as $day)
+                                                <span class="badge bg-primary text-uppercase">{{ $day }}</span>
+                                            @endforeach
                                           </td>
+                                          <td>{{ $ad->priority }}</td>
+                                          {{-- <td>{{ $ad->max_impressions }}</td>
+                                          <td>{{ $ad->max_clicks }}</td> --}}
+                                          <td>{{ $ad->country }}</td>
+                                          <td>{{ $ad->state }}</td>
+                                          <td>{{ $ad->city }}</td>
+                                          <td>{{ $ad->zone }}</td>
+                                          <td>{{ $ad->area }}</td>
+                                          <td>{{ $ad->society }}</td>
+                                          <td><span class="badge text-bg-{{ $ad->status === 'Active' ? 'success' : 'danger' }}">{{ $ad->status }}</span></td>
                                           <td class="text-end">
-                                              <a class="btn btn-sm btn-outline-secondary"
+                                              <a class="btn btn-inverse-primary btn-xs"
                                                   href="{{ route('advertisements.show', $ad) }}">View</a>
-                                              <a class="btn btn-sm btn-outline-primary"
+                                              <a class="btn btn-inverse-warning btn-xs"
                                                   href="{{ route('advertisements.edit', $ad) }}">Edit</a>
                                               <form action="{{ route('advertisements.destroy', $ad) }}" method="post" class="d-inline"
                                                   onsubmit="return confirm('Delete this ad?')">
                                                   @csrf @method('DELETE')
-                                                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                                  <button class="btn btn-inverse-danger btn-xs">Delete</button>
                                               </form>
                                           </td>
                                       </tr>

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="page-content">
-
-        <div class="d-flex justify-content-between align-items-center flex-wrap ">
+        <div class="main-content d-flex justify-content-between flex-wrap">
+            <h3 class="page-title">Edit Identity</h3>
             <div>
-                <h4 class="mb-3 mb-md-0">Edit Identity</h4>
+                <a href="{{ route('identities.index') }}" class="btn btn-secondary btn-sm">Back</a>
             </div>
         </div>
 
@@ -14,26 +14,26 @@
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('identities.update', $identity->id) }}" method="post">
-        @csrf
-        @method('PUT')
+                            @csrf
+                            @method('PUT')
 
-        <div class="mb-3">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name', $identity->name) }}" required>
-            @error('name') <div class="text-danger">{{ $message }}</div> @enderror
-        </div>
+                            <div class="mb-3">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ old('name', $identity->name) }}" required>
+                                @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
 
-        <div class="mb-3">
-            <label>Status</label>
-            <select name="status" class="form-select">
-                <option value="1" {{ old('status', $identity->status)==1 ? 'selected' : '' }}>Active</option>
-                <option value="0" {{ old('status', $identity->status)=='0' ? 'selected' : '' }}>Inactive</option>
-            </select>
-        </div>
+                            <div class="mb-3">
+                                <label>Status</label>
+                                <select name="status" class="form-select">
+                                    <option value="1" {{ old('status', $identity->status)==1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ old('status', $identity->status)=='0' ? 'selected' : '' }}>Inactive</option>
+                                </select>
+                            </div>
 
-        <button class="btn btn-primary">Update</button>
-        <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+                            <button class="btn btn-primary">Update</button>
+                            <a href="{{ route('identities.index') }}" class="btn btn-secondary">Cancel</a>
+                        </form>
                     </div>
                 </div>
             </div>

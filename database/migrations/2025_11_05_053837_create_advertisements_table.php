@@ -9,41 +9,26 @@ return new class extends Migration {
     {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->index();
-
-            // Asset + click-through
+            $table->string('title');
             $table->string('image_path');          // e.g. ads/banner1.jpg (public disk)
             $table->string('click_url')->nullable();
-
-            // Lifecycle
-            $table->enum('status', ['draft','active','paused','expired'])->default('draft');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
-
-            // Time-of-day targeting
-            $table->enum('time_slot', ['all','morning','afternoon','evening','night'])
-                  ->default('all');
-            // Optional weekday filter: ["mon","tue","wed","thu","fri","sat","sun"]
+            $table->enum('time_slot', ['all','morning','afternoon','evening','night'])->default('all');
             $table->longText('weekdays')->nullable();
-
-            // Delivery controls
             $table->unsignedInteger('priority')->default(5)->comment('1=highest');
             $table->unsignedBigInteger('max_impressions')->nullable();
             $table->unsignedBigInteger('max_clicks')->nullable();
-
-            // Geo targeting on the ad itself (broad) — you can also use a separate ad_targets table if you prefer multi-row targets
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->string('zone')->nullable();
             $table->string('area')->nullable();
             $table->string('society')->nullable();
-
-            // Extra metadata
             $table->longText('meta')->nullable();
-
-            // Audit
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->enum('status', ['Active','Inactive'])->default('Active');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
             // Helpful composite indexes
