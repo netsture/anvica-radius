@@ -93,7 +93,7 @@ class AdvertisementApiController extends Controller
                     if (\Illuminate\Support\Str::startsWith($ad->image_path, ['http://','https://'])) {
                         $imageUrl = $ad->image_path;
                     } else {
-                        $imageUrl = asset($ad->image_path);
+                        $imageUrl = env('APP_URL')."/".$ad->image_path;
                     }
                 }
             }

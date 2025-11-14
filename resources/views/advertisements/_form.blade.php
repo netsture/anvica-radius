@@ -1,4 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 @php
     $statusOptions = $statusOptions ?? ['draft', 'active', 'paused', 'expired'];
     $slotOptions = $slotOptions ?? ['all', 'morning', 'afternoon', 'evening', 'night'];

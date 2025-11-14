@@ -1,22 +1,20 @@
 <!-- resources/views/advertisements/create.blade.php -->
 @extends('layouts.app')
 @section('title', 'Create Advertisement')
-
 @section('content')
 
-    <div class="page-content">
-        <div class="main-content d-flex justify-content-between flex-wrap">
-            <h3 class="page-title">Create Advertisements</h3>
-            <div>
-                <a href="{{ route('advertisements.index') }}" class="btn btn-secondary btn-sm">Back</a>
-            </div>
+<div class="page-content">
+    <div class="main-content d-flex justify-content-between flex-wrap">
+        <h3 class="page-title">Create Advertisements</h3>
+        <div>
+            <a href="{{ route('advertisements.index') }}" class="btn btn-secondary btn-sm">Back</a>
         </div>
-        
-        <div class="row">
-            <div class="col-md-8 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
                         <form action="{{ route('advertisements.store') }}" method="post" class="forms-sample"
                             enctype="multipart/form-data">
                             @csrf

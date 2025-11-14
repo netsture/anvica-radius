@@ -51,8 +51,8 @@ class AdvertisementController extends Controller
         return redirect()->route('advertisements.edit', $ad)->with('success','Advertisement created.'); */
 
         // Allowed enums as per your form
-        $statusOptions  = ['draft', 'active', 'paused', 'expired'];
-        $slotOptions    = ['all', 'morning', 'afternoon', 'evening', 'night'];
+        // $statusOptions  = ['draft', 'active', 'paused', 'expired'];
+        // $slotOptions    = ['all', 'morning', 'afternoon', 'evening', 'night'];
         $weekdayOptions = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
         // Validate input
@@ -139,7 +139,7 @@ class AdvertisementController extends Controller
     {
         return view('advertisements.edit', [
             'ad' => $advertisement,
-            'statusOptions' => $this->status,
+            // 'statusOptions' => $this->status,
             'slotOptions'   => $this->slots,
             'weekdayOptions'=> $this->weekdays,
         ]);
