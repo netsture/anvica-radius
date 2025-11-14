@@ -62,7 +62,7 @@ class AdvertisementController extends Controller
             'click_url'       => ['nullable', 'url', 'max:2048'],
             'start_at'        => ['nullable', 'date'],
             'end_at'          => ['nullable', 'date', 'after:start_at'],
-            'time_slot'       => ['required', 'in:' . implode(',', $slotOptions)],
+            'time_slot'       => ['required'],
             'weekdays'        => ['nullable', 'array'],
             'weekdays.*'      => ['in:' . implode(',', $weekdayOptions)],
             'priority'        => ['nullable', 'integer', 'min:1', 'max:1000'],
@@ -74,13 +74,13 @@ class AdvertisementController extends Controller
             'zone'            => ['nullable', 'string', 'max:100'],
             'area'            => ['nullable', 'string', 'max:100'],
             'society'         => ['nullable', 'string', 'max:150'],
-            'status'         => ['nullable'],
+            'status'         =>  ['required'],
         ], [
             'title.required'  => 'The title field is required.',
             'image.required'  => 'Please upload an image.',
             'end_at.after'    => 'End time must be after start time.',
         ]);
-
+        // dd($validated);
         // Handle image upload
         // $imagePath = $request->file('image')->store('ads', 'public'); // storage/app/public/ads/...
         if ($request->hasFile('image')) {
@@ -124,7 +124,7 @@ class AdvertisementController extends Controller
             'society'         => $validated['society'] ?? null,
             'status'          => $validated['status'],
         ]);
-
+        // dd($validated);
         return redirect()
             ->route('advertisements.index')
             ->with('success', 'Advertisement created successfully.');

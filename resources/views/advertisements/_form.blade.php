@@ -38,7 +38,7 @@
 
 <div class="mb-3">
     <label class="form-label">Image Click URL</label>
-    <input type="url" name="click_url" value="{{ old('click_url', $ad->click_url) }}" class="form-control"
+    <input type="text" name="click_url" value="{{ old('click_url', $ad->click_url) }}" class="form-control"
         placeholder="https://...">
 </div>
 
@@ -158,8 +158,8 @@
 <div class="mb-3">
     <label class="form-label">Status <span class="text-danger">*</span></label>
     <select name="status" class="form-select @error('status') is-invalid @enderror">
-        <option value="1" {{ old('status', '1') == 1 ? 'selected' : '' }}>Active</option>
-        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+        <option value="Active" {{ old('status', 'Active') == 1 ? 'selected' : '' }}>Active</option>
+        <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
     </select>
     @error('status')
         <span class="text-danger">{{ $message }}</span>
