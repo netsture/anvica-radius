@@ -91,7 +91,7 @@
                                           </td>
                                           <td>{{ $ad->time_slot }}</td>
                                           <td>
-                                            @foreach ($ad->weekdays ?? [] as $day)
+                                            @foreach ($ad->weekdays ?? ['All'] as $day)
                                                 <span class="badge bg-primary text-uppercase">{{ $day }}</span>
                                             @endforeach
                                           </td>
