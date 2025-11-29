@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('getAds', [AdvertisementApiController::class, 'getAdvertise']);
+Route::get('viewAds/{id}', [AdvertisementApiController::class, 'viewAdvertise']);
+Route::get('clickAds/{id}', [AdvertisementApiController::class, 'clickAdvertise']);
 
 
 

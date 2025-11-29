@@ -7,15 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('ad_clicks', function (Blueprint $table) {
+        Schema::create('advertisement_logs', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('advertisement_id')->constrained('advertisements')->cascadeOnDelete();
-
-            // If you have an identities table, store the FK or external ref here
+            $table->unsignedBigInteger('advertisement_id')->nullable()->index();
             $table->unsignedBigInteger('identity_id')->nullable()->index();
-
             // Networking context
+            $table->enum('event',['view','click']);
+            $table->string('mac', 50)->nullable();
             $table->string('ip', 45)->nullable();
             $table->string('user_agent', 255)->nullable();
             $table->string('nas_id', 100)->nullable()->index();
@@ -31,6 +29,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('ad_clicks');
+        Schema::dropIfExists('advertisement_logs');
     }
 };

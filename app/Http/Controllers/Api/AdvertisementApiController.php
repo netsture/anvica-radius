@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
+use App\Models\AdvertisementLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AdvertisementApiController extends Controller
 {
@@ -125,6 +127,34 @@ class AdvertisementApiController extends Controller
             'count'  => count($data),
             'data'   => $data,
         ]);
+    }
+
+    public function viewAdvertise($id, Request $r)
+    {
+        AdvertisementLog::create([
+            'advertisement_id'  => $id,
+            'event'      => 'view',
+            'mac'        => $r->mac,
+            'ip'         => $r->ip(),
+            'user_agent' => substr($r->userAgent(),0,255),
+            'created_at' => Carbon::now()
+        ]);
+        return response()->json(['status'=>'logged']);
+    }
+
+    // Log CLICK event + Redirect
+    public function clickAdvertise($id, Request $r)
+    {
+        AdvertisementLog::create([
+            'advertisement_id'  => $id,
+            'event'      => 'click',
+            'mac'        => $r->mac,
+            'ip'         => $r->ip(),
+            'user_agent' => substr($r->userAgent(),0,255),
+            'created_at' => Carbon::now()
+        ]);
+
+        return redirect()->away($r->redirect ?? 'https://google.com');
     }
 
 }

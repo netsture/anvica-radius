@@ -63,18 +63,35 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#advertisement" role="button" aria-expanded="false"
+                    aria-controls="advertisement">
+                    <i class="link-icon" data-feather="briefcase"></i>
+                    <span class="link-title">Advertisement</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                @php
+                    $currentRoute = Route::currentRouteName(); // Get current route name
+                @endphp
+
+                <div class="collapse" id="advertisement">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('advertisements.index') }}" class="nav-link">Create Advertisement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('advertisements.all.logs') }}" class="nav-link">Advertisement Logs</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             @role('admin')
             <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">
                 <a href="{{ route('identities.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="hash"></i>
                     <span class="link-title">Identity</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('advertisements.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="hash"></i>
-                    <span class="link-title">Advertisement</span>
                 </a>
             </li>
             

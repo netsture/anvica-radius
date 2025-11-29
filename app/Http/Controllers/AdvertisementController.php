@@ -12,6 +12,40 @@ class AdvertisementController extends Controller
     private array $slots  = ['All','Morning','Afternoon','Evening','Night'];
     private array $weekdays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
+    public function redirectToUrl(Request $request)
+    {
+        $url = $request->query('url'); // get from ?url=
+
+        if (!$url) {
+            return response("No URL Provided", 400);
+        }
+
+        // add https if user passes only domain
+        if (!preg_match("~^(http|https)://~", $url)) {
+            $url = "https://" . $url;
+        }
+
+        return redirect()->away($url);
+    }
+
+    public function logs(Request $request)
+    {
+        $q = Advertisement::query();
+
+        if ($search = $request->get('q')) {
+            $q->where('title','like',"%{$search}%");
+        }
+        if ($st = $request->get('status')) {
+            $q->where('status',$st);
+        }
+
+        $ads = $q->latest()->paginate(12)->withQueryString();
+
+        return view('advertisements.index', [
+            'ads' => $ads,
+        ]);
+    }
+
     public function index(Request $request)
     {
         $q = Advertisement::query();
