@@ -13,18 +13,42 @@
     <div class="sidebar-body">
         <ul class="nav">
             {{-- <p>Your role: {{ Auth::user()->getRoleNames()->first() }}</p> --}}
+            
+
             <li class="nav-item nav-category">HOTSPOT MANAGER</li>
+
+            {{-- @role('adadmin') --}}
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#advertisement" role="button" aria-expanded="false"
+                    aria-controls="advertisement">
+                    <i class="link-icon" data-feather="monitor"></i>
+                    <span class="link-title">Advertisement</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+
+                <div class="collapse" id="advertisement">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('advertisements.index') }}" class="nav-link">Create Advertisement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('advertisements.logs') }}" class="nav-link">Advertisement Logs</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {{-- @endrole --}}
+
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#radiusManager" role="button" aria-expanded="false"
                     aria-controls="radiusManager">
-                    <i class="link-icon" data-feather="briefcase"></i>
+                    <i class="link-icon" data-feather="wifi"></i>
                     <span class="link-title">Hotspot Manager</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 @php
                     $currentRoute = Route::currentRouteName(); // Get current route name
                 @endphp
-
                 <div class="collapse" id="radiusManager">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
@@ -43,7 +67,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#userManager" role="button" aria-expanded="false"
                     aria-controls="userManager">
-                    <i class="link-icon" data-feather="briefcase"></i>
+                    <i class="link-icon" data-feather="frown"></i>
                     <span class="link-title">Users</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
@@ -62,30 +86,7 @@
                     </ul>
                 </div>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#advertisement" role="button" aria-expanded="false"
-                    aria-controls="advertisement">
-                    <i class="link-icon" data-feather="briefcase"></i>
-                    <span class="link-title">Advertisement</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                @php
-                    $currentRoute = Route::currentRouteName(); // Get current route name
-                @endphp
-
-                <div class="collapse" id="advertisement">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('advertisements.index') }}" class="nav-link">Create Advertisement</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('advertisements.all.logs') }}" class="nav-link">Advertisement Logs</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
+            
             @role('admin')
             <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">

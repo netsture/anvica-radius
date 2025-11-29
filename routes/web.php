@@ -19,13 +19,20 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RadiusUserController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
 
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
-    
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/users/export-excel', [UserController::class, 'exportExcel'])->name('users.exportExcel');
     Route::get('/radius/user/export-excel', [RadiusUserController::class, 'exportExcel'])->name('radius.users.exportExcel');
     Route::get('/radius/users/logs/export', [RadiusUserController::class, 'exportUserLogs'])->name('radius.users.logs.export');
@@ -44,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
 
     Route::get('/redirect', [AdvertisementController::class, 'redirectToUrl'])->name('hotspot.redirect');
-    Route::get('/advertisements/logs', [AdvertisementController::class, 'logs'])->name('advertisements.all.logs');
+    Route::get('/advertisements/logs', [AdvertisementController::class, 'logs'])->name('advertisements.logs');
     Route::resource('advertisements', AdvertisementController::class);
 
     Route::resource('users', UserController::class);
@@ -104,10 +111,6 @@ Route::middleware('auth')->group(function () {
 
 
 });
-
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/cache/clear', function() {
     $exitCode = Artisan::call('optimize:clear');

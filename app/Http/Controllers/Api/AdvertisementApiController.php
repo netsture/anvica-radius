@@ -132,11 +132,11 @@ class AdvertisementApiController extends Controller
     public function viewAdvertise($id, Request $r)
     {
         AdvertisementLog::create([
-            'advertisement_id'  => $id,
-            'event'      => 'view',
-            'mac'        => $r->mac,
-            'ip'         => $r->ip(),
-            'user_agent' => substr($r->userAgent(),0,255),
+            'advertisement_id' => $id,
+            'event' => 'view',
+            'mac' => $r->mac,
+            'ip' => $r->ip(),
+            'user_agent' => substr($r->userAgent(), 0, 255),
             'created_at' => Carbon::now()
         ]);
         return response()->json(['status'=>'logged']);

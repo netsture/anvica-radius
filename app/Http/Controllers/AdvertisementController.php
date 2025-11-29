@@ -6,6 +6,7 @@ use App\Models\Advertisement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreUpdateAdvertisementRequest;
+use App\Models\AdvertisementLog;
 
 class AdvertisementController extends Controller
 {
@@ -14,12 +15,20 @@ class AdvertisementController extends Controller
 
     public function redirectToUrl(Request $request)
     {
-        $url = $request->query('url'); // get from ?url=
-
+        $url = $request->query('url');          // redirect URL
         if (!$url) {
             return response("No URL Provided", 400);
         }
-
+       
+        AdvertisementLog::create([
+            'advertisement_id' => $request->query('id'),
+            'event' => 'click',
+            'redirect_url' => $url,
+            'mac' => $request->query('mac'),
+            'ip' => $request->ip(),
+            'user_agent' => substr($request->userAgent(), 0, 255),
+        ]);
+        
         // add https if user passes only domain
         if (!preg_match("~^(http|https)://~", $url)) {
             $url = "https://" . $url;
@@ -30,18 +39,12 @@ class AdvertisementController extends Controller
 
     public function logs(Request $request)
     {
-        $q = Advertisement::query();
+        $ads = Advertisement::withCount([
+            'viewLogs as view_count',
+            'clickLogs as click_count'
+        ])->get();
 
-        if ($search = $request->get('q')) {
-            $q->where('title','like',"%{$search}%");
-        }
-        if ($st = $request->get('status')) {
-            $q->where('status',$st);
-        }
-
-        $ads = $q->latest()->paginate(12)->withQueryString();
-
-        return view('advertisements.index', [
+        return view('advertisements.logs', [
             'ads' => $ads,
         ]);
     }

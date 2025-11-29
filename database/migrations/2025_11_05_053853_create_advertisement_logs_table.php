@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('identity_id')->nullable()->index();
             // Networking context
             $table->enum('event',['view','click']);
+            $table->text('redirect_url')->nullable();
             $table->string('mac', 50)->nullable();
             $table->string('ip', 45)->nullable();
             $table->string('user_agent', 255)->nullable();

@@ -12,6 +12,8 @@ class AdvertisementLog extends Model
     protected $fillable = [
         'advertisement_id',
         'identity_id',
+        'event',
+        'redirect_url',
         'mac',
         'ip',
         'user_agent',

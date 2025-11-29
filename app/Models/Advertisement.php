@@ -22,4 +22,19 @@ class Advertisement extends Model
         'weekdays' => 'array',
         'meta'     => 'array',
     ];
+
+    public function logs()
+    {
+        return $this->hasMany(AdvertisementLog::class);
+    }
+
+    public function viewLogs()
+    {
+        return $this->hasMany(AdvertisementLog::class)->where('event', 'view');
+    }
+
+    public function clickLogs()
+    {
+        return $this->hasMany(AdvertisementLog::class)->where('event', 'click');
+    }
 }
