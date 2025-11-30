@@ -95,7 +95,7 @@ class AdvertisementApiController extends Controller
                     if (\Illuminate\Support\Str::startsWith($ad->image_path, ['http://','https://'])) {
                         $imageUrl = $ad->image_path;
                     } else {
-                        $imageUrl = env('APP_URL')."/".$ad->image_path;
+                        $imageUrl = env('APP_URL')."/public/".$ad->image_path;
                     }
                 }
             }
@@ -103,7 +103,7 @@ class AdvertisementApiController extends Controller
             return [
                 'id'             => $ad->id,
                 'title'          => $ad->title,
-                'click_url'      => $ad->click_url,
+                'click_url'      => $ad->click_url ?? 'www.anvica.in',
                 'start_at'       => optional($ad->start_at)->toDateTimeString(),
                 'end_at'         => optional($ad->end_at)->toDateTimeString(),
                 'time_slot'      => $ad->time_slot,
