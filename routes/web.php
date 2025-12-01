@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/redirect', [AdvertisementController::class, 'redirectToUrl'])->name('hotspot.redirect');
     Route::get('/advertisements/logs', [AdvertisementController::class, 'logs'])->name('advertisements.logs');
+    Route::get('/advertisements/logs/history', [AdvertisementController::class, 'history'])->name('advertisements.logs.history');
+
     Route::resource('advertisements', AdvertisementController::class);
 
     Route::resource('users', UserController::class);

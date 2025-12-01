@@ -49,6 +49,20 @@ class AdvertisementController extends Controller
         ]);
     }
 
+    public function history(Request $request)
+    {
+        $ad_id = $request->get('ad_id');
+        $datas = AdvertisementLog::where('event', 'view')
+                ->where('advertisement_id', $ad_id)
+                ->orderBy('id', 'desc')
+                ->get();
+        // dd($datas);
+        return view('advertisements.history', [
+            'ad_id' => $ad_id,
+            'datas' => $datas,
+        ]);
+    }
+
     public function index(Request $request)
     {
         $q = Advertisement::query();

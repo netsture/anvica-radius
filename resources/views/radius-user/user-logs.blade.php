@@ -1,5 +1,5 @@
 @if (empty($logs))
-    <p class="text-muted">No logs found for this user.</p>
+    <p class="text-muted">No Data Found</p>
 @else
     <div class="d-flex justify-content-between mb-2">
         <h5>User Logs</h5>

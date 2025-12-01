@@ -12,33 +12,6 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="col-md-12">
-                            <form class="row g-2 mb-3" method="get">
-                                <div class="col-md-4">
-                                    <input type="text" name="q" value="{{ request('q') }}" class="form-control"
-                                        placeholder="Search title...">
-                                </div>
-                                <div class="col-md-3">
-                                    <select name="status" class="form-select">
-                                        <option value="">All status</option>
-                                        <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Active
-                                        </option>
-                                        <option value="Inactive" {{ request('status') == 'Inactive' ? 'selected' : '' }}>
-                                            Inactive</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-success">Filter</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card">
@@ -80,8 +53,18 @@
                                                     {{ optional($ad->start_at)->format('Y-m-d H:i') }}<br />
                                                     {{ optional($ad->end_at)->format('Y-m-d H:i') }}
                                                 </td>
-                                                <td>{{ $ad->view_count }}</td>
-                                                <td>{{ $ad->click_count }}</td>
+                                                <td>
+                                                    <button class="btn btn-xs btn-light  viewCountLogsBtn"
+                                                        data-username="{{ $ad->id }}">
+                                                        {{ $ad->view_count }}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-xs btn-light  viewClickLogsBtn"
+                                                        data-ad_id="{{ $ad->id }}">
+                                                        {{ $ad->click_count }}
+                                                    </button>
+                                                </td>
                                                 @php
                                                     $isExpired = $ad->end_at && $ad->end_at <= now();
                                                 @endphp
@@ -89,7 +72,8 @@
                                                     @if ($isExpired)
                                                         <span class="badge text-bg-warning">Expired</span>
                                                     @else
-                                                        <span class="badge text-bg-{{ $ad->status === 'Active' ? 'success' : 'danger' }}">
+                                                        <span
+                                                            class="badge text-bg-{{ $ad->status === 'Active' ? 'success' : 'danger' }}">
                                                             {{ $ad->status }}
                                                         </span>
                                                     @endif
@@ -102,6 +86,23 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
+                                <!-- User Log History Modal -->
+                                <div class="modal fade" id="userLogModal" tabindex="-1" aria-labelledby="userLogModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="userLogModalLabel">Log History</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="userLogsContent" class="table-responsive text-center">
+                                                <p class="text-muted">Loading logs...</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,4 +135,36 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.viewClickLogsBtn').click(function() {
+                // let userId = $(this).data('user-id');
+                let ad_id = $(this).data('ad_id');
+                // $('#userLogModalLabel').text('Log History - ' + username);
+                $('#userLogsContent').html('<p class="text-muted">Loading logs...</p>');
+                $('#userLogModal').modal('show');
+
+                $.ajax({
+                    url: "{{ route('advertisements.logs.history') }}",
+                    type: 'GET',
+                    data: {
+                        ad_id: ad_id
+                    },
+                    success: function(response) {
+                        console.log('User Log Response:',
+                        response); // ✅ log response in console
+                        $('#userLogsContent').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error); // ✅ log error message
+                        console.log('Response Text:', xhr.responseText); // ✅ full error output
+                        $('#userLogsContent').html(
+                            '<p class="text-danger">Failed to load logs.</p>');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
