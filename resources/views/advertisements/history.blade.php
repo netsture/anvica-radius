@@ -2,7 +2,6 @@
     <p class="text-muted">No Data Found</p>
 @else
     <div class="d-flex justify-content-between mb-2">
-        <h5>User Logs</h5>
         {{-- <a href="{{ route('radius.users.logs.export', ['ad_id' => $ad_id]) }}" 
            class="btn btn-success btn-sm">
             <i class="fas fa-file-excel"></i> Export to Excel
