@@ -55,13 +55,13 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-xs btn-light  viewCountLogsBtn"
-                                                        data-username="{{ $ad->id }}">
+                                                        data-ad_id="{{ $ad->id }}" data-event="view">
                                                         {{ $ad->view_count }}
                                                     </button>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-xs btn-light  viewClickLogsBtn"
-                                                        data-ad_id="{{ $ad->id }}">
+                                                        data-ad_id="{{ $ad->id }}" data-event="click">
                                                         {{ $ad->click_count }}
                                                     </button>
                                                 </td>
@@ -92,7 +92,7 @@
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="userLogModalLabel">Log History</h5>
+                                            <h5 class="modal-title" id="userLogModalLabel">Advertisement History</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -137,9 +137,10 @@
 
     <script>
         $(document).ready(function() {
-            $('.viewClickLogsBtn').click(function() {
+            $('.viewCountLogsBtn, .viewClickLogsBtn').click(function() {
                 // let userId = $(this).data('user-id');
                 let ad_id = $(this).data('ad_id');
+                let event = $(this).data('event');
                 // $('#userLogModalLabel').text('Log History - ' + username);
                 $('#userLogsContent').html('<p class="text-muted">Loading logs...</p>');
                 $('#userLogModal').modal('show');
@@ -148,11 +149,11 @@
                     url: "{{ route('advertisements.logs.history') }}",
                     type: 'GET',
                     data: {
-                        ad_id: ad_id
+                        ad_id: ad_id,
+                        event: event
                     },
                     success: function(response) {
-                        console.log('User Log Response:',
-                        response); // ✅ log response in console
+                        // console.log('User Log Response:', response); // ✅ log response in console
                         $('#userLogsContent').html(response);
                     },
                     error: function(xhr, status, error) {

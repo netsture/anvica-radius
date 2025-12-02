@@ -52,11 +52,12 @@ class AdvertisementController extends Controller
     public function history(Request $request)
     {
         $ad_id = $request->get('ad_id');
-        $datas = AdvertisementLog::where('event', 'view')
+        $event = $request->get('event', 'view');
+        $datas = AdvertisementLog::where('event', $event)
                 ->where('advertisement_id', $ad_id)
                 ->orderBy('id', 'desc')
                 ->get();
-        // dd($datas);
+        // dd(count($datas));
         return view('advertisements.history', [
             'ad_id' => $ad_id,
             'datas' => $datas,
