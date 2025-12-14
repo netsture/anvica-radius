@@ -18,8 +18,7 @@
                                         <th>#</th>
                                         <th>Router</th>
                                         <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
+                                        <th>Date Time</th>
                                         <th>IP Address</th>
                                         <th>Logged At</th>
                                     </tr>
@@ -41,8 +40,7 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ now()->toDateString() }}</td>
-                                            <td>{{ now()->toTimeString() }}</td>
+                                            <td>{{ $log->event_datetime }}</td>
 
                                             <td>{{ $log->ip_address ?? '-' }}</td>
 
