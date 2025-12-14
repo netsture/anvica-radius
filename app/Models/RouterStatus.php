@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RouterStatus extends Model
 {
     use HasFactory;
+
+    protected $table = 'router_status';
+    
     protected $fillable = [
         'router',
         'status',

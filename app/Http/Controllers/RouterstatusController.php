@@ -11,7 +11,7 @@ class RouterstatusController extends Controller
     {
         // Basic validation
         if (!$request->router || !$request->status) {
-            return response('Invalid data', 400);
+            return response('Invalid data...', 400);
         }
 
         RouterStatus::create([
