@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/vouchers/viewpdf/{series}', [VoucherController::class, 'showPdf'])->name('vouchers.viewPdf');
 
     Route::get('/router-status', [RouterstatusController::class, 'index'])->name('routerstatus.index');
+    Route::get('/router-status-logs', [RouterstatusController::class, 'logs'])->name('routerstatus.logs');
 
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');

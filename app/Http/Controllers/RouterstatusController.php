@@ -9,9 +9,22 @@ class RouterstatusController extends Controller
 {
     public function index()
     {
-        $logs = RouterStatus::latest()->get();
+        // $logs = RouterStatus::latest()->get();
+        $logs = RouterStatus::whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')
+                    ->from('router_status')
+                    ->groupBy('router', 'mac', 'model', 'serial');
+            })
+            ->orderByDesc('id')
+            ->get();
 
         return view('router-status.index', compact('logs'));
+    }
+
+    public function logs()
+    {
+        $logs = RouterStatus::latest()->get();
+        return view('router-status.logs', compact('logs'));
     }
 
     public function store(Request $request)

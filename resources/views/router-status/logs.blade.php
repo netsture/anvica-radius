@@ -5,8 +5,8 @@
         <div class="main-content d-flex justify-content-between flex-wrap">
             <h2 class="page-title">Router Status</h2>
             <div>
-                <a href="{{ route('routerstatus.logs') }}" class="btn btn-primary">
-                    View Logs
+                <a href="{{ route('routerstatus.index') }}" class="btn btn-success">
+                    View Status
                 </a>
             </div>
         </div>
@@ -29,6 +29,7 @@
                                         <th>IP Address</th>
                                         <th>Date Time</th>
                                         <th>Logged At</th>
+                                        <th>API Request</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +52,7 @@
                                             <td class="text-muted small">
                                                 {{ $log->created_at->format('d M Y H:i:s') }}
                                             </td>
+                                            <td>{{ $log->api_request }}</td>
                                         </tr>
                                     @empty
                                         <tr>

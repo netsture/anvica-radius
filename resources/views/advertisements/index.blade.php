@@ -7,7 +7,7 @@
         <div class="main-content d-flex justify-content-between flex-wrap">
             <h3 class="page-title">Advertisements</h3>
             <div>
-                <a href="{{ route('advertisements.create') }}" class="btn btn-primary btn-sm">Create Advertise</a>
+                <a href="{{ route('advertisements.create') }}" class="btn btn-primary">Create Advertise</a>
             </div>
         </div>
 
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        {{ $ads->links() }}
+        
     </div>
     <!-- Image Preview Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
