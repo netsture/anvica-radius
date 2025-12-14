@@ -41,7 +41,13 @@
                                 @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $user->identity->name ?? 'Admin' }}</td>
+                                    <td>
+                                        @if($user->identity_id > 0 && $user->identity)
+                                            {{ $user->identity->name ?? '' }} 
+                                        @else
+                                            {{ ucfirst($user->role) }}
+                                        @endif
+                                    </td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->first_name." ".$user->last_name }}</td>
                                     <td>{{ $user->email }}</td>

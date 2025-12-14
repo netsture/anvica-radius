@@ -14,6 +14,18 @@ class Identity extends Model
     protected $fillable = [
         'name',
         'status',
+        'mac',
+        'model',
+        'serial',
+        'country',
+        'state',
+        'city',
+        'zone',
+        'area',
+        'society',
+        'otp_sms',
+        'otp_whatsapp',
+        'otp_email',
         'created_by',
         'updated_by'
     ];
