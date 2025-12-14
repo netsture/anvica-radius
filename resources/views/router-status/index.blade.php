@@ -17,6 +17,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Router</th>
+                                        <th>MAC</th>
                                         <th>Status</th>
                                         <th>Date Time</th>
                                         <th>IP Address</th>
@@ -27,11 +28,12 @@
                                     @forelse($logs as $log)
                                         <tr>
                                             <td>{{ $loop->iteration + ($logs->currentPage() - 1) * $logs->perPage() }}</td>
-
                                             <td>
                                                 <strong>{{ $log->router }}</strong>
                                             </td>
-
+                                            <td>
+                                                <strong>{{ $log->mac }}</strong>
+                                            </td>
                                             <td>
                                                 @if($log->status === 'UP')
                                                     <span class="badge bg-success">UP</span>
@@ -39,11 +41,8 @@
                                                     <span class="badge bg-danger">DOWN</span>
                                                 @endif
                                             </td>
-
                                             <td>{{ $log->event_datetime }}</td>
-
                                             <td>{{ $log->ip_address ?? '-' }}</td>
-
                                             <td class="text-muted small">
                                                 {{ $log->created_at->format('d M Y H:i:s') }}
                                             </td>
@@ -58,14 +57,8 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
-
-                {{-- Pagination --}}
-    <div class="mt-3 d-flex justify-content-center">
-        {{ $logs->links() }}
-    </div>
             </div>
         </div>
     </div>
