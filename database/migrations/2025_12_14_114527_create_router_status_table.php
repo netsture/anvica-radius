@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('router', 100);
             $table->enum('status', ['UP', 'DOWN']);
-            $table->date('event_date');
-            $table->time('event_time');
+            $table->dateTime('event_datetime')->nullable();
+            $table->longText('api_request')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->timestamps();
         });

@@ -24,8 +24,7 @@ class RouterstatusController extends Controller
         RouterStatus::create([
             'router'      => $request->router,
             'status'      => strtoupper($request->status),
-            'event_date'  => $request->date ?? '2025-12-12',
-            'event_time'  => $request->time ?? '12:00:00',
+            'event_datetime'  => $request->date ?? date('Y-m-d H:i:s'),
             'ip_address'  => $request->ip(),
             'api_request'  => json_encode([
                 'headers' => $request->headers->all(),
