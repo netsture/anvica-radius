@@ -15,6 +15,8 @@ class RouterStatus extends Model
         'router',
         'status',
         'mac',
+        'model',
+        'serial',
         'event_datetime',
         'ip_address',
         'api_request',

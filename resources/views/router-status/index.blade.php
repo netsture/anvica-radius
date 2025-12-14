@@ -27,13 +27,9 @@
                                 <tbody>
                                     @forelse($logs as $log)
                                         <tr>
-                                            <td>{{ $loop->iteration + ($logs->currentPage() - 1) * $logs->perPage() }}</td>
-                                            <td>
-                                                <strong>{{ $log->router }}</strong>
-                                            </td>
-                                            <td>
-                                                <strong>{{ $log->mac }}</strong>
-                                            </td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $log->router }}</td>
+                                            <td>{{ $log->mac }}</td>
                                             <td>
                                                 @if($log->status === 'UP')
                                                     <span class="badge bg-success">UP</span>
@@ -49,7 +45,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center text-muted py-4">
+                                            <td colspan="7" class="text-center text-muted">
                                                 No router logs found.
                                             </td>
                                         </tr>

@@ -9,7 +9,7 @@ class RouterstatusController extends Controller
 {
     public function index()
     {
-        $logs = RouterStatus::latest()->paginate(20);
+        $logs = RouterStatus::latest()->get();
 
         return view('router-status.index', compact('logs'));
     }
@@ -25,6 +25,8 @@ class RouterstatusController extends Controller
             'router'      => $request->router,
             'status'      => strtoupper($request->status),
             'mac'      => $request->mac,
+            'model'      => $request->model,
+            'serial'      => $request->serial,
             'event_datetime'  => $request->date ?? date('Y-m-d H:i:s'),
             'ip_address'  => $request->ip(),
             'api_request'  => json_encode([
