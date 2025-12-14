@@ -13,11 +13,11 @@
     <div class="sidebar-body">
         <ul class="nav">
             {{-- <p>Your role: {{ Auth::user()->getRoleNames()->first() }}</p> --}}
-            
+            {{-- <p>Your user role: {{ Auth::user()->role }}</p>   --}}
 
             <li class="nav-item nav-category">HOTSPOT MANAGER</li>
 
-            {{-- @role('adadmin') --}}
+            {{-- @role('Advertiser') --}}
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#advertisement" role="button" aria-expanded="false"
                     aria-controls="advertisement">
@@ -38,7 +38,8 @@
                 </div>
             </li>
             {{-- @endrole --}}
-
+            
+            @role('Admin')
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#radiusManager" role="button" aria-expanded="false"
                     aria-controls="radiusManager">
@@ -87,7 +88,7 @@
                 </div>
             </li>
             
-            @role('Admin')
+            
             <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">
                 <a href="{{ route('identities.index') }}" class="nav-link">
