@@ -20,7 +20,7 @@ class RouterstatusController extends Controller
         if (!$request->router || !$request->status) {
             return response('Invalid data...', 400);
         }
-        dd($request->all());
+        // dd($request->all());
         RouterStatus::create([
             'router'      => $request->router,
             'status'      => strtoupper($request->status),
