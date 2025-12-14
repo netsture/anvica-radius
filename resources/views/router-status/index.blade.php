@@ -41,8 +41,8 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ \Carbon\Carbon::parse($log->event_date)->format('d M Y') }}</td>
-                                            <td>{{ $log->event_time }}</td>
+                                            <td>{{ now()->toDateString() }}</td>
+                                            <td>{{ now()->toTimeString() }}</td>
 
                                             <td>{{ $log->ip_address ?? '-' }}</td>
 
