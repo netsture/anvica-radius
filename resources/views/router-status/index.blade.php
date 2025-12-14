@@ -16,11 +16,13 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Status</th>
                                         <th>Router</th>
                                         <th>MAC</th>
-                                        <th>Status</th>
-                                        <th>Date Time</th>
+                                        <th>Model</th>
+                                        <th>Serial</th>
                                         <th>IP Address</th>
+                                        <th>Date Time</th>
                                         <th>Logged At</th>
                                     </tr>
                                 </thead>
@@ -28,8 +30,6 @@
                                     @forelse($logs as $log)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $log->router }}</td>
-                                            <td>{{ $log->mac }}</td>
                                             <td>
                                                 @if($log->status === 'UP')
                                                     <span class="badge bg-success">UP</span>
@@ -37,8 +37,12 @@
                                                     <span class="badge bg-danger">DOWN</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $log->event_datetime }}</td>
+                                            <td>{{ $log->router }}</td>
+                                            <td>{{ $log->mac }}</td>
+                                            <td>{{ $log->model }}</td>
+                                            <td>{{ $log->serial }}</td>                                            
                                             <td>{{ $log->ip_address ?? '-' }}</td>
+                                            <td>{{ $log->event_datetime }}</td>
                                             <td class="text-muted small">
                                                 {{ $log->created_at->format('d M Y H:i:s') }}
                                             </td>
