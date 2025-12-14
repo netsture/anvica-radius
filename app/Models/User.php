@@ -60,6 +60,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function isAdmin() {
+        return $this->role === 'Admin';
+    }
+    public function isAdvertiser() {
+        return $this->role === 'Advertiser';
+    }
+
     public function identity()
     {
         return $this->belongsTo(Identity::class, 'identity_id');
@@ -68,6 +75,11 @@ class User extends Authenticatable
     public function offices()
     {
         return $this->belongsToMany(Office::class, 'office_user');
+    }
+
+    public function advertisements()
+    {
+        return $this->hasMany(Advertisement::class, 'advertiser_id');
     }
 
     public function getNameAttribute()

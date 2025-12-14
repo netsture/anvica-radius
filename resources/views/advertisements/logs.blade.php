@@ -38,12 +38,12 @@
                                             <tr>
                                                 <td>{{ $ad->id }}</td>
                                                 <td style="width:120px">
-                                                    @if ($ad->image_path)
-                                                        <img src="{{ asset('../' . $ad->image_path) }}" alt="Ad Image"
+                                                    @if ($ad->media_path)
+                                                        <img src="{{ asset('../' . $ad->media_path) }}" alt="Ad Image"
                                                             class="wd-80 rounded-circle"
                                                             style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
                                                             data-bs-toggle="modal" data-bs-target="#imageModal"
-                                                            data-image="{{ asset('../' . $ad->image_path) }}">
+                                                            data-image="{{ asset('../' . $ad->media_path) }}">
                                                     @endif
                                                 </td>
 

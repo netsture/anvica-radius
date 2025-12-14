@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('image_path');          // e.g. ads/banner1.jpg (public disk)
+            $table->string('media_path');
+            $table->string('media_type')->comment('image, video, other');
             $table->string('click_url')->nullable();
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();

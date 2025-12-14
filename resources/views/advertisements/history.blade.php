@@ -12,22 +12,20 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Event</th>
-                <th>Click Url</th>
+                <th>Date</th>
                 <th>MAC</th>
                 <th>Ipaddress</th>
-                <th>Date</th>
+                <th>Click Url</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($datas as $index => $data)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $data->event }}</td>
-                    <td>{{ $data->redirect_url ?? 'N/A' }}</td>
+                    <td>{{ viewDateTime($data->clicked_at) ?? '-' }}</td>
                     <td>{{ $data->mac ?? 'N/A' }}</td>
                     <td>{{ $data->ip ?? 'N/A' }}</td>
-                    <td>{{ viewDateTime($data->clicked_at) ?? '-' }}</td>
+                    <td>{{ $data->redirect_url ?? 'N/A' }}</td>
                 </tr>
             @endforeach
         </tbody>

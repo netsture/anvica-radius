@@ -15,24 +15,63 @@
     $selArea = old('area', $ad->area ?? '');
     $selSociety = old('society', $ad->society ?? '');
 @endphp
+ @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <div class="mb-3">
-    <label class="form-label">Title *</label>
-    <input type="text" name="title" value="{{ old('title', $ad->title) }}" class="form-control" required>
+    <label class="form-label">Advertiser <span class="text-danger">*</span></label>
+    <select name="advertiser_id" class="form-select @error('advertiser_id') is-invalid @enderror">
+        <option value="">-- Select Advertiser --</option>
+        @foreach ($advertisers as $advertiser)
+            <option value="{{ $advertiser->id }}"
+                {{ old('advertiser_id', $ad->advertiser_id ?? '') == $advertiser->id ? 'selected' : '' }}>{{ $advertiser->username." [".$advertiser->first_name." ".$advertiser->last_name."]" }}
+            </option>
+        @endforeach
+    </select>
+    @error('advertiser_id') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Image {{ $ad->exists ? '(leave empty to keep)' : '*' }}</label>
-    <input type="file" name="image" id="image" class="form-control" @if (!$ad->exists) required @endif accept="image/*">
-    @if ($ad->image_path)
-        <small class="text-muted d-block mt-1">Current: {{ $ad->image_path }}</small>
+    <label class="form-label">Images/Video Title *</label>
+    <input type="text" name="title" value="{{ old('title', $ad->title) }}" class="form-control @error('title') is-invalid @enderror">
+    @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Image/Video {{ $ad->exists ? '(leave empty to keep)' : '*' }}</label>
+    <input type="file" name="media" id="media" class="form-control" @if (!$ad->exists) @endif accept="image/*, video/*">
+    <small class="text-muted">
+        Allowed: jpg, jpeg, png, gif, mp4, mov, webm, webp, avif | Max size: 5MB
+    </small>
+    @if ($ad->media_path)
+        <small class="text-muted d-block mt-1">Current: {{ $ad->media_path }}</small>
     @endif
 </div>
+
 <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label"> </label>
     <img id="showImage" class="wd-80 rounded-circle"
-        src="{{ !empty($ad->image_path) ? asset('../' . $ad->image_path) : asset('images/admin/placeholder.jpg') }}"
+        src="{{ !empty($ad->media_path) ? asset('../' . $ad->media_path) : asset('images/admin/placeholder.jpg') }}"
         alt="profile">
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Page Section</label>
+    <select name="page_section" class="form-control">
+        <option value="">Select Page Section</option>
+        @foreach(config('page_sections') as $key => $label)
+            <option value="{{ $key }}" {{ old('page_section', $ad->page_section ?? '') == $key ? 'selected' : '' }}>
+                {{ $label }}
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="mb-3">
@@ -167,7 +206,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#image').change(function(e) {
+        $('#media').change(function(e) {
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('#showImage').attr('src', e.target.result);

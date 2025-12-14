@@ -50,11 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/databases', [DatabaseController::class, 'databases'])->name('rows');
     Route::get('/databases/{database}/tables/{table}', [DatabaseController::class, 'rows'])->name('rows');
 
-    Route::get('/redirect', [AdvertisementController::class, 'redirectToUrl'])->name('hotspot.redirect');
     Route::get('/advertisements/logs', [AdvertisementController::class, 'logs'])->name('advertisements.logs');
     Route::get('/advertisements/logs/history', [AdvertisementController::class, 'history'])->name('advertisements.logs.history');
-
+    Route::get('/redirect', [AdvertisementController::class, 'redirectToUrl'])->name('hotspot.redirect');
     Route::resource('advertisements', AdvertisementController::class);
+    
 
     Route::resource('users', UserController::class);
     Route::resource('identities', IdentityController::class);

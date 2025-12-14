@@ -88,14 +88,14 @@ class AdvertisementApiController extends Controller
         // map results to include a stable public image URL
         $data = $adsCollection->map(function (Advertisement $ad) {
             $imageUrl = null;
-            if (!empty($ad->image_path)) {
-                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($ad->image_path)) {
-                    $imageUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($ad->image_path);
+            if (!empty($ad->media_path)) {
+                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($ad->media_path)) {
+                    $imageUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($ad->media_path);
                 } else {
-                    if (\Illuminate\Support\Str::startsWith($ad->image_path, ['http://','https://'])) {
-                        $imageUrl = $ad->image_path;
+                    if (\Illuminate\Support\Str::startsWith($ad->media_path, ['http://','https://'])) {
+                        $imageUrl = $ad->media_path;
                     } else {
-                        $imageUrl = env('APP_URL')."/public/".$ad->image_path;
+                        $imageUrl = env('APP_URL')."/public/".$ad->media_path;
                     }
                 }
             }

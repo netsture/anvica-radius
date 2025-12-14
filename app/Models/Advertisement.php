@@ -9,11 +9,11 @@ class Advertisement extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title','image_path','click_url','status',
-        'start_at','end_at','time_slot','weekdays',
-        'priority','max_impressions','max_clicks',
-        'country','state','city','zone','area','society',
-        'meta','created_by',
+        'advertiser_id', 'title', 'page_section', 'media_path', 'media_type', 'click_url',
+        'start_at', 'end_at', 'time_slot', 'weekdays',
+        'priority', 'max_impressions', 'max_clicks',
+        'country', 'state', 'city', 'zone', 'area', 'society',
+        'meta', 'created_by', 'updated_by', 'status',
     ];
 
     protected $casts = [
@@ -22,6 +22,11 @@ class Advertisement extends Model
         'weekdays' => 'array',
         'meta'     => 'array',
     ];
+
+    public function advertiser()
+    {
+        return $this->belongsTo(User::class, 'advertiser_id');
+    }
 
     public function logs()
     {
@@ -37,4 +42,5 @@ class Advertisement extends Model
     {
         return $this->hasMany(AdvertisementLog::class)->where('event', 'click');
     }
+
 }

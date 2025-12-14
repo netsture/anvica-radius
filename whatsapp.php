@@ -1,4 +1,5 @@
 <?php
+$password = rand(100000, 999999);
 $message = "*Anvica Hotspot* Verification Code: {$password} Keep it confidential. Support: www.anvica.in";
 
 $number       = "919898183457";

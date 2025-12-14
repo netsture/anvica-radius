@@ -7,7 +7,7 @@
         <div class="main-content d-flex justify-content-between flex-wrap">
             <h3 class="page-title">Advertisements</h3>
             <div>
-                <a href="{{ route('advertisements.create') }}" class="btn btn-primary btn-sm">Create Ads.</a>
+                <a href="{{ route('advertisements.create') }}" class="btn btn-primary btn-sm">Create Advertise</a>
             </div>
         </div>
 
@@ -30,6 +30,7 @@
                               </div>
                               <div class="col-md-2">
                                   <button class="btn btn-success">Filter</button>
+                                  <a href="{{ route('advertisements.index') }}" class="btn btn-secondary">Reset</a>
                               </div>
                           </form>
                     </div>
@@ -49,6 +50,7 @@
                                   <tr>
                                       <th>#</th>
                                       <th>Preview</th>
+                                      <th>Advertise</th>
                                       <th>Title</th>
                                       <th>Click URL</th>
                                       <th>Duration</th>
@@ -70,20 +72,28 @@
                               <tbody>
                                   @forelse($ads as $ad)
                                       <tr>
-                                          <td>{{ $ad->id }}</td>
+                                          <td>{{ $loop->iteration }}</td>
                                           <td style="width:120px">
-                                                @if ($ad->image_path)
-                                                    <img src="{{ asset('../'.$ad->image_path) }}"
-                                                        alt="Ad Image"
-                                                        class="wd-80 rounded-circle"
-                                                        style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#imageModal"
-                                                        data-image="{{ asset('../'.$ad->image_path) }}">                                                
+                                                @if(!empty($ad->media_path))
+                                                    <div class="mt-2">
+                                                        @if($ad->media_type === 'image')
+                                                            <img src="{{ asset('../'.$ad->media_path) }}"
+                                                                alt="Ad Image"
+                                                                class="wd-100 rounded-circle"
+                                                                style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#imageModal"
+                                                                data-image="{{ asset('../'.$ad->media_path) }}">
+                                                        @elseif($ad->media_type === 'video')
+                                                            <video width="150" height="100" controls>
+                                                                <source src="{{ asset('../'.$ad->media_path) }}">
+                                                            </video>
+                                                        @endif
+                                                    </div>
                                                 @endif
                                             </td>
-
-                                          <td>{{ $ad->title }}</td>                                          
+                                          <td>{{ $ad->advertiser->username ?? 'N/A'}}</td>
+                                          <td>{{ $ad->title }}</td>
                                           <td>{{ $ad->click_url }}</td>                                          
                                           <td>
                                             {{ optional($ad->start_at)->format('Y-m-d H:i') }}<br/>

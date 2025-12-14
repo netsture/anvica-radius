@@ -5,7 +5,7 @@
 
 <div class="page-content">
     <div class="main-content d-flex justify-content-between flex-wrap">
-        <h3 class="page-title">Create Advertisements</h3>
+        <h3 class="page-title">Create Advertise</h3>
         <div>
             <a href="{{ route('advertisements.index') }}" class="btn btn-secondary btn-sm">Back</a>
         </div>

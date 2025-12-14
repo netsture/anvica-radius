@@ -29,10 +29,10 @@
                 <div class="collapse" id="advertisement">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('advertisements.index') }}" class="nav-link">Create Advertisement</a>
+                            <a href="{{ route('advertisements.index') }}" class="nav-link {{ request()->routeIs('advertisements.index') ? 'active' : '' }}">Manage Advertisement</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('advertisements.logs') }}" class="nav-link">Advertisement Logs</a>
+                            <a href="{{ route('advertisements.logs') }}" class="nav-link {{ request()->routeIs('advertisements.logs') ? 'active' : '' }}">Advertisement Logs</a>
                         </li>
                     </ul>
                 </div>
@@ -87,7 +87,7 @@
                 </div>
             </li>
             
-            @role('admin')
+            @role('Admin')
             <li class="nav-item nav-category">Anvica Setting</li>
             <li class="nav-item">
                 <a href="{{ route('identities.index') }}" class="nav-link">

@@ -15,8 +15,9 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="{{ route('advertisements.update', $ad) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('advertisements.update', $ad->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             @include('advertisements._form', ['ad' => $ad])
                                {{-- paste this right after @include('advertisements._form', ['ad' => $ad]) in create.blade.php --}}
                             <script>
@@ -55,11 +56,11 @@
                                     "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Korba"],
                                     "Goa": ["Panaji", "Margao", "Vasco da Gama", "Mapusa"],
                                     "Gujarat": [
-                                    "Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur",
-                                    "Dahod","Dang","Devbhoomi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch",
-                                    "Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot",
-                                    "Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad","Vav-Tharad"
-                                ],
+                                        "Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur",
+                                        "Dahod","Dang","Devbhoomi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch",
+                                        "Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot",
+                                        "Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad","Vav-Tharad"
+                                    ],
                                     "Haryana": ["Gurugram", "Faridabad", "Panipat", "Ambala"],
                                     "Himachal Pradesh": ["Shimla", "Manali", "Dharamshala", "Mandi"],
                                     "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro"],

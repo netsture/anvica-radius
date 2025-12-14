@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreUpdateAdvertisementRequest;
 use App\Models\AdvertisementLog;
+use App\Models\User;
 
 class AdvertisementController extends Controller
 {
@@ -67,6 +68,10 @@ class AdvertisementController extends Controller
     public function index(Request $request)
     {
         $q = Advertisement::query();
+        // dd(auth()->user()->role, auth()->id());
+        if (auth()->user()->role === 'Advertiser') {        
+            $q->where('advertiser_id', auth()->id());
+        }
 
         if ($search = $request->get('q')) {
             $q->where('title','like',"%{$search}%");
@@ -84,9 +89,16 @@ class AdvertisementController extends Controller
 
     public function create()
     {
+        if (auth()->user()->isAdmin()) {
+            $advertisers = User::where('role', 'Advertiser')->orderBy('first_name')->get();
+        } else {
+            $advertisers = User::where('id', auth()->id())->get();
+        }
+
         return view('advertisements.create', [
-            'slotOptions'   => $this->slots,
-            'weekdayOptions'=> $this->weekdays,
+            'slotOptions' => $this->slots,
+            'weekdayOptions' => $this->weekdays,
+            'advertisers' => $advertisers,
             'ad' => new Advertisement(),
         ]);
     }
@@ -94,23 +106,15 @@ class AdvertisementController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        /* $data = $this->validatedData($request);
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('ads', 'public'); // ads/<file>
-        }
-        $data['created_by'] = auth()->id();
-        $ad = Advertisement::create($data);
-        return redirect()->route('advertisements.edit', $ad)->with('success','Advertisement created.'); */
-
-        // Allowed enums as per your form
-        // $statusOptions  = ['draft', 'active', 'paused', 'expired'];
-        // $slotOptions    = ['all', 'morning', 'afternoon', 'evening', 'night'];
         $weekdayOptions = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
         // Validate input
         $validated = $request->validate([
+            'advertiser_id'   => ['required', 'exists:users,id'],
             'title'           => ['required', 'string', 'max:255'],
-            'image'           => ['required', 'image', 'mimes:jpg,jpeg,png,webp,avif', 'max:3072'], // 3MB
+            'page_section'    => ['required'],
+            // 'image'           => ['required', 'image', 'mimes:jpg,jpeg,png,gif,mp4,mov,webm,webp,avif', 'max:5120'], // 5MB
+            'media'           => ['required', 'file', 'mimes:jpg,jpeg,png,gif,mp4,mov,webm,webp,avif', 'max:5120'], // 5MB
             'click_url'       => ['nullable', 'url', 'max:2048'],
             'start_at'        => ['nullable', 'date'],
             'end_at'          => ['nullable', 'date', 'after:start_at'],
@@ -129,24 +133,35 @@ class AdvertisementController extends Controller
             'status'         =>  ['required'],
         ], [
             'title.required'  => 'The title field is required.',
-            'image.required'  => 'Please upload an image.',
+            'media.required'  => 'Please upload a media file.',
             'end_at.after'    => 'End time must be after start time.',
         ]);
         // dd($validated);
-        // Handle image upload
-        // $imagePath = $request->file('image')->store('ads', 'public'); // storage/app/public/ads/...
-        if ($request->hasFile('image')) {
-            $image      = $request->file('image');
-            $imageName  = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
 
-            if (!file_exists(public_path('ads'))) {
-                mkdir(public_path('ads'), 0755, true);
+        if ($request->hasFile('media')) {
+            $media      = $request->file('media');
+            $mediaName  = time() . '_' . uniqid() . '.' . $media->getClientOriginalExtension();
+
+            // $media_type = str_starts_with($mime, 'image/') ? 'image' : (str_starts_with($mime, 'video/') ? 'video' : 'other');
+
+            $mime = $media->getClientMimeType(); // e.g. image/jpeg or video/mp4
+            $ext  = strtolower($media->getClientOriginalExtension());
+            if (str_starts_with($mime, 'image/') || in_array($ext, ['jpg','jpeg','png','gif','webp','avif'])) {
+                $media_type = 'image';
+            } elseif (str_starts_with($mime, 'video/') || in_array($ext, ['mp4','mov','webm'])) {
+                $media_type = 'video';
+            } else {
+                return back()->withErrors(['media' => 'Unsupported media type']);
             }
-            // Move to /public/ads directory
-            $image->move(public_path('ads'), $imageName);
+
+            if (!file_exists(public_path('media'))) {
+                mkdir(public_path('media'), 0755, true);
+            }
+            // Move to /public/media directory
+            $media->move(public_path('media'), $mediaName);
 
             // Store relative path in DB
-            $imagePath = 'ads/' . $imageName;
+            $media_path = 'media/' . $mediaName;
         }
         
         // Normalize weekdays to lowercase unique array; allow empty = all days (store null)
@@ -155,11 +170,13 @@ class AdvertisementController extends Controller
         if (empty($weekdays)) {
             $weekdays = null;
         }
-        // dd($validated);
+
         // Create the advertisement
         $ad = Advertisement::create([
+            'advertiser_id'   => $validated['advertiser_id'],
             'title'           => $validated['title'],
-            'image_path'      => $imagePath,
+            'media_path'      => $media_path,
+            'media_type'      => $media_type,
             'click_url'       => $validated['click_url'] ?? null,
             'start_at'        => $validated['start_at'] ?? null,
             'end_at'          => $validated['end_at'] ?? null,
@@ -189,36 +206,102 @@ class AdvertisementController extends Controller
 
     public function edit(Advertisement $advertisement)
     {
+        if (auth()->user()->isAdmin()) {
+            $advertisers = User::where('role', 'Advertiser')->orderBy('first_name')->get();
+        } else {
+            $advertisers = User::where('id', auth()->id())->get();
+        }
+
         return view('advertisements.edit', [
-            'ad' => $advertisement,
-            // 'statusOptions' => $this->status,
+            'ad' => $advertisement,            
             'slotOptions'   => $this->slots,
             'weekdayOptions'=> $this->weekdays,
+            'advertisers' => $advertisers,
         ]);
     }
 
-    public function update(StoreUpdateAdvertisementRequest $request, Advertisement $advertisement)
+    public function update(Request $request, $id)
     {
-        $data = $this->validatedData($request);
+        $advertisement = Advertisement::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            // delete old if exists
-            if ($advertisement->image_path && Storage::disk('public')->exists($advertisement->image_path)) {
-                Storage::disk('public')->delete($advertisement->image_path);
-            }
-            $data['image_path'] = $request->file('image')->store('ads', 'public');
+        $weekdayOptions = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        $validated = $request->validate([
+            'advertiser_id'   => ['required', 'exists:users,id'],
+            'title'           => ['required', 'string', 'max:255'],
+            'page_section'    => ['required'],
+            'media'           => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp,avif,mp4,mov,webm', 'max:51200'],
+            'click_url'       => ['nullable', 'url', 'max:2048'],
+            'start_at'        => ['nullable', 'date'],
+            'end_at'          => ['nullable', 'date', 'after:start_at'],
+            'time_slot'       => ['required'],
+            'weekdays'        => ['nullable', 'array'],
+            'weekdays.*'      => ['in:' . implode(',', $weekdayOptions)],
+            'priority'        => ['nullable', 'integer', 'min:1', 'max:1000'],
+            'max_impressions' => ['nullable', 'integer', 'min:1'],
+            'max_clicks'      => ['nullable', 'integer', 'min:1'],
+            'country'         => ['nullable', 'string', 'max:100'],
+            'state'           => ['nullable', 'string', 'max:100'],
+            'city'            => ['nullable', 'string', 'max:100'],
+            'zone'            => ['nullable', 'string', 'max:100'],
+            'area'            => ['nullable', 'string', 'max:100'],
+            'society'         => ['nullable', 'string', 'max:150'],
+            'status'          => ['required'],
+        ]);
+
+        $weekdays = $request->input('weekdays', []);
+        $weekdays = array_values(array_unique(array_map('strtolower', $weekdays)));
+        if (empty($weekdays)) {
+            $weekdays = null;
         }
 
-        $advertisement->update($data);
+        if ($request->hasFile('media')) {
 
-        return redirect()->route('advertisements.edit', $advertisement)
-            ->with('success','Advertisement updated.');
+            // Delete old media
+            if ($advertisement->media_path && Storage::disk('public')->exists($advertisement->media_path)) {
+                Storage::disk('public')->delete($advertisement->media_path);
+            }
+
+            $file = $request->file('media');
+            $ext  = strtolower($file->getClientOriginalExtension());
+
+            $media_type = in_array($ext, ['mp4', 'mov', 'webm']) ? 'video' : 'image';
+            $media_path = $file->store('media', 'public');
+
+            $advertisement->media_path = $media_path;
+            $advertisement->media_type = $media_type;
+        }
+        // dd($advertisement);
+        $advertisement->update([
+            'advertiser_id'   => $validated['advertiser_id'],
+            'title'           => $validated['title'],
+            'page_section'    => $validated['page_section'],
+            'click_url'       => $validated['click_url'] ?? null,
+            'start_at'        => $validated['start_at'] ?? null,
+            'end_at'          => $validated['end_at'] ?? null,
+            'time_slot'       => $validated['time_slot'],
+            'weekdays'        => $weekdays,
+            'priority'        => $validated['priority'] ?? 5,
+            'max_impressions' => $validated['max_impressions'] ?? null,
+            'max_clicks'      => $validated['max_clicks'] ?? null,
+            'country'         => $validated['country'] ?? null,
+            'state'           => $validated['state'] ?? null,
+            'city'            => $validated['city'] ?? null,
+            'zone'            => $validated['zone'] ?? null,
+            'area'            => $validated['area'] ?? null,
+            'society'         => $validated['society'] ?? null,
+            'status'          => $validated['status'],
+        ]);
+
+        return redirect()
+            ->route('advertisements.index')
+            ->with('success', 'Advertisement updated successfully.');
     }
 
     public function destroy(Advertisement $advertisement)
     {
         // Delete file
-        if ($advertisement->image_path && Storage::disk('public')->exists($advertisement->image_path)) {
+        if ($advertisement->media_path && Storage::disk('public')->exists($advertisement->media_path)) {
             Storage::disk('public')->delete($advertisement->image_path);
         }
         $advertisement->delete();
