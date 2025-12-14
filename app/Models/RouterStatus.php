@@ -14,6 +14,7 @@ class RouterStatus extends Model
     protected $fillable = [
         'router',
         'status',
+        'mac',
         'event_datetime',
         'ip_address',
         'api_request',
