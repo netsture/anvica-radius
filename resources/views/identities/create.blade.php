@@ -22,6 +22,21 @@
                             </div>
 
                             <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label>MAC Address</label>
+                                    <input type="text" id="mac" name="mac" class="form-control" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Model</label>
+                                    <input type="text" id="model" name="model" class="form-control" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Serial</label>
+                                    <input type="text" id="serial" name="serial" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label>Country</label>
                                     <select id="country" name="country" class="form-select" required>

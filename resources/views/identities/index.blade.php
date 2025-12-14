@@ -22,7 +22,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-
+                                        <th>Mac</th>
+                                        <th>Model</th>
+                                        <th>Serial</th>
                                         <!-- New location fields -->
                                         <th>Country</th>
                                         <th>State</th>
@@ -46,6 +48,9 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $identity->name }}</td>
+                                            <td>{{ $identity->mac }}</td>
+                                            <td>{{ $identity->model }}</td>
+                                            <td>{{ $identity->serial }}</td>
 
                                             <!-- show new fields (null-safe) -->
                                             <td>{{ $identity->country ?? '-' }}</td>

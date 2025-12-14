@@ -13,7 +13,7 @@ class IdentityController extends Controller
      */
     public function index()
     {
-        $identities = Identity::orderBy('id','desc')->paginate(15);
+        $identities = Identity::orderBy('id', 'desc')->paginate(15);
         return view('identities.index', compact('identities'));
     }
 
@@ -65,48 +65,54 @@ class IdentityController extends Controller
     }
 
     public function store(Request $request)
-{
-    $data = $request->validate([
-        'name' => 'required|string|max:191',
-        'country' => 'nullable|string|max:100',
-        'state' => 'nullable|string|max:100',
-        'city' => 'nullable|string|max:100',
-        'zone' => 'nullable|string|max:100',
-        'area' => 'nullable|string|max:100',
-        'society' => 'nullable|in:super premium,premium',
-    ]);
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:191',
+            'mac' => 'required|string|max:191',
+            'model' => 'required|string|max:191',
+            'serial' => 'required|string|max:191',
+            'country' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
+            'zone' => 'nullable|string|max:100',
+            'area' => 'nullable|string|max:100',
+            'society' => 'nullable|in:super premium,premium',
+        ]);
 
-    $data['otp_sms'] = $request->has('otp_sms') ? 1 : 0;
-    $data['otp_whatsapp'] = $request->has('otp_whatsapp') ? 1 : 0;
-    $data['otp_email'] = $request->has('otp_email') ? 1 : 0;
-    $data['created_by'] = auth()->id() ?? null;
+        $data['otp_sms'] = $request->has('otp_sms') ? 1 : 0;
+        $data['otp_whatsapp'] = $request->has('otp_whatsapp') ? 1 : 0;
+        $data['otp_email'] = $request->has('otp_email') ? 1 : 0;
+        $data['created_by'] = auth()->id() ?? null;
 
-    Identity::create($data);
+        Identity::create($data);
 
-    return redirect()->route('identities.index')->with('success','Identity created.');
-}
+        return redirect()->route('identities.index')->with('success', 'Identity created.');
+    }
 
-public function update(Request $request, Identity $identity)
-{
-    $data = $request->validate([
-        'name' => 'required|string|max:191',
-        'country' => 'nullable|string|max:100',
-        'state' => 'nullable|string|max:100',
-        'city' => 'nullable|string|max:100',
-        'zone' => 'nullable|string|max:100',
-        'area' => 'nullable|string|max:100',
-        'society' => 'nullable|in:super premium,premium',
-    ]);
+    public function update(Request $request, Identity $identity)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:191',
+            'mac' => 'required|string|max:191',
+            'model' => 'required|string|max:191',
+            'serial' => 'required|string|max:191',
+            'country' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
+            'zone' => 'nullable|string|max:100',
+            'area' => 'nullable|string|max:100',
+            'society' => 'nullable|in:super premium,premium',
+        ]);
 
-    $data['otp_sms'] = $request->has('otp_sms') ? 1 : 0;
-    $data['otp_whatsapp'] = $request->has('otp_whatsapp') ? 1 : 0;
-    $data['otp_email'] = $request->has('otp_email') ? 1 : 0;
-    $data['updated_by'] = auth()->id() ?? null;
+        $data['otp_sms'] = $request->has('otp_sms') ? 1 : 0;
+        $data['otp_whatsapp'] = $request->has('otp_whatsapp') ? 1 : 0;
+        $data['otp_email'] = $request->has('otp_email') ? 1 : 0;
+        $data['updated_by'] = auth()->id() ?? null;
 
-    $identity->update($data);
+        $identity->update($data);
 
-    return redirect()->route('identities.index')->with('success','Identity updated.');
-}
+        return redirect()->route('identities.index')->with('success', 'Identity updated.');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -115,6 +121,6 @@ public function update(Request $request, Identity $identity)
     {
         $identity->delete();
         return redirect()->route('identities.index')
-                         ->with('success', 'Identity deleted successfully.');
+            ->with('success', 'Identity deleted successfully.');
     }
 }

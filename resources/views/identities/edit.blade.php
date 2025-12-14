@@ -23,6 +23,21 @@
                                 @error('name') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label>MAC Address</label>
+                                    <input type="text" id="mac" name="mac" class="form-control" value="{{ old('mac', $identity->mac) }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Model</label>
+                                    <input type="text" id="model" name="model" class="form-control" value="{{ old('model', $identity->model) }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Serial</label>
+                                    <input type="text" id="serial" name="serial" class="form-control" value="{{ old('serial', $identity->serial) }}" required>
+                                </div>
+                            </div>
+
                             <div class="mb-3">
                                 <label>Status</label>
                                 <select name="status" class="form-select">
