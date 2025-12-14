@@ -24,7 +24,7 @@ Route::get('getAds', [AdvertisementApiController::class, 'getAdvertise']);
 Route::get('viewAds/{id}', [AdvertisementApiController::class, 'viewAdvertise']);
 Route::get('clickAds/{id}', [AdvertisementApiController::class, 'clickAdvertise']);
 
-Route::post('/netwatch', [RouterstatusController::class, 'store']);
+Route::post('/router-status', [RouterstatusController::class, 'store']);
 
 
 // fallback for everything else under /api

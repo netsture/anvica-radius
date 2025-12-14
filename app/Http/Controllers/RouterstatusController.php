@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class RouterstatusController extends Controller
 {
+    public function index()
+    {
+        $logs = RouterStatus::latest()->paginate(20);
+
+        return view('router-status.index', compact('logs'));
+    }
+
     public function store(Request $request)
     {
         // Basic validation
@@ -23,6 +30,6 @@ class RouterstatusController extends Controller
         ]);
 
         // MikroTik expects plain response
-        return response('OK', 200);
+        return response('Status Updated Successfully', 200);
     }
 }

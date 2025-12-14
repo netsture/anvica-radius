@@ -21,7 +21,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
-
+use App\Http\Controllers\RouterstatusController;
 
 Route::get('/', function () {  return view('site.index'); })->name('home');
 
@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/vouchers/pdf/{series}', [VoucherController::class, 'downloadPdf'])->name('vouchers.downloadPdf');
     Route::get('/vouchers/viewpdf/{series}', [VoucherController::class, 'showPdf'])->name('vouchers.viewPdf');
 
+    Route::get('/router-status', [RouterstatusController::class, 'index'])->name('routerstatus.index');
 
     Route::resource('options', OptionController::class)->except(['destroy']);
     Route::get('/options/delete/{id}', [OptionController::class, 'delete'])->name('options.delete');
