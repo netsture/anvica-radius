@@ -175,6 +175,7 @@ class AdvertisementController extends Controller
         $ad = Advertisement::create([
             'advertiser_id'   => $validated['advertiser_id'],
             'title'           => $validated['title'],
+            'page_section'    => $validated['page_section'],
             'media_path'      => $media_path,
             'media_type'      => $media_type,
             'click_url'       => $validated['click_url'] ?? null,
