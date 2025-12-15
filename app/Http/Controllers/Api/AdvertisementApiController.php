@@ -24,29 +24,99 @@ class AdvertisementApiController extends Controller
      * - status       => draft|active|paused|expired
      * - per_page     => pagination size (default 20)
      */
-    public function getAdvertise(Request $request)
+    public function getVideo(Request $request)
+    {
+        $q = Advertisement::query();
+        $q->where('page_section', 'page1_video');
+
+        $ad = $q->inRandomOrder()->first();
+
+        if (!$ad) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No advertisement found',
+            ], 404);
+        }
+
+        $mediaUrl = null;
+        if (!empty($ad->media_path)) {
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($ad->media_path)) {
+                $mediaUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($ad->media_path);
+            } elseif (\Illuminate\Support\Str::startsWith($ad->media_path, ['http://','https://'])) {
+                $mediaUrl = $ad->media_path;
+            } else {
+                $mediaUrl = env('APP_URL') . "/public/" . $ad->media_path;
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'id'        => $ad->id,
+                'title'     => $ad->title,
+                'click_url' => $ad->click_url ?? 'https://www.anvica.in',
+                'status'    => $ad->status,
+                'image_url' => $mediaUrl,
+            ]
+        ]);
+    }
+
+    public function getImage(Request $request)
+    {
+        $pageSection = $request->query('page_section');
+        $ad = Advertisement::where('page_section', $pageSection)->inRandomOrder()->first();
+
+        if (!$ad) {
+            $ad = Advertisement::where('media_type', 'image')->inRandomOrder()->first();
+        }
+        if (!$ad) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No advertisement found',
+            ], 404);
+        }
+
+        $mediaUrl = null;
+        if (!empty($ad->media_path)) {
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($ad->media_path)) {
+                $mediaUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($ad->media_path);
+            } elseif (\Illuminate\Support\Str::startsWith($ad->media_path, ['http://','https://'])) {
+                $mediaUrl = $ad->media_path;
+            } else {
+                $mediaUrl = env('APP_URL') . "/public/" . $ad->media_path;
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'id'        => $ad->id,
+                'advertiser_id' => $ad->advertiser_id,
+                'title'     => $ad->title,
+                'page_section' => $ad->page_section,
+                'click_url' => $ad->click_url ?? 'https://www.anvica.in',
+                'status'    => $ad->status,
+                'image_url' => $mediaUrl,
+            ]
+        ]);
+    }
+
+    public function getAdvertiseOld(Request $request)
     {
         $q = Advertisement::query();
 
-        // full-text search on title (simple)
         if ($search = $request->query('q')) {
             $q->where('title', 'like', '%' . $search . '%');
         }
-
-        // status filter
         if ($status = $request->query('status')) {
             $q->where('status', $status);
         }
-
-        // time_slot filter: include ads that explicitly match OR ads set to 'all'
         if ($timeSlot = $request->query('time_slot')) {
             $q->where(function ($sub) use ($timeSlot) {
                 $sub->where('time_slot', $timeSlot)
                     ->orWhere('time_slot', 'all');
             });
         }
-
-        // weekday filter: include ads whose weekdays is null (meaning all days) OR contains requested weekday
         if ($weekday = $request->query('weekday')) {
             $weekday = strtolower($weekday);
             $q->where(function ($sub) use ($weekday) {
@@ -54,8 +124,6 @@ class AdvertisementApiController extends Controller
                     ->orWhereJsonContains('weekdays', $weekday);
             });
         }
-
-        // date-range overlap filtering:
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
@@ -99,7 +167,6 @@ class AdvertisementApiController extends Controller
                     }
                 }
             }
-
             return [
                 'id'             => $ad->id,
                 'title'          => $ad->title,
