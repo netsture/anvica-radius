@@ -96,17 +96,9 @@ class IdentityController extends Controller
             'mac' => 'required|string|max:191',
             'model' => 'required|string|max:191',
             'serial' => 'required|string|max:191',
-            'country' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
-            'city' => 'nullable|string|max:100',
-            'zone' => 'nullable|string|max:100',
-            'area' => 'nullable|string|max:100',
-            'society' => 'nullable|in:super premium,premium',
         ]);
 
-        $data['otp_sms'] = $request->has('otp_sms') ? 1 : 0;
-        $data['otp_whatsapp'] = $request->has('otp_whatsapp') ? 1 : 0;
-        $data['otp_email'] = $request->has('otp_email') ? 1 : 0;
+        $data['status'] = $request->status;
         $data['updated_by'] = auth()->id() ?? null;
 
         $identity->update($data);

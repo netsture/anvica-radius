@@ -30,7 +30,7 @@
                                         <th>Model</th>
                                         <th>Serial</th>
                                         <th>IP Address</th>
-                                        <th>Last Event Time</th>
+                                        <th>Logged At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +49,7 @@
                                             <td>{{ $log->model }}</td>
                                             <td>{{ $log->serial }}</td>                                            
                                             <td>{{ $log->ip_address ?? '-' }}</td>
-                                            <td>{{ $log->last_event_time }}</td>
+                                            <td>{{ viewDateTime($log->last_event_time) }}</td>
                                         </tr>
                                     @empty
                                         <tr>

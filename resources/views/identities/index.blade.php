@@ -74,9 +74,9 @@
                                             </td>
 
                                             <td>{{ optional($identity->creator)->name ?? $identity->created_by }}</td>
-                                            <td>{{ $identity->created_at }}</td>
+                                            <td>{{ viewDate($identity->created_at) }}</td>
                                             <td>{{ optional($identity->updatedBy)->name ?? $identity->updated_by }}</td>
-                                            <td>{{ $identity->updated_at }}</td>
+                                            <td>{{ viewDate($identity->updated_at) }}</td>
                                             <td>
                                                 @if ($identity->status)
                                                     <span class="badge bg-success">Active</span>
