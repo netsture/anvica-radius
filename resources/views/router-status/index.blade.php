@@ -27,8 +27,7 @@
                                         <th>Model</th>
                                         <th>Serial</th>
                                         <th>IP Address</th>
-                                        <th>Date Time</th>
-                                        <th>Logged At</th>
+                                        <th>Last Event Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,10 +46,7 @@
                                             <td>{{ $log->model }}</td>
                                             <td>{{ $log->serial }}</td>                                            
                                             <td>{{ $log->ip_address ?? '-' }}</td>
-                                            <td>{{ $log->event_datetime }}</td>
-                                            <td class="text-muted small">
-                                                {{ $log->created_at->format('d M Y H:i:s') }}
-                                            </td>
+                                            <td>{{ $log->last_event_time }}</td>
                                         </tr>
                                     @empty
                                         <tr>
