@@ -21,6 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Identity</th>
                                         <th>Username</th>
                                         <th>MAC</th>
                                         <th>Ipaddress</th>
@@ -36,6 +37,7 @@
                                     @foreach ($logs as $index => $log)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $log->identity_name ?? "" }}</td>
                                             <td>{{ $log->username }}</td>
                                             <td>{{ $log->callingstationid ?? 'N/A' }}</td>
                                             <td>{{ $log->framedipaddress ?? 'N/A' }}</td>

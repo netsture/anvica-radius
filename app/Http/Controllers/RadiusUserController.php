@@ -107,7 +107,9 @@ class RadiusUserController extends Controller
     public function allLogs(Request $request)
     {
         $identityId = auth()->user()->identity_id ?? null;
-        $sql = "SELECT r.* FROM radacct AS r LEFT JOIN rm_users AS u ON r.username = u.username";
+        $sql = "SELECT r.*, u.identity_id, i.name AS identity_name FROM radacct AS r 
+                LEFT JOIN rm_users AS u ON r.username = u.username
+                LEFT JOIN identities AS i ON u.identity_id = i.id";
         $params = [];
         if (!empty($identityId)) {
             $sql .= " WHERE u.identity_id = ?";

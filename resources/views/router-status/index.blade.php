@@ -14,6 +14,9 @@
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"><?php echo "Date: ".date('Y-m-d H:i:s');?></h4>
+                    </div>
                     <div class="card-body">
 
                         <div class="table-responsive">
