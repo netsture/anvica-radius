@@ -19,20 +19,33 @@ class RouterstatusController extends Controller
             ->orderByDesc('id')
             ->get();*/
 
-        $logs = DB::table('router_status')
-            ->select('router', 'mac', 'model', 'serial', 'ip_address',
-                DB::raw('MAX(event_datetime) as last_event_time'),
+        $logs = DB::table('identities as i')
+            ->leftJoin('router_status as rs', 'rs.router', '=', 'i.name')
+            ->select(
+                'i.name as router',
+                'rs.mac',
+                'rs.model',
+                'rs.serial',
+                'rs.ip_address',
+                DB::raw('MAX(rs.event_datetime) as last_event_time'),
                 DB::raw("
                     CASE
-                        WHEN MAX(event_datetime) >= NOW() - INTERVAL 30 MINUTE
+                        WHEN MAX(rs.event_datetime) >= NOW() - INTERVAL 30 MINUTE
                         THEN 'UP'
                         ELSE 'DOWN'
                     END as status
                 ")
             )
-            ->groupBy('router', 'mac', 'model', 'serial')
+            ->where('i.status', 1) // active identities only
+            ->groupBy(
+                'i.name',
+                'rs.mac',
+                'rs.model',
+                'rs.serial',
+                'rs.ip_address'
+            )
             ->orderByDesc('last_event_time')
-            ->get();    
+            ->get(); 
 
         return view('router-status.index', compact('logs'));
     }

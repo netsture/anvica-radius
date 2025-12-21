@@ -119,6 +119,9 @@ class IdentityController extends Controller
      */
     public function destroy(Identity $identity)
     {
+        $identity->update([
+            'status' => 0
+        ]);
         $identity->delete();
         return redirect()->route('identities.index')
             ->with('success', 'Identity deleted successfully.');
