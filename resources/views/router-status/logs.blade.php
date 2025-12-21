@@ -28,7 +28,7 @@
                                         <th>Serial</th>
                                         <th>IP Address</th>
                                         <th>Logged At</th>
-                                        <th>API Request</th>
+                                        {{-- <th>API Request</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,7 +48,7 @@
                                             <td>{{ $log->serial }}</td>                                            
                                             <td>{{ $log->ip_address ?? '-' }}</td>
                                             <td>{{ viewDateTime($log->event_datetime) }}</td>
-                                            <td>{{ $log->api_request }}</td>
+                                            {{-- <td>{{ $log->api_request }}</td> --}}
                                         </tr>
                                     @empty
                                         <tr>
