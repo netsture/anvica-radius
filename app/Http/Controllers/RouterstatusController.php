@@ -62,7 +62,7 @@ class RouterstatusController extends Controller
             'mac'      => $request->mac,
             'model'      => $request->model,
             'serial'      => $request->serial,
-            'event_datetime'  => $request->date ?? date('Y-m-d H:i:s'),
+            'event_datetime'  => now(),
             'ip_address'  => $request->ip(),
             'api_request'  => json_encode([
                 'headers' => $request->headers->all(),
