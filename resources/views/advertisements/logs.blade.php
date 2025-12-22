@@ -38,12 +38,22 @@
                                             <tr>
                                                 <td>{{ $ad->id }}</td>
                                                 <td style="width:120px">
-                                                    @if ($ad->media_path)
-                                                        <img src="{{ asset('../' . $ad->media_path) }}" alt="Ad Image"
-                                                            class="wd-80 rounded-circle"
-                                                            style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
-                                                            data-bs-toggle="modal" data-bs-target="#imageModal"
-                                                            data-image="{{ asset('../' . $ad->media_path) }}">
+                                                    @if(!empty($ad->media_path))
+                                                        <div class="mt-2">
+                                                            @if($ad->media_type === 'image')
+                                                                <img src="{{ asset('../'.$ad->media_path) }}"
+                                                                    alt="Ad Image"
+                                                                    class="wd-100 rounded-circle"
+                                                                    style="cursor:pointer; width:80px; height:80px; object-fit:cover;"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#imageModal"
+                                                                    data-image="{{ asset('../'.$ad->media_path) }}">
+                                                            @elseif($ad->media_type === 'video')
+                                                                <video width="150" height="100" controls>
+                                                                    <source src="{{ asset('../'.$ad->media_path) }}">
+                                                                </video>
+                                                            @endif
+                                                        </div>
                                                     @endif
                                                 </td>
 

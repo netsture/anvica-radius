@@ -49,6 +49,14 @@ class AdvertisementApiController extends Controller
             }
         }
 
+        /*AdvertisementLog::create([
+            'advertisement_id'  => $ad->id,
+            'event'      => 'view',
+            'ip'         => $request->ip(),
+            'user_agent' => substr($request->userAgent(),0,255),
+            'created_at' => Carbon::now()
+        ]);*/
+
         return response()->json([
             'status' => true,
             'data' => [
@@ -87,6 +95,14 @@ class AdvertisementApiController extends Controller
             }
         }
 
+        /*AdvertisementLog::create([
+            'advertisement_id'  => $ad->id,
+            'event'      => 'view',
+            'ip'         => $request->ip(),
+            'user_agent' => substr($request->userAgent(),0,255),
+            'created_at' => Carbon::now()
+        ]);*/
+        
         return response()->json([
             'status' => true,
             'data' => [
