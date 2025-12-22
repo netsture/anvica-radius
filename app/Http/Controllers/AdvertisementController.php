@@ -105,7 +105,7 @@ class AdvertisementController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        
         $weekdayOptions = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
         // Validate input
@@ -136,7 +136,7 @@ class AdvertisementController extends Controller
             'media.required'  => 'Please upload a media file.',
             'end_at.after'    => 'End time must be after start time.',
         ]);
-        // dd($validated);
+        // dd($request->all());
 
         if ($request->hasFile('media')) {
             $media      = $request->file('media');
@@ -170,31 +170,34 @@ class AdvertisementController extends Controller
         if (empty($weekdays)) {
             $weekdays = null;
         }
-
+        // dd($request->all());
         // Create the advertisement
-        $ad = Advertisement::create([
-            'advertiser_id'   => $validated['advertiser_id'],
-            'title'           => $validated['title'],
-            'page_section'    => $validated['page_section'],
-            'media_path'      => $media_path,
-            'media_type'      => $media_type,
-            'click_url'       => $validated['click_url'] ?? null,
-            'start_at'        => $validated['start_at'] ?? null,
-            'end_at'          => $validated['end_at'] ?? null,
-            'time_slot'       => $validated['time_slot'],
-            'weekdays'        => $weekdays, // cast to json in model
-            'priority'        => $validated['priority'] ?? 5,
-            'max_impressions' => $validated['max_impressions'] ?? null,
-            'max_clicks'      => $validated['max_clicks'] ?? null,
-            'country'         => $validated['country'] ?? null,
-            'state'           => $validated['state'] ?? null,
-            'city'            => $validated['city'] ?? null,
-            'zone'            => $validated['zone'] ?? null,
-            'area'            => $validated['area'] ?? null,
-            'society'         => $validated['society'] ?? null,
-            'status'          => $validated['status'],
-        ]);
-        // dd($validated);
+        try {
+            $ad = Advertisement::create([
+                'advertiser_id'   => $validated['advertiser_id'] ?? null,
+                'title'           => $validated['title'],
+                'page_section'    => $validated['page_section'] ?? null,
+                'media_path'      => $media_path,
+                'media_type'      => $media_type,
+                'click_url'       => $validated['click_url'] ?? null,
+                'start_at'        => $validated['start_at'] ?? null,
+                'end_at'          => $validated['end_at'] ?? null,
+                'time_slot'       => $validated['time_slot'] ?? 'all',
+                'weekdays'        => $weekdays,
+                'priority'        => $validated['priority'] ?? 5,
+                'max_impressions' => $validated['max_impressions'] ?? null,
+                'max_clicks'      => $validated['max_clicks'] ?? null,
+                'country'         => $validated['country'] ?? null,
+                'state'           => $validated['state'] ?? null,
+                'city'            => $validated['city'] ?? null,
+                'zone'            => $validated['zone'] ?? null,
+                'area'            => $validated['area'] ?? null,
+                'society'         => $validated['society'] ?? null,
+                'status'          => $validated['status'] ?? 'Active',
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
         return redirect()
             ->route('advertisements.index')
             ->with('success', 'Advertisement created successfully.');
@@ -257,42 +260,54 @@ class AdvertisementController extends Controller
         }
 
         if ($request->hasFile('media')) {
-
-            // Delete old media
-            if ($advertisement->media_path && Storage::disk('public')->exists($advertisement->media_path)) {
-                Storage::disk('public')->delete($advertisement->media_path);
+            $media      = $request->file('media');
+            $mediaName  = time() . '_' . uniqid() . '.' . $media->getClientOriginalExtension();
+            $mime = $media->getClientMimeType(); // e.g. image/jpeg or video/mp4
+            $ext  = strtolower($media->getClientOriginalExtension());
+            if (str_starts_with($mime, 'image/') || in_array($ext, ['jpg','jpeg','png','gif','webp','avif'])) {
+                $media_type = 'image';
+            } elseif (str_starts_with($mime, 'video/') || in_array($ext, ['mp4','mov','webm'])) {
+                $media_type = 'video';
+            } else {
+                return back()->withErrors(['media' => 'Unsupported media type']);
             }
 
-            $file = $request->file('media');
-            $ext  = strtolower($file->getClientOriginalExtension());
+            if (!file_exists(public_path('media'))) {
+                mkdir(public_path('media'), 0755, true);
+            }
+            // Move to /public/media directory
+            $media->move(public_path('media'), $mediaName);
 
-            $media_type = in_array($ext, ['mp4', 'mov', 'webm']) ? 'video' : 'image';
-            $media_path = $file->store('media', 'public');
-
-            $advertisement->media_path = $media_path;
-            $advertisement->media_type = $media_type;
+            // Store relative path in DB
+            $media_path = 'media/' . $mediaName;
         }
-        // dd($advertisement);
-        $advertisement->update([
-            'advertiser_id'   => $validated['advertiser_id'],
-            'title'           => $validated['title'],
-            'page_section'    => $validated['page_section'],
-            'click_url'       => $validated['click_url'] ?? null,
-            'start_at'        => $validated['start_at'] ?? null,
-            'end_at'          => $validated['end_at'] ?? null,
-            'time_slot'       => $validated['time_slot'],
-            'weekdays'        => $weekdays,
-            'priority'        => $validated['priority'] ?? 5,
-            'max_impressions' => $validated['max_impressions'] ?? null,
-            'max_clicks'      => $validated['max_clicks'] ?? null,
-            'country'         => $validated['country'] ?? null,
-            'state'           => $validated['state'] ?? null,
-            'city'            => $validated['city'] ?? null,
-            'zone'            => $validated['zone'] ?? null,
-            'area'            => $validated['area'] ?? null,
-            'society'         => $validated['society'] ?? null,
-            'status'          => $validated['status'],
-        ]);
+
+        try {
+            $advertisement->update([
+                'advertiser_id'   => $validated['advertiser_id'],
+                'title'           => $validated['title'],
+                'page_section'    => $validated['page_section'],
+                'media_path'      => $media_path,
+                'media_type'      => $media_type,
+                'click_url'       => $validated['click_url'] ?? null,
+                'start_at'        => $validated['start_at'] ?? null,
+                'end_at'          => $validated['end_at'] ?? null,
+                'time_slot'       => $validated['time_slot'],
+                'weekdays'        => $weekdays,
+                'priority'        => $validated['priority'] ?? 5,
+                'max_impressions' => $validated['max_impressions'] ?? null,
+                'max_clicks'      => $validated['max_clicks'] ?? null,
+                'country'         => $validated['country'] ?? null,
+                'state'           => $validated['state'] ?? null,
+                'city'            => $validated['city'] ?? null,
+                'zone'            => $validated['zone'] ?? null,
+                'area'            => $validated['area'] ?? null,
+                'society'         => $validated['society'] ?? null,
+                'status'          => $validated['status'],
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         return redirect()
             ->route('advertisements.index')

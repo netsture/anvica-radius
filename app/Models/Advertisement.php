@@ -9,18 +9,34 @@ class Advertisement extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'advertiser_id', 'title', 'page_section', 'media_path', 'media_type', 'click_url',
-        'start_at', 'end_at', 'time_slot', 'weekdays',
-        'priority', 'max_impressions', 'max_clicks',
-        'country', 'state', 'city', 'zone', 'area', 'society',
-        'meta', 'created_by', 'updated_by', 'status',
+        'advertiser_id',
+        'title',
+        'page_section',
+        'media_path',
+        'media_type',
+        'click_url',
+        'start_at',
+        'end_at',
+        'time_slot',
+        'weekdays',
+        'priority',
+        'max_impressions',
+        'max_clicks',
+        'country',
+        'state',
+        'city',
+        'zone',
+        'area',
+        'society',
+        'status',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
+        'weekdays' => 'array',
         'start_at' => 'datetime',
         'end_at'   => 'datetime',
-        'weekdays' => 'array',
-        'meta'     => 'array',
     ];
 
     public function advertiser()
